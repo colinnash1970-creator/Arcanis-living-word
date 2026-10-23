@@ -4,13 +4,13 @@ const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:
 const ukParts=()=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,Number(x.value)]));
 const ukDayNumber=()=>{const p=ukParts();return Math.floor(Date.UTC(p.year,p.month-1,p.day)/DAY)};
 const ukTime=()=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date());
-const initial=()=>({version:4,month:0,day:1,pop:3000,food:9000,gold:5000,farms:80,events:[],paused:false,lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
+const initial=()=>({version:5,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:false,lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
 let world;
 try {world=JSON.parse(localStorage.getItem(KEY))||initial()}catch {world=initial()}
 // Migrate v1 without resetting existing saves. The real-time clock begins on first v1.1 opening.
 if(world.version===1){world={...world,version:2,day:1,paused:false,lastUpdated:Date.now()}}
 if(!world.timber)world.timber=initialTimber();
-world.version=4;
+world.version=5;
 if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();
 if(!Number.isFinite(world.day)||world.day<1||world.day>30)world.day=1;
 if(typeof world.paused!=='boolean')world.paused=false;
@@ -106,18 +106,45 @@ function renderTimber(){
  $('timberReserve').textContent=ton(t.municipalReserve);
 }
 
+// Food economy v1.4: seasonal harvest and Treasury-funded emergency imports.
+// Units, farm yield and import prices are provisional; no NPC market yet.
+const FOOD_YIELD_PER_FARM=450; // annual units, spread across the growing year
+const FOOD_IMPORT_GP_PER_UNIT=.02;
+const FOOD_HARVEST_SHARES=[0,0,0,.03,.06,.09,.12,.15,.20,.30,.05,0];
+function foodEmergencyImport(reason){
+ const target=Math.ceil(world.pop*3); // rebuild to three months of supplies
+ const needed=Math.max(0,target-world.food);
+ const purchased=Math.min(needed,Math.floor(Math.max(0,world.gold)/FOOD_IMPORT_GP_PER_UNIT));
+ if(purchased>0){
+  const cost=Math.round(purchased*FOOD_IMPORT_GP_PER_UNIT*100)/100;
+  world.gold=Math.round((world.gold-cost)*100)/100;
+  world.food+=purchased;
+  addEvent(`Food emergency: imported ${purchased.toLocaleString('en-GB')} units for ${cost.toFixed(2)} gp (${reason}).`);
+ }
+ if(world.food<world.pop)addEvent('CRITICAL: insufficient food for the next month; Treasury cannot fully fund imports.');
+}
+function migrateFood(){
+ if(world.foodModel===1)return;
+ world.foodModel=1;
+ // Existing saves are not reset. A shortage triggers an explicit, paid import.
+ if(world.food<world.pop*2)foodEmergencyImport('food-system upgrade');
+ addEvent('Food system upgraded: seasonal farm yields, reserve warnings and paid emergency imports enabled.');
+}
 function simulateMonth(){
  const m=world.month%12;
- const harvest=m===9?world.farms*420:0;
- const available=world.food+harvest;
- const shortage=Math.max(0,world.pop-available);
- world.food=Math.max(0,available-world.pop);
+ const harvest=Math.round(world.farms*FOOD_YIELD_PER_FARM*FOOD_HARVEST_SHARES[m]);
+ world.food+=harvest;
+ // Emergency procurement is visible in the Chronicle and deducted from Treasury.
+ if(world.food<world.pop*2)foodEmergencyImport('low reserves');
+ const shortage=Math.max(0,world.pop-world.food);
+ world.food=Math.max(0,world.food-world.pop);
  const births=Math.round(world.pop*.03/12);
  const deaths=Math.round(world.pop*.025/12)+Math.ceil(shortage/100);
  world.pop=Math.max(0,world.pop+births-deaths);
  world.gold+=Math.round(world.pop*.025-world.farms*.2);
  world.month++;
- addEvent(`${793+Math.floor((world.month-1)/12)} A.F. month ${(world.month-1)%12+1}: ${births} births, ${deaths} deaths; harvest ${harvest} units${shortage?`; shortage ${shortage}`:''}.`);
+ addEvent(`${793+Math.floor((world.month-1)/12)} A.F. month ${(world.month-1)%12+1}: ${births} births, ${deaths} deaths; harvest ${harvest} units${shortage?`; food shortage ${shortage}`:''}.`);
+ if(world.food<world.pop*2)addEvent(`Food reserve warning: ${world.food.toLocaleString('en-GB')} units remain, under two months of demand.`);
 }
 function simulateDays(days){
  // Only whole days advance. Each 30-day month invokes the established v1 economy once.
@@ -148,16 +175,17 @@ function render(){
  $('clockStatus').textContent=world.paused?'Paused — no time passes while away':'Running · 1 real day = 1 Arcanus day';
  $('pauseButton').textContent=world.paused?'Resume world':'Pause world';
  $('nextDay').textContent=world.paused?'Clock paused':`Next Arcanus day at midnight UK time`;
- renderTimber(); 
+ renderTimber();
+ const foodStatus=$('foodStatus');if(foodStatus)foodStatus.textContent=`Food available: ${Math.floor(world.food/Math.max(1,world.pop)*10)/10} months of demand · Annual farm yield estimate: ${(world.farms*FOOD_YIELD_PER_FARM).toLocaleString('en-GB')} units · Import price: 0.02 gp/unit.`;
 }
 function advance(n){catchUp();simulateDays(n*DAYS_PER_MONTH);world.lastUpdated=Date.now();persist();render()}
 function buildFarm(){catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
 function togglePause(){catchUp();world.paused=!world.paused;world.lastUpdated=Date.now();world.lastUKDay=ukDayNumber();persist();render()}
 function exportSave(){catchUp();const blob=new Blob([JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(![1,2,3,4].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Array.isArray(data.events))throw Error('Invalid save');world=data;if(world.version===1)world={...world,version:2,day:1,paused:false,lastUpdated:Date.now()};if(!world.timber)world.timber=initialTimber();world.version=4;if(!Number.isFinite(world.day)||world.day<1||world.day>30)world.day=1;if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();world.paused=!!world.paused;if(!Number.isFinite(world.lastUKDay)){const elapsed=Math.max(0,Date.now()-world.lastUpdated);if(!world.paused)simulateDays(Math.floor(elapsed/DAY));world.lastUKDay=ukDayNumber();world.version=4}catchUp();persist();render()}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
-function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){world=initial();persist();render()}}
+$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(![1,2,3,4,5].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Array.isArray(data.events))throw Error('Invalid save');world=data;if(world.version===1)world={...world,version:2,day:1,paused:false,lastUpdated:Date.now()};if(!world.timber)world.timber=initialTimber();world.version=5;if(!Number.isFinite(world.day)||world.day<1||world.day>30)world.day=1;if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();world.paused=!!world.paused;if(!Number.isFinite(world.lastUKDay)){const elapsed=Math.max(0,Date.now()-world.lastUpdated);if(!world.paused)simulateDays(Math.floor(elapsed/DAY));world.lastUKDay=ukDayNumber();world.version=5}migrateFood();catchUp();persist();render()}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
+function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){world=initial();world.timber=initialTimber();migrateFood();persist();render()}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
-catchUp();persist();render();
+migrateFood();catchUp();persist();render();
 window.addEventListener('focus',()=>{catchUp();render()});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){catchUp();render()}});
 setInterval(()=>{if(!document.hidden){catchUp();render()}},1000);
