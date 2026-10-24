@@ -1,4 +1,4 @@
-const BUILD_ID='v1.9 · Families & New Households';
+const BUILD_ID='v1.9.1 · Inn Staffing Correction';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -334,6 +334,13 @@ function makeResident(p,h,ageMonths){
  if(p.familyModel===1)r.family=blankFamily(h.id);
  assignOccupation(r,p);p.residents.push(r);return r;
 }
+const INN_STAFF_LIMIT=8; // Provisional staffing for the single generic town inn.
+function migrateOccupations(p){
+ if(p.occupationModel===2)return;
+ const inn=p.residents.filter(r=>r.occupation==='Inn worker'&&r.workplace==='The town inn').sort((a,b)=>a.id-b.id);
+ for(const r of inn.slice(INN_STAFF_LIMIT)){r.occupation='Labourer';r.workplace='Town works'}
+ p.occupationModel=2;p.revision++;
+}
 function assignOccupation(r,p){
  const age=r.ageMonths/12;
  if(age<6){r.occupation='Young child';r.workplace='Home';return}
@@ -344,10 +351,11 @@ function assignOccupation(r,p){
  for(const [job,place,count] of posts){if(p.residents.filter(x=>x.id!==r.id&&x.workplace===place).length<count){r.occupation=job;r.workplace=place;return}}
  const jobs=[['Farmer','Town farms'],['Farmer','Town farms'],['Farmer','Town farms'],['Farmer','Town farms'],['Craftsperson','Workshop quarter'],['Trader','Market square'],['Labourer','Town works'],['Carer','Neighbourhood homes'],['Inn worker','The town inn'],['Farmer','Town farms']];
  [r.occupation,r.workplace]=jobs[r.id%jobs.length];
+ if(r.occupation==='Inn worker'&&p.residents.filter(x=>x.id!==r.id&&x.occupation==='Inn worker'&&x.workplace==='The town inn').length>=INN_STAFF_LIMIT){r.occupation='Labourer';r.workplace='Town works'}
 }
 function migratePopulation(){
- if(world.population){migrateHouseholdNames(world.population);return}
- const p=world.population={schema:1,namingVersion:2,nextResidentId:1,nextHouseholdId:1,households:[],residents:[],revision:0};
+ if(world.population){migrateHouseholdNames(world.population);migrateOccupations(world.population);return}
+ const p=world.population={schema:1,namingVersion:2,occupationModel:2,nextResidentId:1,nextHouseholdId:1,households:[],residents:[],revision:0};
  // Seed once: existing population total is authoritative, including tiny/empty saves.
  while(p.residents.length<world.pop){
   const h=newHousehold(p), size=Math.min(3+(h.id%3),world.pop-p.residents.length);
