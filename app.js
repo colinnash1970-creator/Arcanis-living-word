@@ -1,4 +1,4 @@
-const BUILD_ID='v1.7.1 · Living Population & Chronicle';
+const BUILD_ID='v1.8 · Household Needs & Wellbeing';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -245,11 +245,12 @@ function simulateMonth(){
  addEvent(`${793+Math.floor((world.month-1)/12)} A.F. month ${(world.month-1)%12+1}: ${births} births, ${deaths} deaths; harvest ${harvest} units${shortage?`; food shortage ${shortage}`:''}.`);
  if(world.food<world.pop*2)addEvent(`Food reserve warning: ${world.food.toLocaleString('en-GB')} units remain, under two months of demand.`);
 }
-function simulateDays(days){
+function simulateDays(days,logNeeds=true){
  for(let i=0;i<days;i++){
   eventContext={day:worldDay()+1,minute:0};
   simulateTimberDay();world.day++;
   if(world.day>DAYS_PER_MONTH){world.day=1;simulateMonth()}
+  assessHouseholds(logNeeds);
   eventContext=null;
  }
 }
@@ -267,7 +268,7 @@ function catchUp(){
  for(let i=0;i<days;i++){
   const civilDay=world.lastUKDay+i;
   if(civilDay>=today-1)livingRange(worldDay(),Math.max(-1,previous-civilDay*1440),1439);
-  simulateDays(1);
+  simulateDays(1,civilDay>=today-2);
  }
  world.lastUKDay=today;c.minute=minute;
  if(current>previous){livingRange(worldDay(),Math.max(-1,previous-today*1440),minute);c.cursor=current}
@@ -316,7 +317,7 @@ function migrateHouseholdNames(p){
  }
  p.namingVersion=2;p.revision++;
 }
-let eventContext=null, householdPage=0, populationRenderKey='';
+let eventContext=null, householdPage=0, householdFilter='all', populationRenderKey='';
 const worldDay=()=>world.month*30+world.day-1;
 function clockMinute(){const [h,m]=ukTime().split(':').map(Number);return h*60+m}
 function civilMinute(){return ukDayNumber()*1440+clockMinute()}
@@ -406,7 +407,7 @@ function livingAt(day,minute){
    const r=members.find(x=>routine(x,minute,day).activity==='Working')||members[0];
    const a=routine(r,minute,day);
    addEvent(`${r.name} of ${h.name}, ${h.address}: ${a.activity.toLowerCase()} at ${a.place.toLowerCase()}.`);
-  }else addEvent(`${h.name}, ${h.address}: ${members.length} residents settle into their evening at home${world.food<world.pop*2?'; town food reserves remain below two months of demand':''}.`);
+  }else addEvent(`${h.name}, ${h.address}: ${householdScene(h)}.`);
  }
  eventContext=null;
 }
@@ -417,19 +418,24 @@ function livingRange(day,from,to){
 }
 function renderPopulation(){
  const p=world.population, minute=world.livingClock.minute;
- const key=`${p.revision}:${worldDay()}:${minute}:${householdPage}`;
+ const key=`${p.revision}:${worldDay()}:${minute}:${householdPage}:${householdFilter}`;
  if(key===populationRenderKey)return;populationRenderKey=key;
  const counts=activityCounts(minute,worldDay());
  $('populationSummary').textContent=`${p.residents.length.toLocaleString('en-GB')} residents · ${p.households.length.toLocaleString('en-GB')} households · ${Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([a,n])=>`${n.toLocaleString('en-GB')} ${a.toLowerCase()}`).join(' · ')}`;
  const jobs={};for(const r of p.residents)jobs[r.occupation]=(jobs[r.occupation]||0)+1;
  $('occupations').textContent=Object.entries(jobs).sort((a,b)=>b[1]-a[1]).map(([job,n])=>`${job}: ${n}`).join(' · ');
- const pages=Math.max(1,Math.ceil(p.households.length/10));householdPage=Math.min(householdPage,pages-1);
+ renderNeeds();
+ const visible=p.households.filter(h=>householdFilter==='all'||h.needs.food>0||h.needs.warmth>0||h.needs.care>0||h.needs.wellbeing<65);
+ const pages=Math.max(1,Math.ceil(visible.length/10));householdPage=Math.min(householdPage,pages-1);
+ $('householdMatches').textContent=`${visible.length} matching households`;
  $('householdPage').textContent=`Page ${householdPage+1} of ${pages}`;
  $('previousHouseholds').disabled=householdPage===0;$('nextHouseholds').disabled=householdPage===pages-1;
  const root=$('households');const opened=new Set(Array.from(root.querySelectorAll('details')).filter(d=>d.open).map(d=>d.dataset.household));root.replaceChildren();
- for(const h of p.households.slice(householdPage*10,householdPage*10+10)){
+ if(!visible.length){const message=document.createElement('p');message.textContent=householdFilter==='all'?'No occupied households.':'No households currently need attention.';root.append(message)}
+ for(const h of visible.slice(householdPage*10,householdPage*10+10)){
   const details=document.createElement('details');details.className='ledger-entry';details.dataset.household=String(h.id);details.open=opened.has(String(h.id));
-  const summary=document.createElement('summary');summary.textContent=`${h.name} · ${h.address}`;details.append(summary);
+  const summary=document.createElement('summary');summary.textContent=`${h.name} · ${h.address} · ${wellbeingBand(h.needs.wellbeing)}`;details.append(summary);
+  const needs=document.createElement('p');needs.className='household-needs';needs.textContent=householdNeedsText(h);details.append(needs);
   for(const r of p.residents.filter(x=>x.householdId===h.id)){
    const a=routine(r,minute),line=document.createElement('p');
    line.textContent=`${r.name} · resident ${r.id} · age ${Math.floor(r.ageMonths/12)} · ${r.occupation}${!['Young child','Pupil','Retired'].includes(r.occupation)?` (${r.workplace})`:''} · ${a.activity}, ${a.place}`;details.append(line);
@@ -437,12 +443,119 @@ function renderPopulation(){
  }
 }
 function changeHouseholdPage(delta){householdPage=Math.max(0,householdPage+delta);renderPopulation()}
+function filterHouseholds(value){householdFilter=value==='attention'?'attention':'all';householdPage=0;renderPopulation()}
+
+// Household outlook uses existing town reserves. No second consumption/payroll model.
+const FOOD_OUTLOOK=['Secure','Low reserves','Shortage risk'];
+const WARMTH_OUTLOOK=['Adequate','Low fuel buffer','Cold risk'];
+const CARE_OUTLOOK=['Balanced','Stretched','Support needed'];
+const wellbeingBand=value=>value<35?'Struggling':value<65?'Under strain':'Settled';
+function needsSupplies(){
+ const t=world.timber,season=Math.floor((world.month%12)/3);
+ const dailyFuel=t.businesses.reduce((sum,b)=>sum+Math.max(0,b.fireAnnual),0)/360*[1.15,.75,.85,1.4][season];
+ const ready=t.businesses.reduce((sum,b)=>sum+Math.max(0,b.ready),0);
+ const outstanding=t.orders.filter(o=>o.product==='fire').reduce((sum,o)=>sum+Math.max(0,o.remaining),0);
+ return {foodMonths:world.pop?world.food/world.pop:0,fuelDays:dailyFuel>0?ready/dailyFuel:0,backlogDays:dailyFuel>0?outstanding/dailyFuel:0,coldSeason:season===0||season===3};
+}
+function householdOutlook(members,supplies){
+ const adults=members.filter(r=>r.ageMonths>=192&&r.ageMonths<900).length;
+ const careLoad=members.reduce((n,r)=>n+(r.ageMonths<72?2:r.ageMonths<192||r.ageMonths>=900?1:0),0);
+ const vulnerable=members.some(r=>r.ageMonths<72||r.ageMonths>=900);
+ const food=supplies.foodMonths<1?2:supplies.foodMonths<2?1:0;
+ // Market supply is a risk indicator, not a claim about fuel already in a home.
+ const warningBuffer=supplies.coldSeason?(vulnerable?14:7):3;
+ const warmth=supplies.coldSeason&&supplies.backlogDays>=3?2:supplies.backlogDays>0||supplies.fuelDays<warningBuffer?1:0;
+ const care=careLoad===0?0:adults===0?2:careLoad>adults*2?1:0;
+ const target=Math.max(10,85-food*22-warmth*15-care*12);
+ return {food,warmth,care,target};
+}
+function residentGroups(){
+ const map=new Map();for(const r of world.population.residents){if(!map.has(r.householdId))map.set(r.householdId,[]);map.get(r.householdId).push(r)}return map;
+}
+function migrateNeeds(){
+ const p=world.population;if(p.needsModel===1)return;
+ const supplies=needsSupplies(),groups=residentGroups();
+ for(const h of p.households){
+  const outlook=householdOutlook(groups.get(h.id)||[],supplies);
+  h.needs={food:outlook.food,warmth:outlook.warmth,care:outlook.care,wellbeing:70,lastDay:worldDay(),trend:0,hardshipDays:0};
+ }
+ p.needsModel=1;p.revision++;
+ // Baseline only: no invented historical hardship or retroactive life events.
+}
+function needsSummary(){
+ const households=world.population.households;
+ const result={households:households.length,food:0,warmth:0,care:0,struggling:0,settled:0,wellbeing:0};
+ for(const h of households){const n=h.needs;if(!n)continue;result.food+=n.food>0?1:0;result.warmth+=n.warmth>0?1:0;result.care+=n.care>0?1:0;result.struggling+=n.wellbeing<35?1:0;result.settled+=n.wellbeing>=65?1:0;result.wellbeing+=n.wellbeing}
+ result.wellbeing=households.length?Math.round(result.wellbeing/households.length):0;return result;
+}
+function assessHouseholds(logChanges=true){
+ const p=world.population;if(!p||p.needsModel!==1)return;
+ const day=worldDay(),groups=residentGroups(),supplies=needsSupplies();
+ let foodChanges=0,warmthChanges=0,careChanges=0,declined=0,recovered=0,touched=false;
+ for(const h of p.households){
+  const outlook=householdOutlook(groups.get(h.id)||[],supplies),before=h.needs;
+  if(!before){h.needs={food:outlook.food,warmth:outlook.warmth,care:outlook.care,wellbeing:70,lastDay:day,trend:0,hardshipDays:0};touched=true;continue}
+  if(before.lastDay>=day)continue;
+  touched=true;
+  const band=wellbeingBand(before.wellbeing),value=before.wellbeing;
+  // Slow recovery; a severe shortage weighs more than a low reserve warning.
+  const step=outlook.target<value?(outlook.food===2||outlook.warmth===2?3:2):1;
+  const wellbeing=value+Math.sign(outlook.target-value)*Math.min(step,Math.abs(outlook.target-value));
+  foodChanges+=before.food!==outlook.food?1:0;warmthChanges+=before.warmth!==outlook.warmth?1:0;careChanges+=before.care!==outlook.care?1:0;
+  const nextBand=wellbeingBand(wellbeing);
+  if(nextBand!==band){if(wellbeing<value)declined++;else recovered++}
+  h.needs={food:outlook.food,warmth:outlook.warmth,care:outlook.care,wellbeing,lastDay:day,trend:Math.sign(wellbeing-value),hardshipDays:nextBand==='Struggling'?before.hardshipDays+1:0};
+ }
+ if(!touched)return;
+ p.revision++;
+ // At most one extra bulletin per day, only for a status/band transition.
+ const changes=[];
+ if(foodChanges)changes.push('food outlook changed for '+foodChanges+' households ('+FOOD_OUTLOOK[supplies.foodMonths<1?2:supplies.foodMonths<2?1:0].toLowerCase()+')');
+ if(warmthChanges)changes.push('warmth outlook changed for '+warmthChanges+' households');
+ if(careChanges)changes.push('care needs changed in '+careChanges+' households');
+ if(declined)changes.push(declined+' households moved into a lower wellbeing band');
+ if(recovered)changes.push(recovered+' households moved into a higher wellbeing band');
+ if(logChanges&&changes.length)addEvent('Household outlook: '+changes.join('; ')+'.');
+}
+function householdScene(h){
+ const n=h.needs;if(!n)return 'the household settles into its evening';
+ if(n.food===2)return 'food reserves cover less than a month of town demand; the household faces shortage risk';
+ if(n.warmth===2)return 'unfilled town firewood orders raise concern about keeping the home warm';
+ if(n.care===2)return 'the household has no resident aged 16–74 to share its care needs';
+ if(n.trend>0&&n.wellbeing<65)return 'wellbeing is recovering as household conditions improve';
+ if(n.food===1)return 'the household is watching food reserves, now below two months of town demand';
+ if(n.warmth===1)return 'the household faces a low market fuel buffer'+(needsSupplies().coldSeason?' during the cold season':'');
+ if(n.care===1)return 'care responsibilities leave the household stretched';
+ return n.wellbeing>=65?'food and warmth outlooks are stable; the household is settled':'the household has a quiet evening while wellbeing recovers';
+}
+function renderNeeds(){
+ const s=needsSummary(),supplies=needsSupplies();
+ $('householdWellbeing').textContent=s.households?s.wellbeing+'/100':'—';
+ $('householdSettled').textContent=s.settled.toLocaleString('en-GB');
+ $('householdStruggling').textContent=s.struggling.toLocaleString('en-GB');
+ $('householdCare').textContent=s.care.toLocaleString('en-GB');
+ $('needsSummary').textContent=s.households?`${s.food} households watching food · ${s.warmth} watching fuel · ${s.care} with care pressure. Assessed each Arcanus day; wellbeing changes gradually.`:'No occupied households yet.';
+ $('needsBasis').textContent=s.households?`Town food reserve: ${supplies.foodMonths.toFixed(1)} months · Seasoned market firewood: ${supplies.fuelDays.toFixed(1)} days of estimated demand · Firewood backorders: ${supplies.backlogDays.toFixed(1)} demand days. ${supplies.coldSeason?'Cold-season':'Mild-season'} warmth thresholds apply. Municipal emergency wood is not counted as available household fuel.`:'Household outlook will begin when residents are present.';
+}
+function householdNeedsText(h){
+ const n=h.needs;
+ return `Food: ${FOOD_OUTLOOK[n.food]} · Warmth: ${WARMTH_OUTLOOK[n.warmth]} · Care: ${CARE_OUTLOOK[n.care]} · Wellbeing: ${n.wellbeing}/100 (${wellbeingBand(n.wellbeing).toLowerCase()}, ${n.trend>0?'improving':n.trend<0?'declining':'steady'})${n.hardshipDays?' · '+n.hardshipDays+' consecutive days struggling':''}`;
+}
+function validateNeeds(p,data){
+ if(p.needsModel===undefined)return;
+ if(p.needsModel!==1)throw Error('Unsupported household needs model');
+ const day=data.month*30+(Number.isInteger(data.day)?data.day:1)-1;
+ for(const h of p.households){const n=h.needs;
+  if(!n||!['food','warmth','care'].every(k=>Number.isInteger(n[k])&&n[k]>=0&&n[k]<=2)||!Number.isInteger(n.wellbeing)||n.wellbeing<0||n.wellbeing>100||!Number.isSafeInteger(n.lastDay)||n.lastDay<0||n.lastDay>day||![-1,0,1].includes(n.trend)||!Number.isSafeInteger(n.hardshipDays)||n.hardshipDays<0)throw Error('Invalid household needs');
+ }
+}
 
 
 function advance(n){
  if(!Number.isInteger(n)||n<1||n>12)return;
- catchUp();simulateDays(n*DAYS_PER_MONTH);
- addEvent('Manual advance: '+n+' month'+(n===1?'':'s')+'. Daily routines condensed; economy and population fully advanced.');
+ catchUp();simulateDays(n*DAYS_PER_MONTH,false);
+ const outlook=needsSummary();
+ addEvent('Manual advance: '+n+' month'+(n===1?'':'s')+'. Daily routines condensed; economy and population fully advanced. Household wellbeing: '+outlook.wellbeing+'/100 average; '+outlook.struggling+' struggling.');
  populationRenderKey='';world.lastUpdated=Date.now();persist();render();
 }
 function buildFarm(){catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
@@ -453,7 +566,8 @@ function togglePause(){
 }
 function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?localStorage.getItem(KEY):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function validateSave(data){
- if(!data||![1,2,3,4,5,6,7,8].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(!data||![1,2,3,4,5,6,7,8,9].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(data.version===9&&(!data.population||data.population.needsModel!==1))throw Error('Missing household needs');
  if(data.timber){
   const t=data.timber, sample=initialTimber();
   const check=(record,template)=>{if(!record)throw Error('Incomplete timber save');for(const [key,value] of Object.entries(template)){if(typeof value==='number'&&!Number.isFinite(record[key]))throw Error('Invalid timber '+key);if(typeof value==='string'&&typeof record[key]!=='string')throw Error('Invalid timber '+key)}};
@@ -471,6 +585,7 @@ function validateSave(data){
   const homes=new Set(p.households.map(h=>h.id)),ids=new Set(p.residents.map(r=>r.id));
   if(homes.size!==p.households.length||ids.size!==p.residents.length||!p.households.every(h=>Number.isSafeInteger(h.id)&&h.id>0&&h.id<p.nextHouseholdId&&['name','surname','address'].every(k=>typeof h[k]==='string'))||!p.residents.every(r=>Number.isSafeInteger(r.id)&&r.id>0&&r.id<p.nextResidentId&&homes.has(r.householdId)&&Number.isSafeInteger(r.ageMonths)&&r.ageMonths>=0&&['name','occupation','workplace'].every(k=>typeof r[k]==='string')))throw Error('Invalid resident or household');
   if(!c||!Number.isSafeInteger(c.cursor)||!Number.isInteger(c.minute)||c.minute<0||c.minute>=1440)throw Error('Invalid living clock');
+  validateNeeds(p,data);
  }
 }
 function migrateWorld(){
@@ -485,7 +600,7 @@ function migrateWorld(){
   if(!world.paused)simulateDays(Math.floor(Math.max(0,Date.now()-world.lastUpdated)/DAY));
   world.lastUKDay=ukDayNumber();
  }
- migrateFood();migratePopulation();world.version=8;
+ migrateFood();migratePopulation();migrateNeeds();world.version=9;
  world.events=world.events.slice(0,150);
 }
 function importWorld(data){
@@ -493,10 +608,10 @@ function importWorld(data){
  const previous=world;
  try{world=JSON.parse(JSON.stringify(data));migrateWorld();catchUp()}
  catch(err){world=previous;eventContext=null;throw err}
- loadFailed=false;householdPage=0;populationRenderKey='';lastLedgerRenderKey=null;persist();render();
+ loadFailed=false;householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;persist();render();
 }
 $('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{importWorld(JSON.parse(await f.text()))}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
-function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;world=initial();migrateWorld();householdPage=0;populationRenderKey='';lastLedgerRenderKey=null;persist();render()}}
+function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;world=initial();migrateWorld();householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;persist();render()}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 function start(){
  try{const saved=localStorage.getItem(KEY);world=saved?JSON.parse(saved):initial();validateSave(world);migrateWorld();catchUp();persist();render()}
