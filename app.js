@@ -1,3 +1,4 @@
+const BUILD_ID='v1.6.1 · Orders verified';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
