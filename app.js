@@ -1,4 +1,4 @@
-const BUILD_ID='v1.8 · Household Needs & Wellbeing';
+const BUILD_ID='v1.8.1 · Town Layout';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -287,6 +287,7 @@ function render(){
  $('nextDay').textContent=world.paused?'Clock paused':`Next Arcanus day at midnight UK time`;
  renderTimber();
  renderPopulation();
+ renderLayoutSummary();
  const foodStatus=$('foodStatus');if(foodStatus)foodStatus.textContent=`Food available: ${Math.floor(world.food/Math.max(1,world.pop)*10)/10} months of demand · Annual farm yield estimate: ${(world.farms*FOOD_YIELD_PER_FARM).toLocaleString('en-GB')} units · Import price: 0.02 gp/unit.`;
 }
 // v1.7: saved identities; routines are derived, never a second economic engine.
@@ -621,3 +622,45 @@ function start(){
  setInterval(()=>{if(!document.hidden&&!loadFailed){catchUp();render()}},1000);
 }
 start();
+
+
+// Navigation and summaries are presentation only; they never advance the simulation.
+function renderLayoutSummary(){
+ const needs=needsSummary();
+ $('overviewWellbeing').textContent=needs.households?needs.wellbeing+'/100':'—';
+ $('overviewNeeds').textContent=needs.households?`${needs.settled} settled households · ${needs.struggling} struggling · ${needs.care} with care pressure`:'No occupied households yet.';
+ $('recentEvents').replaceChildren(...world.events.slice(0,3).map(message=>{const li=document.createElement('li');li.textContent=message;return li}));
+ if(!world.events.length){const li=document.createElement('li');li.textContent='The town’s story will appear here.';$('recentEvents').append(li)}
+}
+function showView(name,scroll=true){
+ const names=['overview','population','businesses','chronicle'];
+ if(!names.includes(name))name='overview';
+ for(const item of names){
+  const active=item===name,tab=$('tab-'+item);
+  tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;
+  $('view-'+item).hidden=!active;
+ }
+ try{history.replaceState(null,'','#'+name)}catch{}
+ if(scroll)$('view-'+name).scrollIntoView({block:'start',behavior:'instant'});
+ if(document.activeElement?.closest('[role="tabpanel"]')?.hidden)$('view-'+name).focus({preventScroll:true});
+}
+function openWorldControls(){
+ const controls=$('worldControls');controls.open=true;
+ controls.scrollIntoView({block:'start',behavior:'instant'});
+ controls.querySelector('summary').focus({preventScroll:true});
+}
+function initLayout(){
+ const names=['overview','population','businesses','chronicle'];
+ for(const name of names){
+  const tab=$('tab-'+name);
+  tab.addEventListener('click',()=>showView(name));
+  tab.addEventListener('keydown',event=>{
+   const index=names.indexOf(name);
+   const next=event.key==='ArrowRight'?(index+1)%4:event.key==='ArrowLeft'?(index+3)%4:event.key==='Home'?0:event.key==='End'?3:null;
+   if(next===null)return;event.preventDefault();showView(names[next]);$('tab-'+names[next]).focus({preventScroll:true});
+  });
+ }
+ showView(location.hash.slice(1),false);
+ window.addEventListener('hashchange',()=>showView(location.hash.slice(1)));
+}
+initLayout();
