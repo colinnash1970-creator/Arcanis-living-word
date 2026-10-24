@@ -1,4 +1,4 @@
-const BUILD_ID='v1.8.2 · Household Wellbeing Balance';
+const BUILD_ID='v1.9 · Families & New Households';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -331,6 +331,7 @@ function newHousehold(p){
 function makeResident(p,h,ageMonths){
  const id=p.nextResidentId++;
  const r={id,householdId:h.id,name:`${GIVEN_NAMES[(id*7)%GIVEN_NAMES.length]} ${h.surname}`,ageMonths,occupation:'',workplace:''};
+ if(p.familyModel===1)r.family=blankFamily(h.id);
  assignOccupation(r,p);p.residents.push(r);return r;
 }
 function assignOccupation(r,p){
@@ -360,15 +361,17 @@ function populationMonth(births,deaths){
  for(const r of p.residents){const age=r.ageMonths++;if([71,191,779].includes(age))assignOccupation(r,p)}
  // Deterministic mortality gives stable results across reloads and catch-up.
  const removed=new Set([...p.residents].sort((a,b)=>b.ageMonths-a.ageMonths||a.id-b.id).slice(0,deaths).map(r=>r.id));
+ const bereaved=archiveFamilyDeaths(p.residents.filter(r=>removed.has(r.id))),born=[];
  p.residents=p.residents.filter(r=>!removed.has(r.id));
  // Preserve the existing economy's authoritative total, including severe shortages.
  const needed=Math.max(0,world.pop-p.residents.length);
  const families=p.households.filter(h=>p.residents.some(r=>r.householdId===h.id&&r.ageMonths>=192&&r.ageMonths<660));
  for(let i=0;i<needed;i++){
   const h=families.length?families[(world.month*13+i)%families.length]:newHousehold(p);
-  makeResident(p,h,0);
+  const child=makeResident(p,h,0);linkNewborn(child,h);born.push(child);
  }
  p.residents=p.residents.slice(0,world.pop);
+ finishFamilyMonth(born,bereaved);
  const occupied=new Set(p.residents.map(r=>r.householdId));p.households=p.households.filter(h=>occupied.has(h.id));p.revision++;
 }
 function routine(r,minute,day=worldDay()){
@@ -426,6 +429,9 @@ function renderPopulation(){
  const jobs={};for(const r of p.residents)jobs[r.occupation]=(jobs[r.occupation]||0)+1;
  $('occupations').textContent=Object.entries(jobs).sort((a,b)=>b[1]-a[1]).map(([job,n])=>`${job}: ${n}`).join(' · ');
  renderNeeds();
+ renderFamilySummary();
+ const relatives=familyIndex(),children=new Map();
+ for(const resident of relatives.values())for(const id of resident.family.parentIds){if(!children.has(id))children.set(id,[]);children.get(id).push(resident)}
  const visible=p.households.filter(h=>householdFilter==='all'||h.needs.food>0||h.needs.warmth>0||h.needs.care>0||h.needs.wellbeing<65);
  const pages=Math.max(1,Math.ceil(visible.length/10));householdPage=Math.min(householdPage,pages-1);
  $('householdMatches').textContent=`${visible.length} matching households`;
@@ -440,6 +446,7 @@ function renderPopulation(){
   for(const r of p.residents.filter(x=>x.householdId===h.id)){
    const a=routine(r,minute),line=document.createElement('p');
    line.textContent=`${r.name} · resident ${r.id} · age ${Math.floor(r.ageMonths/12)} · ${r.occupation}${!['Young child','Pupil','Retired'].includes(r.occupation)?` (${r.workplace})`:''} · ${a.activity}, ${a.place}`;details.append(line);
+   const links=document.createElement('p');links.className='family-links';links.textContent=familyDescription(r,relatives,children);details.append(links);
   }root.append(details);
  }
 }
@@ -556,6 +563,157 @@ function validateNeeds(p,data){
  }
 }
 
+// Family links are provisional simulation data, seeded once without invented dates.
+function blankFamily(householdId){return {parentIds:[],guardianIds:[],partnerId:null,formerPartnerIds:[],originHouseholdId:householdId,independent:false}}
+function migrateFamilies(){
+ const p=world.population;if(p.familyModel===1)return;
+ for(const r of p.residents)r.family=blankFamily(r.householdId);
+ const groups=residentGroups();
+ for(const members of groups.values()){
+  const adults=members.filter(r=>r.ageMonths>=216&&r.ageMonths<780);
+  const [a,b]=adults;
+  if(a&&b&&Math.abs(a.ageMonths-b.ageMonths)<=240){a.family.partnerId=b.id;b.family.partnerId=a.id}
+  for(const child of members.filter(r=>r.ageMonths<216)){
+   const eligible=adults.filter(r=>r.ageMonths-child.ageMonths>=216&&r.ageMonths-child.ageMonths<=600);
+   const parent=eligible[0];
+   if(parent){child.family.parentIds=[parent.id];if(eligible.some(r=>r.id===parent.family.partnerId))child.family.parentIds.push(parent.family.partnerId)}
+   else child.family.guardianIds=adults.slice(0,2).map(r=>r.id);
+  }
+ }
+ p.familyModel=1;p.familyArchive=[];p.revision++;
+}
+function familyIndex(){return new Map([...world.population.familyArchive,...world.population.residents].map(r=>[r.id,r]))}
+function ancestors(id,index,includeGuardians=false){
+ const links=id=>{const f=index.get(id)?.family;return f?[...f.parentIds,...(includeGuardians?f.guardianIds:[])]:[]};
+ const seen=new Set(),pending=links(id);
+ while(pending.length){const next=pending.pop();if(seen.has(next))continue;seen.add(next);pending.push(...links(next))}return seen;
+}
+function related(a,b,index){
+ if(a.id===b.id||a.householdId===b.householdId||a.family.originHouseholdId===b.family.originHouseholdId)return true;
+ const left=ancestors(a.id,index,true),right=ancestors(b.id,index,true);
+ return left.has(b.id)||right.has(a.id)||[...left].some(id=>right.has(id));
+}
+function archiveFamilyDeaths(deceased){
+ const p=world.population;if(p.familyModel!==1)return 0;
+ const ids=new Set(deceased.map(r=>r.id));let bereaved=0;
+ for(const r of p.residents)if(!ids.has(r.id)&&ids.has(r.family.partnerId)){
+  r.family.formerPartnerIds.push(r.family.partnerId);r.family.partnerId=null;bereaved++;
+ }
+ for(const r of deceased){
+  const f=JSON.parse(JSON.stringify(r.family));
+  if(f.partnerId!==null){f.formerPartnerIds.push(f.partnerId);f.partnerId=null}
+  p.familyArchive.push({id:r.id,name:r.name,ageMonths:r.ageMonths,deathDay:worldDay(),family:f});
+ }
+ return bereaved;
+}
+function linkNewborn(child,home){
+ const p=world.population;if(p.familyModel!==1)return;
+ child.family=blankFamily(home.id);
+ const adults=p.residents.filter(r=>r.id!==child.id&&r.householdId===home.id&&r.ageMonths>=216&&r.ageMonths<660);
+ const parent=adults.find(r=>r.family.partnerId!==null)||adults[0];
+ if(parent){child.family.parentIds=[parent.id];if(adults.some(r=>r.id===parent.family.partnerId))child.family.parentIds.push(parent.family.partnerId)}
+ else child.family.guardianIds=p.residents.filter(r=>r.householdId===home.id&&r.ageMonths>=216).slice(0,2).map(r=>r.id);
+}
+function arrangeGuardians(){
+ const p=world.population,live=new Map(p.residents.map(r=>[r.id,r]));let moved=0;
+ const adults=p.residents.filter(r=>r.ageMonths>=216&&r.ageMonths<900).sort((a,b)=>a.id-b.id);
+ const groups=residentGroups();
+ for(const child of p.residents.filter(r=>r.ageMonths<216)){
+  const f=child.family;
+  f.guardianIds=f.guardianIds.filter(id=>live.has(id));
+  const residentParent=f.parentIds.map(id=>live.get(id)).find(r=>r&&r.householdId===child.householdId);
+  if(residentParent)continue;
+  const known=[...f.parentIds,...f.guardianIds].map(id=>live.get(id)).find(r=>r&&r.ageMonths>=216);
+  const local=adults.find(r=>r.householdId===child.householdId);
+  const target=known||local||adults[child.id%Math.max(1,adults.length)];
+  if(!target){f.guardianIds=[];continue}
+  if(!f.parentIds.includes(target.id))f.guardianIds=[target.id];
+  if(child.householdId!==target.householdId){
+   const old=groups.get(child.householdId)||[];groups.set(child.householdId,old.filter(r=>r.id!==child.id));
+   child.householdId=target.householdId;moved++;
+  }
+ }
+ return moved;
+}
+function formHouseholds(){
+ const p=world.population,index=familyIndex(),groups=residentGroups();
+ const dependedOn=new Set(p.residents.filter(r=>r.ageMonths<216).flatMap(r=>[...r.family.parentIds,...r.family.guardianIds]));
+ const candidates=p.residents.filter(r=>r.ageMonths>=(20+r.id%5)*12&&r.ageMonths<=540&&r.family.parentIds.length&&!r.family.independent&&r.family.partnerId===null&&!dependedOn.has(r.id)).sort((a,b)=>b.ageMonths-a.ageMonths||a.id-b.id);
+ const canLeave=r=>{
+  const remaining=(groups.get(r.householdId)||[]).filter(x=>x.id!==r.id);
+  return remaining.length>0&&(!remaining.some(x=>x.ageMonths<216||x.ageMonths>=900)||remaining.some(x=>x.ageMonths>=216&&x.ageMonths<900));
+ };
+ const used=new Set(),formed=[];
+ for(const a of candidates){
+  if(formed.length>=2)break;
+  if(used.has(a.id)||!canLeave(a))continue;
+  const b=candidates.find(r=>!used.has(r.id)&&canLeave(r)&&Math.abs(a.ageMonths-r.ageMonths)<=120&&!related(a,r,index));
+  // A person can establish an independent home even without a suitable partner.
+  const movers=b?[a,b]:[a],sources=movers.map(r=>p.households.find(h=>h.id===r.householdId));
+  const h=newHousehold(p);h.surname=sources[0].surname;h.name=movers.map(r=>r.name).join(' & ')+' household '+h.id;
+  h.foundedDay=worldDay();h.founderIds=movers.map(r=>r.id);
+  const wellbeing=Math.round(sources.reduce((sum,home)=>sum+(home.needs?.wellbeing??70),0)/sources.length);
+  const outlook=householdOutlook(movers,needsSupplies());
+  h.needs={food:outlook.food,warmth:outlook.warmth,care:outlook.care,wellbeing,lastDay:worldDay(),trend:0,hardshipDays:0};
+  for(const r of movers){groups.set(r.householdId,(groups.get(r.householdId)||[]).filter(x=>x.id!==r.id));r.householdId=h.id;r.family.independent=true;used.add(r.id)}
+  groups.set(h.id,movers);
+  if(b){a.family.partnerId=b.id;b.family.partnerId=a.id}
+  formed.push(h);
+ }
+ return formed;
+}
+function pruneFamilyArchive(){
+ const p=world.population,index=familyIndex(),needed=new Set(),links=r=>r?[...r.family.parentIds,...r.family.guardianIds,...r.family.formerPartnerIds]:[],pending=p.residents.flatMap(links);
+ const living=new Set(p.residents.map(r=>r.id));
+ pending.push(...p.familyArchive.filter(r=>r.family.parentIds.some(id=>living.has(id))).map(r=>r.id));
+ while(pending.length){const id=pending.pop();if(needed.has(id))continue;needed.add(id);pending.push(...links(index.get(id)))}
+ p.familyArchive=p.familyArchive.filter(r=>needed.has(r.id));
+}
+function finishFamilyMonth(born,bereaved){
+ const p=world.population;if(p.familyModel!==1)return;
+ const caredFor=arrangeGuardians(),formed=formHouseholds();
+ pruneFamilyArchive();
+ const changes=[];
+ if(born.length)changes.push(born.length+' newborns added to family records');
+ if(bereaved)changes.push(bereaved+' surviving partners bereaved');
+ if(caredFor)changes.push(caredFor+' young residents moved into family or guardian care');
+ if(formed.length)changes.push(formed.length+' new households established: '+formed.map(h=>h.name+' at '+h.address).join('; '));
+ if(changes.length)addEvent('Family register: '+changes.join('; ')+'.');
+}
+function familyDescription(r,index,children){
+ const f=r.family,label=id=>{const person=index.get(id);return person?person.name+(Number.isFinite(person.deathDay)?' (deceased)':''):'Unrecorded'};
+ const details=[];
+ if(f.partnerId!==null)details.push('Partner: '+label(f.partnerId));
+ if(f.formerPartnerIds.length)details.push('Late partner: '+f.formerPartnerIds.map(label).join(', '));
+ if(f.parentIds.length)details.push('Parents: '+f.parentIds.map(label).join(', '));
+ if(f.guardianIds.length&&r.ageMonths<216)details.push('Guardian: '+f.guardianIds.map(label).join(', '));
+ if(children.has(r.id))details.push('Children: '+children.get(r.id).map(child=>child.name+(Number.isFinite(child.deathDay)?' (deceased)':child.householdId!==r.householdId?' (another household)':'')).join(', '));
+ return details.length?details.join(' · '):'No family links recorded';
+}
+function renderFamilySummary(){
+ const p=world.population;
+ $('familySummary').textContent=`${p.residents.filter(r=>r.family.partnerId!==null).length/2} partnerships · ${p.residents.filter(r=>r.family.parentIds.length).length} residents with recorded parents · ${p.households.filter(h=>Number.isInteger(h.foundedDay)).length} new households since family records began`;
+}
+function validateFamilies(p,data){
+ if(p.familyModel===undefined)return;
+ if(p.familyModel!==1||!Array.isArray(p.familyArchive))throw Error('Invalid family register');
+ const live=new Map(p.residents.map(r=>[r.id,r])),all=new Map([...p.familyArchive,...p.residents].map(r=>[r.id,r]));
+ if(all.size!==p.residents.length+p.familyArchive.length)throw Error('Duplicate family identity');
+ const ids=list=>Array.isArray(list)&&new Set(list).size===list.length&&list.every(id=>Number.isSafeInteger(id)&&all.has(id));
+ for(const r of all.values()){
+  const f=r.family;
+  if(!f||!ids(f.parentIds)||f.parentIds.length>2||!ids(f.guardianIds)||f.guardianIds.length>2||!ids(f.formerPartnerIds)||![true,false].includes(f.independent)||!Number.isSafeInteger(f.originHouseholdId)||f.originHouseholdId<1||f.originHouseholdId>=p.nextHouseholdId||[...f.parentIds,...f.guardianIds,...f.formerPartnerIds].includes(r.id))throw Error('Invalid family links');
+  if(f.partnerId!==null&&(!live.has(r.id)||!live.has(f.partnerId)||f.partnerId===r.id||live.get(f.partnerId).family?.partnerId!==r.id||r.ageMonths<216||live.get(f.partnerId).ageMonths<216))throw Error('Invalid partnership');
+  if(live.has(r.id)&&f.formerPartnerIds.some(id=>live.has(id)))throw Error('Invalid late partner');
+  if(live.has(r.id)&&r.ageMonths<216&&f.guardianIds.some(id=>!live.has(id)||live.get(id).ageMonths<216))throw Error('Invalid guardian');
+  if(f.parentIds.some(id=>all.get(id).ageMonths+(Number.isFinite(all.get(id).deathDay)?Math.floor((data.month*30+data.day-1-all.get(id).deathDay)/30):0)-r.ageMonths<216))throw Error('Invalid parent ages');
+ }
+ for(const r of p.familyArchive)if(!Number.isSafeInteger(r.id)||r.id<=0||r.id>=p.nextResidentId||typeof r.name!=='string'||!Number.isSafeInteger(r.ageMonths)||!Number.isSafeInteger(r.deathDay)||r.deathDay<0||r.deathDay>data.month*30+data.day-1)throw Error('Invalid family memorial');
+ // Parent cycles and close-relative partnerships cannot enter through imported saves.
+ for(const r of all.values())if(ancestors(r.id,all,true).has(r.id))throw Error('Cyclic family links');
+ for(const r of live.values())if(r.family.partnerId!==null){const partner=live.get(r.family.partnerId),a=ancestors(r.id,all,true),b=ancestors(partner.id,all,true);if(a.has(partner.id)||b.has(r.id)||[...a].some(id=>b.has(id)))throw Error('Related partners')}
+}
+
 
 function advance(n){
  if(!Number.isInteger(n)||n<1||n>12)return;
@@ -572,8 +730,9 @@ function togglePause(){
 }
 function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?localStorage.getItem(KEY):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function validateSave(data){
- if(!data||![1,2,3,4,5,6,7,8,9].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
- if(data.version===9&&(!data.population||data.population.needsModel!==1))throw Error('Missing household needs');
+ if(!data||![1,2,3,4,5,6,7,8,9,10].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(data.version>=9&&(!data.population||data.population.needsModel!==1))throw Error('Missing household needs');
+ if(data.version===10&&(data.population.familyModel!==1||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Missing family data or invalid date');
  if(data.timber){
   const t=data.timber, sample=initialTimber();
   const check=(record,template)=>{if(!record)throw Error('Incomplete timber save');for(const [key,value] of Object.entries(template)){if(typeof value==='number'&&!Number.isFinite(record[key]))throw Error('Invalid timber '+key);if(typeof value==='string'&&typeof record[key]!=='string')throw Error('Invalid timber '+key)}};
@@ -592,6 +751,7 @@ function validateSave(data){
   if(homes.size!==p.households.length||ids.size!==p.residents.length||!p.households.every(h=>Number.isSafeInteger(h.id)&&h.id>0&&h.id<p.nextHouseholdId&&['name','surname','address'].every(k=>typeof h[k]==='string'))||!p.residents.every(r=>Number.isSafeInteger(r.id)&&r.id>0&&r.id<p.nextResidentId&&homes.has(r.householdId)&&Number.isSafeInteger(r.ageMonths)&&r.ageMonths>=0&&['name','occupation','workplace'].every(k=>typeof r[k]==='string')))throw Error('Invalid resident or household');
   if(!c||!Number.isSafeInteger(c.cursor)||!Number.isInteger(c.minute)||c.minute<0||c.minute>=1440)throw Error('Invalid living clock');
   validateNeeds(p,data);
+  validateFamilies(p,data);
  }
 }
 function migrateWorld(){
@@ -606,7 +766,7 @@ function migrateWorld(){
   if(!world.paused)simulateDays(Math.floor(Math.max(0,Date.now()-world.lastUpdated)/DAY));
   world.lastUKDay=ukDayNumber();
  }
- migrateFood();migratePopulation();migrateNeeds();world.version=9;
+ migrateFood();migratePopulation();migrateNeeds();migrateFamilies();world.version=10;
  world.events=world.events.slice(0,150);
 }
 function importWorld(data){

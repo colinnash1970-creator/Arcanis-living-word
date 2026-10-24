@@ -19,11 +19,12 @@
     @media(max-width:760px){main{padding:16px}.population-grid,.overview-grid{grid-template-columns:1fr}.clock-details{display:block}.clockbar{align-items:flex-start}.overview-stats>div{padding:12px}.overview-stats strong{font-size:1.5rem}.build-label{max-width:170px}.masthead h1{font-size:1.8rem}}
     @media(max-width:520px){:root{--sticky-height:190px}main{padding:12px}.masthead{align-items:flex-start;gap:8px}.build-label{display:none}.masthead small{font-size:.62rem}.masthead p{font-size:.78rem}.clockbar{padding:10px;flex-wrap:wrap;gap:8px}.clock-details{width:100%;display:flex;justify-content:space-between;gap:8px;align-items:center}#liveTime{font-size:1.15rem}#date{font-size:.8rem}#clockStatus{display:none}.clock-actions{width:100%;justify-content:flex-end}.clock-actions button{padding:8px 12px;min-height:40px}.tabs{gap:2px}.tabs button{font-size:.8rem;padding:10px 4px}.panel{padding:16px}.overview-stats{grid-template-columns:1fr 1fr}.overview-stats strong{font-size:1.6rem}.control-grid,#timberBusinesses{grid-template-columns:1fr;gap:18px}.section-heading{align-items:flex-start}.section-heading button{font-size:.8rem}.view{padding-top:18px}.stats strong{font-size:1.3rem}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-  </style>
+  .family-links{border-left:2px solid #718b7e;padding-left:10px;font-size:.82rem!important;color:#b7c9c1!important;margin-top:-6px}
+</style>
 </head>
 <body><main>
   <header class="masthead">
-    <div><small>ARCANUS · KIELINSTRIA · AEGISWATCH</small><h1>Kaddinghall</h1><p class="muted">Your living town · Experimental v1.8.2</p></div>
+    <div><small>ARCANUS · KIELINSTRIA · AEGISWATCH</small><h1>Kaddinghall</h1><p class="muted">Your living town · Experimental v1.9</p></div>
     <p id="buildStatus" class="muted build-label">Checking running JavaScript version…</p>
   </header>
   <div class="sticky-shell">
@@ -61,7 +62,7 @@
     <h2>Living population</h2><p id="populationSummary"></p>
     <div class="population-grid">
       <section class="panel"><h3>Household wellbeing</h3><div class="stats"><div>Average wellbeing<strong id="householdWellbeing"></strong></div><div>Settled households<strong id="householdSettled"></strong></div><div>Struggling households<strong id="householdStruggling"></strong></div><div>Care pressure<strong id="householdCare"></strong></div></div><p id="needsSummary"></p>
-        <details class="help"><summary>Occupations across town</summary><p id="occupations" class="muted"></p></details>
+        <details class="help"><summary>Family register</summary><p id="familySummary"></p><p class="muted">Parents, partners, children and guardians appear beneath each resident. Initial links are provisional, based on plausible age gaps within existing households; unknown parentage stays unrecorded. No past weddings or births are invented.</p><p class="muted">Grown children can establish homes from ages 20–24 when dependants have care. At most two new homes form per month; relatives and members of the same original household do not become partners. Residents keep their names and jobs. A new household represents a new home arrangement, not a paid construction project.</p><p class="muted">Starting children need several years to reach this stage. Births and deaths still follow the existing town economy. Family updates are grouped into one monthly Chronicle entry.</p></details><details class="help"><summary>Occupations across town</summary><p id="occupations" class="muted"></p></details>
         <details class="help"><summary>What shapes wellbeing?</summary><p class="muted">Food and warmth outlooks reflect town reserves and market firewood, not individual purchases. Care pressure reflects residents’ ages. Low reserve warnings carry mild penalties; serious shortage risk carries more weight. Cold affects households with young children or older residents more strongly. Wellbeing changes daily and recovers gradually. Settled: 65–100 · Under strain: 35–64 · Struggling: 0–34.</p><p class="muted">Children under six need more care; residents aged 75 and over need support. These provisional simulation assumptions add no consumption, charges or extra deaths.</p><p id="needsBasis" class="muted"></p></details>
         <details class="help"><summary>About daily life</summary><p class="muted">Residents, households and occupations are saved. Routines follow UK time and freeze while paused. The seventh town day is a rest day with essential morning duties. Names and assignments are provisional; household scenes add no wages, food use or timber sales.</p></details>
       </section>
@@ -78,6 +79,6 @@
   <section id="view-chronicle" class="view" role="tabpanel" aria-labelledby="tab-chronicle" tabindex="0" hidden>
     <h2>Chronicle</h2><section class="panel"><p class="muted">The latest 20 entries from Kaddinghall’s story.</p><details class="help"><summary>How events are recorded</summary><p class="muted">Arcanus dates and UK hours/minutes. Hourly entries mark changes in town activity; household scenes and wellbeing bulletins add detail. Quiet hours stay quiet. Up to 150 entries are saved; older routines are condensed during long absences.</p></details><ul id="log"></ul></section>
   </section>
-  <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.8.2</footer>
-</main><script src="app.js?v=182-wellbeing-balance"></script></body>
+  <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.9</footer>
+</main><script src="app.js?v=190-family-register"></script></body>
 </html>
