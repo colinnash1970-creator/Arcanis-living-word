@@ -170,13 +170,23 @@ function recordTimberMonth(){
  }
  addEvent(`Sawmills month ${month}: watermill ${mills[0].logs.toFixed(1)} t; manual mill ${mills[1].logs.toFixed(1)} t processed.`);
 }
+let lastLedgerRenderKey=null;
 function renderTimberLedger(){
- const root=$('timberLedger');if(!root)return;root.replaceChildren();
+ const root=$('timberLedger');if(!root)return;
  const entries=world.timber.ledger||[];
+ // Do not destroy the open/closed <details> controls on every clock tick.
+ // Only rebuild when the underlying monthly reports actually change.
+ const ledgerKey=JSON.stringify(entries.slice(0,6));
+ if(ledgerKey===lastLedgerRenderKey && root.childNodes.length)return;
+ const previousStates=new Map(Array.from(root.querySelectorAll('details[data-ledger-month]'))
+  .map(d=>[d.dataset.ledgerMonth,d.open]));
+ root.replaceChildren();
+ lastLedgerRenderKey=ledgerKey;
  if(!entries.length){root.textContent='No completed timber month yet. Advance one month to see the first report.';return}
  for(const entry of entries.slice(0,6)){
   const details=document.createElement('details');details.className='ledger-entry';
-  if(entry===entries[0])details.open=true;
+  details.dataset.ledgerMonth=String(entry.month);
+  details.open=previousStates.has(String(entry.month))?previousStates.get(String(entry.month)):entry===entries[0];
   const summary=document.createElement('summary');summary.textContent=`Month ${entry.month} · business transactions`;details.append(summary);
   for(const b of entry.businesses){const p=document.createElement('p');p.textContent=`${b.name}: ${b.fire.toFixed(1)} t firewood + ${b.construction.toFixed(1)} t construction sold; income ${b.income.toFixed(1)} gp; expenses ${b.cost.toFixed(1)} gp; net ${(b.income-b.cost).toFixed(1)} gp; cash ${b.closingCash.toFixed(1)} gp.`;details.append(p)}
   for(const m of entry.mills){const p=document.createElement('p');p.textContent=`${m.name}: ${m.logs.toFixed(1)} t processed; fees ${m.income.toFixed(1)} gp; expenses ${m.cost.toFixed(1)} gp; ${m.days} paid days.`;details.append(p)}
@@ -266,6 +276,7 @@ function catchUp(){
  }
 }
 function render(){
+ const build=$('buildStatus');if(build)build.textContent='Running v1.6.2 · Ledger controls fixed';
  $('liveTime').textContent=ukTime();
  $('date').textContent=`${793+Math.floor(world.month/12)} A.F. · Month ${world.month%12+1} · Day ${world.day}`;
  for(const id of ['pop','food','gold','farms'])$(id).textContent=world[id].toLocaleString('en-GB');
