@@ -1,4 +1,4 @@
-const BUILD_ID='v1.6.1 · Orders verified';
+const BUILD_ID='v1.7 · Living Population & Chronicle';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -6,23 +6,13 @@ const ukParts=()=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'
 const ukDayNumber=()=>{const p=ukParts();return Math.floor(Date.UTC(p.year,p.month-1,p.day)/DAY)};
 const ukTime=()=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date());
 const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:false,lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
-let world;
-try {world=JSON.parse(localStorage.getItem(KEY))||initial()}catch {world=initial()}
-// Migrate v1 without resetting existing saves. The real-time clock begins on first v1.1 opening.
-if(world.version===1){world={...world,version:2,day:1,paused:false,lastUpdated:Date.now()}}
-if(!world.timber)world.timber=initialTimber();
-if(!Array.isArray(world.timber.ledger))world.timber.ledger=[];
-migrateOrders();
-world.version=7;
-if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();
-if(!Number.isFinite(world.day)||world.day<1||world.day>30)world.day=1;
-if(typeof world.paused!=='boolean')world.paused=false;
-// On upgrade, preserve any elapsed full days from the previous 24-hour clock,
-// then align future day changes with UK midnight.
-if(!Number.isFinite(world.lastUKDay)){const elapsed=Math.max(0,Date.now()-world.lastUpdated);const fullDays=Math.floor(elapsed/DAY);if(!world.paused&&fullDays>0)simulateDays(fullDays);world.lastUKDay=ukDayNumber();world.lastUpdated=Date.now();world.version=3;}
+let world, loadFailed=false;
 const $=id=>document.getElementById(id);
-function persist(){localStorage.setItem(KEY,JSON.stringify(world))}
-function addEvent(message){world.events.unshift(message);world.events=world.events.slice(0,150)}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(world));$('saveStatus').textContent='Autosaved on this device.'}catch(err){$('saveStatus').textContent='Autosave failed. Export your save to keep your progress.'}}
+function addEvent(message){
+ const at=eventContext||{day:worldDay(),minute:world.livingClock?.minute??clockMinute()};
+ world.events.unshift('['+stamp(at.day,at.minute)+'] '+message);world.events=world.events.slice(0,150);
+}
 
 // Timber economy v1: simulation assumptions, not established campaign canon.
 // gp is the internal money unit; 1 gp = 10 sp = 100 cp.
@@ -251,33 +241,43 @@ function simulateMonth(){
  world.pop=Math.max(0,world.pop+births-deaths);
  world.gold+=Math.round(world.pop*.025-world.farms*.2);
  world.month++;
+ populationMonth(births,deaths);
  addEvent(`${793+Math.floor((world.month-1)/12)} A.F. month ${(world.month-1)%12+1}: ${births} births, ${deaths} deaths; harvest ${harvest} units${shortage?`; food shortage ${shortage}`:''}.`);
  if(world.food<world.pop*2)addEvent(`Food reserve warning: ${world.food.toLocaleString('en-GB')} units remain, under two months of demand.`);
 }
 function simulateDays(days){
- // Only whole days advance. Each 30-day month invokes the established v1 economy once.
  for(let i=0;i<days;i++){
-   simulateTimberDay();
-   world.day++;
-   if(world.day>DAYS_PER_MONTH){world.day=1;simulateMonth()}
+  eventContext={day:worldDay()+1,minute:0};
+  simulateTimberDay();world.day++;
+  if(world.day>DAYS_PER_MONTH){world.day=1;simulateMonth()}
+  eventContext=null;
  }
 }
 function catchUp(){
- const today=ukDayNumber();
- if(world.paused){world.lastUKDay=today;world.lastUpdated=Date.now();return}
- if(today<world.lastUKDay){world.lastUKDay=today;world.lastUpdated=Date.now();return}
- const days=today-world.lastUKDay;
- if(days>0){
-   simulateDays(days);
-   world.lastUKDay=today;
-   world.lastUpdated=Date.now();
-   addEvent(`Real-time catch-up: ${days.toLocaleString('en-GB')} day${days===1?'':'s'} passed.`);
-   persist();
+ const today=ukDayNumber(), minute=clockMinute(), current=today*1440+minute, c=world.livingClock;
+ if(world.paused){
+  const changed=c.cursor!==current||world.lastUKDay!==today;
+  c.cursor=current;world.lastUKDay=today;world.lastUpdated=Date.now();
+  if(changed)persist();return;
  }
+ // UK civil-minute high water prevents duplicate hours at the autumn DST change.
+ // A backward device date likewise must not run the same economy day twice.
+ if(today<world.lastUKDay){c.minute=minute;return}
+ const days=today-world.lastUKDay, previous=c.cursor;
+ for(let i=0;i<days;i++){
+  const civilDay=world.lastUKDay+i;
+  if(civilDay>=today-1)livingRange(worldDay(),Math.max(-1,previous-civilDay*1440),1439);
+  simulateDays(1);
+ }
+ world.lastUKDay=today;c.minute=minute;
+ if(current>previous){livingRange(worldDay(),Math.max(-1,previous-today*1440),minute);c.cursor=current}
+ if(days>0)addEvent('Real-time catch-up: '+days.toLocaleString('en-GB')+' day'+(days===1?'':'s')+' passed. '+(days>1?'Older daily routines condensed; economy and population fully advanced.':''));
+ world.lastUpdated=Date.now();
+ if(days>0||current>previous)persist();
 }
 function render(){
- const build=$('buildStatus');if(build)build.textContent='Running v1.6.2 · Ledger controls fixed';
- $('liveTime').textContent=ukTime();
+ const build=$('buildStatus');if(build)build.textContent='Running '+BUILD_ID;
+ $('liveTime').textContent=world.paused?String(Math.floor(world.livingClock.minute/60)).padStart(2,'0')+':'+String(world.livingClock.minute%60).padStart(2,'0')+' · paused':ukTime();
  $('date').textContent=`${793+Math.floor(world.month/12)} A.F. · Month ${world.month%12+1} · Day ${world.day}`;
  for(const id of ['pop','food','gold','farms'])$(id).textContent=world[id].toLocaleString('en-GB');
  $('log').replaceChildren(...world.events.slice(0,20).map(e=>{const li=document.createElement('li');li.textContent=e;return li}));
@@ -285,16 +285,199 @@ function render(){
  $('pauseButton').textContent=world.paused?'Resume world':'Pause world';
  $('nextDay').textContent=world.paused?'Clock paused':`Next Arcanus day at midnight UK time`;
  renderTimber();
+ renderPopulation();
  const foodStatus=$('foodStatus');if(foodStatus)foodStatus.textContent=`Food available: ${Math.floor(world.food/Math.max(1,world.pop)*10)/10} months of demand · Annual farm yield estimate: ${(world.farms*FOOD_YIELD_PER_FARM).toLocaleString('en-GB')} units · Import price: 0.02 gp/unit.`;
 }
-function advance(n){catchUp();simulateDays(n*DAYS_PER_MONTH);world.lastUpdated=Date.now();persist();render()}
+// v1.7: saved identities; routines are derived, never a second economic engine.
+const GIVEN_NAMES=['Ada','Bren','Cora','Dain','Elin','Fenn','Gwen','Hale','Iris','Jory','Kara','Lorn','Mira','Nell','Orin','Perrin','Rhea','Seth','Tess','Ulric','Vera','Wren'];
+const FAMILY_NAMES=['Ash','Brook','Clay','Dale','Elm','Field','Grove','Hill','Ives','Keen','Lake','Moss','North','Oak','Pike','Reed','Stone','Thorn','Vale','Wood'];
+let eventContext=null, householdPage=0, populationRenderKey='';
+const worldDay=()=>world.month*30+world.day-1;
+function clockMinute(){const [h,m]=ukTime().split(':').map(Number);return h*60+m}
+function civilMinute(){return ukDayNumber()*1440+clockMinute()}
+function stamp(day,minute){return `${793+Math.floor(day/360)} A.F. · M${Math.floor(day%360/30)+1} D${day%30+1} · ${String(Math.floor(minute/60)).padStart(2,'0')}:${String(minute%60).padStart(2,'0')}`}
+function newHousehold(p){
+ const id=p.nextHouseholdId++, surname=FAMILY_NAMES[(id-1)%FAMILY_NAMES.length];
+ const h={id,name:`${surname} household ${id}`,surname,address:`${1+Math.floor((id-1)/4)} ${['Mill Lane','Market Street','Orchard Row','West Fields'][(id-1)%4]}`};
+ p.households.push(h);return h;
+}
+function makeResident(p,h,ageMonths){
+ const id=p.nextResidentId++;
+ const r={id,householdId:h.id,name:`${GIVEN_NAMES[(id*7)%GIVEN_NAMES.length]} ${h.surname}`,ageMonths,occupation:'',workplace:''};
+ assignOccupation(r,p);p.residents.push(r);return r;
+}
+function assignOccupation(r,p){
+ const age=r.ageMonths/12;
+ if(age<6){r.occupation='Young child';r.workplace='Home';return}
+ if(age<16){r.occupation='Pupil';r.workplace='Town school';return}
+ if(age>=65){r.occupation='Retired';r.workplace='Home';return}
+ // Fill the established permanent timber posts before assigning other trades.
+ const posts=[['Woodcutter','Oak & Axe Timberworks',5],['Woodcutter','The Greenwood Cutters',3],['Sawmill worker','Water-powered sawmill',3],['Sawmill worker','Manual sawmill',2]];
+ for(const [job,place,count] of posts){if(p.residents.filter(x=>x.id!==r.id&&x.workplace===place).length<count){r.occupation=job;r.workplace=place;return}}
+ const jobs=[['Farmer','Town farms'],['Farmer','Town farms'],['Farmer','Town farms'],['Farmer','Town farms'],['Craftsperson','Workshop quarter'],['Trader','Market square'],['Labourer','Town works'],['Carer','Neighbourhood homes'],['Inn worker','The town inn'],['Farmer','Town farms']];
+ [r.occupation,r.workplace]=jobs[r.id%jobs.length];
+}
+function migratePopulation(){
+ if(world.population)return;
+ const p=world.population={schema:1,nextResidentId:1,nextHouseholdId:1,households:[],residents:[],revision:0};
+ // Seed once: existing population total is authoritative, including tiny/empty saves.
+ while(p.residents.length<world.pop){
+  const h=newHousehold(p), size=Math.min(3+(h.id%3),world.pop-p.residents.length);
+  for(let i=0;i<size;i++)makeResident(p,h,(i<2?24+(h.id*7+i*5)%39:i===4?68+(h.id%12):3+(h.id+i*3)%13)*12);
+ }
+ world.livingClock={cursor:civilMinute(),minute:clockMinute()};
+ addEvent(`Living population registered: ${p.residents.length.toLocaleString('en-GB')} residents in ${p.households.length.toLocaleString('en-GB')} households. Earlier lives are not reconstructed.`);
+}
+function populationMonth(births,deaths){
+ const p=world.population;if(!p)return;
+ for(const r of p.residents){const age=r.ageMonths++;if([71,191,779].includes(age))assignOccupation(r,p)}
+ // Deterministic mortality gives stable results across reloads and catch-up.
+ const removed=new Set([...p.residents].sort((a,b)=>b.ageMonths-a.ageMonths||a.id-b.id).slice(0,deaths).map(r=>r.id));
+ p.residents=p.residents.filter(r=>!removed.has(r.id));
+ // Preserve the existing economy's authoritative total, including severe shortages.
+ const needed=Math.max(0,world.pop-p.residents.length);
+ const families=p.households.filter(h=>p.residents.some(r=>r.householdId===h.id&&r.ageMonths>=192&&r.ageMonths<660));
+ for(let i=0;i<needed;i++){
+  const h=families.length?families[(world.month*13+i)%families.length]:newHousehold(p);
+  makeResident(p,h,0);
+ }
+ p.residents=p.residents.slice(0,world.pop);
+ const occupied=new Set(p.residents.map(r=>r.householdId));p.households=p.households.filter(h=>occupied.has(h.id));p.revision++;
+}
+function routine(r,minute,day=worldDay()){
+ const hour=minute/60, rest=(day%7===6);
+ if(hour<6||hour>=22)return {activity:'Sleeping',place:'Home'};
+ if(hour<7||hour>=18&&hour<19)return {activity:'Family meal',place:'Home'};
+ if(r.occupation==='Young child')return {activity:'Care and play',place:'Home'};
+ if(r.occupation==='Retired')return {activity:hour>=10&&hour<12?'Visiting neighbours':'Home and garden',place:hour>=10&&hour<12?'Neighbourhood':'Home'};
+ if(r.occupation==='Pupil')return !rest&&hour>=8&&hour<15?{activity:hour>=12&&hour<13?'Midday meal':'Learning',place:'Town school'}:{activity:'Family and play',place:'Home'};
+ if(hour>=12&&hour<13)return {activity:'Midday meal',place:'Near home or work'};
+ const essential=['Farmer','Carer','Inn worker'].includes(r.occupation);
+ if((!rest||essential)&&hour>=8&&hour<(rest?12:17))return {activity:rest?'Essential duties':'Working',place:r.workplace};
+ if(!rest&&hour>=7&&hour<8)return {activity:'Preparing for work',place:'Home'};
+ if(hour>=17&&hour<18)return {activity:'Errands and homecoming',place:'Neighbourhood'};
+ return {activity:'Rest and neighbours',place:'Home / neighbourhood'};
+}
+function activityCounts(minute,day){
+ const counts={};for(const r of world.population.residents){const a=routine(r,minute,day).activity;counts[a]=(counts[a]||0)+1}return counts;
+}
+function livingAt(day,minute){
+ if(!world.population.residents.length)return;
+ eventContext={day,minute};
+ const hour=Math.floor(minute/60);
+ if(minute%60===0&&hour>=6&&hour<=22){
+  const now=activityCounts(minute,day), previous=activityCounts(minute-1,day);
+  if(JSON.stringify(now)!==JSON.stringify(previous)){
+   const changes=Object.entries(now).filter(([key,n])=>n!==(previous[key]||0)).sort((a,b)=>b[1]-a[1]);
+   addEvent(`Town hour: ${changes.map(([key,n])=>`${n.toLocaleString('en-GB')} ${key.toLowerCase()}`).join('; ')}.`);
+  }
+ }
+ // Two selected scenes per day, with deterministic non-round minutes.
+ const sceneMinute=9*60+7+(day*11)%43, eveningMinute=19*60+3+(day*7)%47;
+ if(minute===sceneMinute||minute===eveningMinute){
+  const p=world.population,h=p.households[(day*17+(minute===sceneMinute?0:1))%p.households.length];
+  const members=p.residents.filter(r=>r.householdId===h.id);
+  if(minute===sceneMinute){
+   const r=members.find(x=>routine(x,minute,day).activity==='Working')||members[0];
+   const a=routine(r,minute,day);
+   addEvent(`${r.name} of ${h.name}, ${h.address}: ${a.activity.toLowerCase()} at ${a.place.toLowerCase()}.`);
+  }else addEvent(`${h.name}, ${h.address}: ${members.length} residents settle into their evening at home${world.food<world.pop*2?'; town food reserves remain below two months of demand':''}.`);
+ }
+ eventContext=null;
+}
+function livingRange(day,from,to){
+ // Visit only possible event minutes, not every minute/resident while away.
+ const minutes=[...Array.from({length:17},(_,i)=>(i+6)*60),547+(day*11)%43,1143+(day*7)%47].sort((a,b)=>a-b);
+ for(const minute of minutes)if(minute>from&&minute<=to)livingAt(day,minute);
+}
+function renderPopulation(){
+ const p=world.population, minute=world.livingClock.minute;
+ const key=`${p.revision}:${worldDay()}:${minute}:${householdPage}`;
+ if(key===populationRenderKey)return;populationRenderKey=key;
+ const counts=activityCounts(minute,worldDay());
+ $('populationSummary').textContent=`${p.residents.length.toLocaleString('en-GB')} residents · ${p.households.length.toLocaleString('en-GB')} households · ${Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([a,n])=>`${n.toLocaleString('en-GB')} ${a.toLowerCase()}`).join(' · ')}`;
+ const jobs={};for(const r of p.residents)jobs[r.occupation]=(jobs[r.occupation]||0)+1;
+ $('occupations').textContent=Object.entries(jobs).sort((a,b)=>b[1]-a[1]).map(([job,n])=>`${job}: ${n}`).join(' · ');
+ const pages=Math.max(1,Math.ceil(p.households.length/10));householdPage=Math.min(householdPage,pages-1);
+ $('householdPage').textContent=`Page ${householdPage+1} of ${pages}`;
+ $('previousHouseholds').disabled=householdPage===0;$('nextHouseholds').disabled=householdPage===pages-1;
+ const root=$('households');const opened=new Set(Array.from(root.querySelectorAll('details')).filter(d=>d.open).map(d=>d.dataset.household));root.replaceChildren();
+ for(const h of p.households.slice(householdPage*10,householdPage*10+10)){
+  const details=document.createElement('details');details.className='ledger-entry';details.dataset.household=String(h.id);details.open=opened.has(String(h.id));
+  const summary=document.createElement('summary');summary.textContent=`${h.name} · ${h.address}`;details.append(summary);
+  for(const r of p.residents.filter(x=>x.householdId===h.id)){
+   const a=routine(r,minute),line=document.createElement('p');
+   line.textContent=`${r.name} · resident ${r.id} · age ${Math.floor(r.ageMonths/12)} · ${r.occupation}${!['Young child','Pupil','Retired'].includes(r.occupation)?` (${r.workplace})`:''} · ${a.activity}, ${a.place}`;details.append(line);
+  }root.append(details);
+ }
+}
+function changeHouseholdPage(delta){householdPage=Math.max(0,householdPage+delta);renderPopulation()}
+
+
+function advance(n){
+ if(!Number.isInteger(n)||n<1||n>12)return;
+ catchUp();simulateDays(n*DAYS_PER_MONTH);
+ addEvent('Manual advance: '+n+' month'+(n===1?'':'s')+'. Daily routines condensed; economy and population fully advanced.');
+ populationRenderKey='';world.lastUpdated=Date.now();persist();render();
+}
 function buildFarm(){catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
-function togglePause(){catchUp();world.paused=!world.paused;world.lastUpdated=Date.now();world.lastUKDay=ukDayNumber();persist();render()}
-function exportSave(){catchUp();const blob=new Blob([JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(![1,2,3,4,5,6,7].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Array.isArray(data.events))throw Error('Invalid save');world=data;if(world.version===1)world={...world,version:2,day:1,paused:false,lastUpdated:Date.now()};if(!world.timber)world.timber=initialTimber();migrateOrders();world.version=7;if(!Number.isFinite(world.day)||world.day<1||world.day>30)world.day=1;if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();world.paused=!!world.paused;if(!Number.isFinite(world.lastUKDay)){const elapsed=Math.max(0,Date.now()-world.lastUpdated);if(!world.paused)simulateDays(Math.floor(elapsed/DAY));world.lastUKDay=ukDayNumber();world.version=7}migrateFood();catchUp();persist();render()}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
-function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){world=initial();world.timber=initialTimber();migrateFood();persist();render()}}
+function togglePause(){
+ catchUp();world.paused=!world.paused;world.lastUpdated=Date.now();world.lastUKDay=ukDayNumber();world.livingClock.cursor=civilMinute();
+ if(!world.paused)world.livingClock.minute=clockMinute();
+ addEvent(world.paused?'World paused.':'World resumed; paused time skipped.');persist();render();
+}
+function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?localStorage.getItem(KEY):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function validateSave(data){
+ if(!data||![1,2,3,4,5,6,7,8].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(data.timber){
+  const t=data.timber, sample=initialTimber();
+  const check=(record,template)=>{if(!record)throw Error('Incomplete timber save');for(const [key,value] of Object.entries(template)){if(typeof value==='number'&&!Number.isFinite(record[key]))throw Error('Invalid timber '+key);if(typeof value==='string'&&typeof record[key]!=='string')throw Error('Invalid timber '+key)}};
+  if(!Array.isArray(t.businesses)||t.businesses.length!==2||!Array.isArray(t.mills)||t.mills.length!==2||!Number.isSafeInteger(t.elapsed)||t.elapsed<0||!Number.isFinite(t.municipalReserve)||!t.prices||!Number.isFinite(t.prices.fire)||!Number.isFinite(t.prices.construction))throw Error('Invalid timber data');
+  t.businesses.forEach((b,i)=>{check(b,sample.businesses[i]);if(b.id!==sample.businesses[i].id||!Array.isArray(b.batches)||!b.batches.every(x=>Number.isFinite(x.tonnes)&&Number.isFinite(x.readyAt)))throw Error('Invalid timber batches')});
+  t.mills.forEach((m,i)=>check(m,sample.mills[i]));
+  if(t.orders&&!t.orders.every(o=>['oak','green'].includes(o.business)&&['fire','construction'].includes(o.product)&&typeof o.customer==='string'&&Number.isFinite(o.remaining)&&Number.isFinite(o.placedDay)))throw Error('Invalid timber orders');
+  const rows=(list,fields,size)=>Array.isArray(list)&&(size===undefined||list.length===size)&&list.every(row=>row&&fields.every(k=>Number.isFinite(row[k])));
+  if(t.ledger&&(!Array.isArray(t.ledger)||!t.ledger.every(e=>e&&Number.isFinite(e.month)&&rows(e.businesses,['fire','construction','income','cost','closingCash'])&&rows(e.mills,['logs','income','cost','days'])&&e.businesses.concat(e.mills).every(row=>typeof row.name==='string'))))throw Error('Invalid timber ledger');
+  if(t.monthStart&&(!rows(t.monthStart.businesses,['revenue','expenses','soldFire','soldConstruction','ready','seasoning'],2)||!rows(t.monthStart.mills,['processed','revenue','expenses','days'],2)))throw Error('Invalid timber month snapshot');
+ }
+ if(data.population){
+  const p=data.population,c=data.livingClock;
+  if(p.schema!==1||!Array.isArray(p.residents)||p.residents.length!==data.pop||!Array.isArray(p.households)||!Number.isSafeInteger(p.nextResidentId)||!Number.isSafeInteger(p.nextHouseholdId)||!Number.isSafeInteger(p.revision))throw Error('Invalid population');
+  const homes=new Set(p.households.map(h=>h.id)),ids=new Set(p.residents.map(r=>r.id));
+  if(homes.size!==p.households.length||ids.size!==p.residents.length||!p.households.every(h=>Number.isSafeInteger(h.id)&&h.id>0&&h.id<p.nextHouseholdId&&['name','surname','address'].every(k=>typeof h[k]==='string'))||!p.residents.every(r=>Number.isSafeInteger(r.id)&&r.id>0&&r.id<p.nextResidentId&&homes.has(r.householdId)&&Number.isSafeInteger(r.ageMonths)&&r.ageMonths>=0&&['name','occupation','workplace'].every(k=>typeof r[k]==='string')))throw Error('Invalid resident or household');
+  if(!c||!Number.isSafeInteger(c.cursor)||!Number.isInteger(c.minute)||c.minute<0||c.minute>=1440)throw Error('Invalid living clock');
+ }
+}
+function migrateWorld(){
+ if(world.version===1){world.day=1;world.paused=false;world.lastUpdated=Date.now()}
+ if(!world.timber)world.timber=initialTimber();
+ if(!Array.isArray(world.timber.ledger))world.timber.ledger=[];
+ migrateOrders();
+ if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();
+ if(!Number.isInteger(world.day)||world.day<1||world.day>30)world.day=1;
+ world.paused=!!world.paused;
+ if(!Number.isFinite(world.lastUKDay)){
+  if(!world.paused)simulateDays(Math.floor(Math.max(0,Date.now()-world.lastUpdated)/DAY));
+  world.lastUKDay=ukDayNumber();
+ }
+ migrateFood();migratePopulation();world.version=8;
+ world.events=world.events.slice(0,150);
+}
+function importWorld(data){
+ validateSave(data);
+ const previous=world;
+ try{world=JSON.parse(JSON.stringify(data));migrateWorld();catchUp()}
+ catch(err){world=previous;eventContext=null;throw err}
+ loadFailed=false;householdPage=0;populationRenderKey='';lastLedgerRenderKey=null;persist();render();
+}
+$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{importWorld(JSON.parse(await f.text()))}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
+function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;world=initial();migrateWorld();householdPage=0;populationRenderKey='';lastLedgerRenderKey=null;persist();render()}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
-migrateFood();catchUp();persist();render();
-window.addEventListener('focus',()=>{catchUp();render()});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){catchUp();render()}});
-setInterval(()=>{if(!document.hidden){catchUp();render()}},1000);
+function start(){
+ try{const saved=localStorage.getItem(KEY);world=saved?JSON.parse(saved):initial();validateSave(world);migrateWorld();catchUp();persist();render()}
+ catch(err){loadFailed=true;$('saveStatus').textContent='Save could not be loaded: '+err.message+'. Export save can download the stored data before resetting.';}
+ window.addEventListener('focus',()=>{if(!loadFailed){catchUp();render()}});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!loadFailed){catchUp();render()}});
+ setInterval(()=>{if(!document.hidden&&!loadFailed){catchUp();render()}},1000);
+}
+start();
