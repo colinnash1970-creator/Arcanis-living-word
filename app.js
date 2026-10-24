@@ -4,14 +4,15 @@ const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:
 const ukParts=()=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,Number(x.value)]));
 const ukDayNumber=()=>{const p=ukParts();return Math.floor(Date.UTC(p.year,p.month-1,p.day)/DAY)};
 const ukTime=()=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date());
-const initial=()=>({version:6,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:false,lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
+const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:false,lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
 let world;
 try {world=JSON.parse(localStorage.getItem(KEY))||initial()}catch {world=initial()}
 // Migrate v1 without resetting existing saves. The real-time clock begins on first v1.1 opening.
 if(world.version===1){world={...world,version:2,day:1,paused:false,lastUpdated:Date.now()}}
 if(!world.timber)world.timber=initialTimber();
 if(!Array.isArray(world.timber.ledger))world.timber.ledger=[];
-world.version=6;
+migrateOrders();
+world.version=7;
 if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();
 if(!Number.isFinite(world.day)||world.day<1||world.day>30)world.day=1;
 if(typeof world.paused!=='boolean')world.paused=false;
@@ -36,7 +37,50 @@ function initialTimber(){
   business('green','The Greenwood Cutters',120,400,75,150,300,100,3,2,48,15,6,10,5,40)
  ],mills:[{name:'Water-powered sawmill',cash:0,processed:0,revenue:0,expenses:0,rate:.332,capacity:5,workers:3,maintenance:20,tools:10,operatingDays:0},
  {name:'Manual sawmill',cash:0,processed:0,revenue:0,expenses:0,rate:.658,capacity:2,workers:2,maintenance:10,tools:8,operatingDays:0}],
- municipalReserve:30,notes:'Provisional rates and batch dates; generated outcomes are not canon.'};
+ orders:[],nextOrderId:1,fulfilledOrders:0,unfilledTonnes:0,municipalReserve:30,notes:'Provisional rates and batch dates; generated outcomes are not canon.'};
+}
+// v1.6: finite, identifiable demand requests. Orders are simulated, not canon.
+function migrateOrders(){
+ if(!world.timber)return;
+ const t=world.timber;
+ if(!Array.isArray(t.orders))t.orders=[];
+ if(!Number.isFinite(t.nextOrderId))t.nextOrderId=1;
+ if(!Number.isFinite(t.fulfilledOrders))t.fulfilledOrders=0;
+ if(!Number.isFinite(t.unfilledTonnes))t.unfilledTonnes=0;
+}
+function orderDemand(day){
+ const t=world.timber;
+ const season=Math.floor(((day-1)%360)/90);
+ const fireFactors=[1.15,.75,.85,1.4]; // seasonal household heating demand
+ const constructionFactors=[.75,1.3,1.2,.65];
+ const orders=[];
+ for(const b of t.businesses){
+  const seed=b.id==='oak'?0:11;
+  // Repeatable daily variation; no dependence on device random state.
+  const variation=.8+((day*17+seed*7)%11)/25;
+  const fire=(b.fireAnnual/360)*fireFactors[season]*variation;
+  const construction=(b.buildAnnual/360)*constructionFactors[season]*(1.05-((day*7+seed)%7)/30);
+  orders.push({business:b.id,product:'fire',customer:season===3?'Household winter fuel':'Household and inn fuel',tonnes:fire});
+  orders.push({business:b.id,product:'construction',customer:'Builders and farm repairs',tonnes:construction});
+ }
+ for(const o of orders){
+  // Merge outstanding requests from the same category to avoid enormous saves.
+  const prior=t.orders.find(x=>x.business===o.business&&x.product===o.product&&x.customer===o.customer);
+  if(prior)prior.remaining+=o.tonnes;
+  else t.orders.push({id:t.nextOrderId++,placedDay:day,...o,remaining:o.tonnes});
+ }
+}
+function fulfillOrders(b){
+ const t=world.timber;
+ for(const order of t.orders.filter(o=>o.business===b.id).sort((a,z)=>a.placedDay-z.placedDay)){
+  const key=order.product==='fire'?'ready':'construction';
+  const sold=timberSell(b,key,order.remaining,t.prices[order.product]);
+  order.remaining=Math.max(0,order.remaining-sold);
+  if(order.product==='fire')b.soldFire+=sold;else b.soldConstruction+=sold;
+  if(order.remaining<1e-7){t.fulfilledOrders++;order.remaining=0;}
+ }
+ t.orders=t.orders.filter(o=>o.remaining>1e-7);
+ t.unfilledTonnes=t.orders.reduce((sum,o)=>sum+o.remaining,0);
 }
 function timberStock(b){return b.ready+b.construction+b.rawLogs+b.batches.reduce((a,x)=>a+x.tonnes,0)}
 function timberSpend(b,gp){b.cash-=gp;b.expenses+=gp}
@@ -45,6 +89,7 @@ function simulateTimberDay(){
  const t=world.timber;t.elapsed++;
  if(!Array.isArray(t.ledger))t.ledger=[];
  if(!t.monthStart)t.monthStart=timberSnapshot();
+ orderDemand(t.elapsed);
  const day=t.elapsed, monthInYear=Math.floor((day-1)%360/30), seasonal=monthInYear>=4&&monthInYear<7;
  for(const b of t.businesses){
   // Paid staff: 312 permanent paid days/year and 72 seasonal days/year.
@@ -88,10 +133,8 @@ function simulateTimberDay(){
   }
   // Batch maturity: wood never becomes saleable before its ready date.
   let matured=0;b.batches=b.batches.filter(x=>{if(x.readyAt<=day){matured+=x.tonnes;return false}return true});b.ready+=matured;
-  // Evenly distributed orders are a test assumption, not simulated household demand.
-  const fireSold=timberSell(b,'ready',b.fireAnnual/360,t.prices.fire);
-  const constructionSold=timberSell(b,'construction',b.buildAnnual/360,t.prices.construction);
-  b.soldFire+=fireSold;b.soldConstruction+=constructionSold;
+  // Only fulfill recorded customer requests, oldest first; unavailable wood stays backordered.
+  fulfillOrders(b);
   // Transport budget and other fixed costs accrued daily; woodland licence is not a town Treasury transfer.
   timberSpend(b,(b.horseCost+b.licence+b.nursery+b.yard+b.tools+b.haulAnnual)/360);
   if(day%30===0){
@@ -118,7 +161,8 @@ function recordTimberMonth(){
  const month=Math.ceil(t.elapsed/30);
  const businesses=t.businesses.map((b,i)=>{const a=start.businesses[i],z=end.businesses[i];return {name:b.name,fire:z.soldFire-a.soldFire,construction:z.soldConstruction-a.soldConstruction,income:z.revenue-a.revenue,cost:z.expenses-a.expenses,closingCash:b.cash,ready:b.ready,seasoning:z.seasoning};});
  const mills=t.mills.map((m,i)=>{const a=start.mills[i],z=end.mills[i];return {name:m.name,logs:z.processed-a.processed,income:z.revenue-a.revenue,cost:z.expenses-a.expenses,days:z.days-a.days};});
- t.ledger.unshift({month,businesses,mills});t.ledger=t.ledger.slice(0,24);t.monthStart=end;
+ const outstanding=t.orders.reduce((sum,o)=>sum+o.remaining,0);
+ t.ledger.unshift({month,businesses,mills,outstanding,openOrders:t.orders.length});t.ledger=t.ledger.slice(0,24);t.monthStart=end;
  for(const b of businesses){
   addEvent(`Timber month ${month}: ${b.name} sold ${b.fire.toFixed(1)} t firewood and ${b.construction.toFixed(1)} t construction; income ${b.income.toFixed(1)} gp, expenses ${b.cost.toFixed(1)} gp.`);
   if(b.ready<1)addEvent(`${b.name}: seasoned firewood depleted; future orders may go unfilled.`);
@@ -135,6 +179,7 @@ function renderTimberLedger(){
   const summary=document.createElement('summary');summary.textContent=`Month ${entry.month} · business transactions`;details.append(summary);
   for(const b of entry.businesses){const p=document.createElement('p');p.textContent=`${b.name}: ${b.fire.toFixed(1)} t firewood + ${b.construction.toFixed(1)} t construction sold; income ${b.income.toFixed(1)} gp; expenses ${b.cost.toFixed(1)} gp; net ${(b.income-b.cost).toFixed(1)} gp; cash ${b.closingCash.toFixed(1)} gp.`;details.append(p)}
   for(const m of entry.mills){const p=document.createElement('p');p.textContent=`${m.name}: ${m.logs.toFixed(1)} t processed; fees ${m.income.toFixed(1)} gp; expenses ${m.cost.toFixed(1)} gp; ${m.days} paid days.`;details.append(p)}
+  if(Number.isFinite(entry.outstanding)){const p=document.createElement('p');p.textContent=`Outstanding customer requests: ${entry.outstanding.toFixed(1)} t across ${entry.openOrders} order groups.`;details.append(p)}
   root.append(details);
  }
 }
@@ -154,6 +199,7 @@ function renderTimber(){
  for(const m of t.mills){const li=document.createElement('li');li.textContent=`${m.name}: ${ton(m.processed)} processed · ${gp(m.revenue-m.expenses)} operating result · ${m.operatingDays} paid operating days`;mills.append(li)}
  $('timberDays').textContent=t.elapsed.toLocaleString('en-GB');
  $('timberReserve').textContent=ton(t.municipalReserve);
+ const orderStats=$('timberOrders');if(orderStats){orderStats.textContent=`${t.orders.length} outstanding order groups · ${t.unfilledTonnes.toFixed(1)} tonnes awaiting stock · ${t.fulfilledOrders} fulfilled order groups`; }
  renderTimberLedger();
 }
 
@@ -233,7 +279,7 @@ function advance(n){catchUp();simulateDays(n*DAYS_PER_MONTH);world.lastUpdated=D
 function buildFarm(){catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
 function togglePause(){catchUp();world.paused=!world.paused;world.lastUpdated=Date.now();world.lastUKDay=ukDayNumber();persist();render()}
 function exportSave(){catchUp();const blob=new Blob([JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(![1,2,3,4,5,6].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Array.isArray(data.events))throw Error('Invalid save');world=data;if(world.version===1)world={...world,version:2,day:1,paused:false,lastUpdated:Date.now()};if(!world.timber)world.timber=initialTimber();world.version=6;if(!Number.isFinite(world.day)||world.day<1||world.day>30)world.day=1;if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();world.paused=!!world.paused;if(!Number.isFinite(world.lastUKDay)){const elapsed=Math.max(0,Date.now()-world.lastUpdated);if(!world.paused)simulateDays(Math.floor(elapsed/DAY));world.lastUKDay=ukDayNumber();world.version=6}migrateFood();catchUp();persist();render()}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
+$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(![1,2,3,4,5,6,7].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Array.isArray(data.events))throw Error('Invalid save');world=data;if(world.version===1)world={...world,version:2,day:1,paused:false,lastUpdated:Date.now()};if(!world.timber)world.timber=initialTimber();migrateOrders();world.version=7;if(!Number.isFinite(world.day)||world.day<1||world.day>30)world.day=1;if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();world.paused=!!world.paused;if(!Number.isFinite(world.lastUKDay)){const elapsed=Math.max(0,Date.now()-world.lastUpdated);if(!world.paused)simulateDays(Math.floor(elapsed/DAY));world.lastUKDay=ukDayNumber();world.version=7}migrateFood();catchUp();persist();render()}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
 function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){world=initial();world.timber=initialTimber();migrateFood();persist();render()}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 migrateFood();catchUp();persist();render();
