@@ -1,4 +1,4 @@
-const BUILD_ID='v1.7 · Living Population & Chronicle';
+const BUILD_ID='v1.7.1 · Living Population & Chronicle';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -291,13 +291,38 @@ function render(){
 // v1.7: saved identities; routines are derived, never a second economic engine.
 const GIVEN_NAMES=['Ada','Bren','Cora','Dain','Elin','Fenn','Gwen','Hale','Iris','Jory','Kara','Lorn','Mira','Nell','Orin','Perrin','Rhea','Seth','Tess','Ulric','Vera','Wren'];
 const FAMILY_NAMES=['Ash','Brook','Clay','Dale','Elm','Field','Grove','Hill','Ives','Keen','Lake','Moss','North','Oak','Pike','Reed','Stone','Thorn','Vale','Wood'];
+const FAMILY_ROOTS=['Alder','Amber','Apple','Ash','Aspen','Barley','Birch','Black','Bracken','Bramble','Briar','Bright','Cedar','Cherry','Clear','Copper','Crow','Dun','Elder','Ember','Fair','Fern','Flint','Fox','Glen','Gold','Green','Grey','Hawthorn','Hazel','Heather','Holly','Iron','Lark','Laurel','Maple','Mist','Moor','Oak','Pine','Raven','Red','River','Rowan','Silver','Sloe','Willow','Winter'];
+const FAMILY_ENDINGS=['bank','beck','bell','bourne','bridge','brook','by','cliff','combe','croft','dale','den','fall','fell','field','ford','gate','grove','hall','haven','hill','holt','hurst','ley','mere','mill','ridge','shaw','stead','stone','vale','wood'];
+function familySurname(id){
+ if(id<=FAMILY_NAMES.length)return FAMILY_NAMES[id-1];
+ let n=id-FAMILY_NAMES.length-1;const parts=[],size=FAMILY_ROOTS.length*FAMILY_ENDINGS.length;
+ do{const slot=((n%size)*137)%size;parts.push(FAMILY_ROOTS[Math.floor(slot/FAMILY_ENDINGS.length)]+FAMILY_ENDINGS[slot%FAMILY_ENDINGS.length]);n=Math.floor(n/size)-1}while(n>=0);
+ return parts.join('-');
+}
+function availableSurname(id,p){
+ const used=new Set(p.households.map(h=>h.surname));let candidate;
+ do{candidate=familySurname(id++)}while(used.has(candidate));return candidate;
+}
+function migrateHouseholdNames(p){
+ if(p.namingVersion===2)return;
+ const residentsByHome=new Map();
+ for(const r of p.residents){if(!residentsByHome.has(r.householdId))residentsByHome.set(r.householdId,[]);residentsByHome.get(r.householdId).push(r)}
+ for(const h of p.households){
+  const old=FAMILY_NAMES[(h.id-1)%FAMILY_NAMES.length];
+  // Correct only the repeated default labels, leaving custom names untouched.
+  if(h.id<=FAMILY_NAMES.length||h.surname!==old||h.name!==`${old} household ${h.id}`)continue;
+  h.surname=availableSurname(h.id,p);h.name=`${h.surname} household ${h.id}`;
+  for(const r of residentsByHome.get(h.id)||[])if(r.name.endsWith(' '+old))r.name=r.name.slice(0,-old.length)+h.surname;
+ }
+ p.namingVersion=2;p.revision++;
+}
 let eventContext=null, householdPage=0, populationRenderKey='';
 const worldDay=()=>world.month*30+world.day-1;
 function clockMinute(){const [h,m]=ukTime().split(':').map(Number);return h*60+m}
 function civilMinute(){return ukDayNumber()*1440+clockMinute()}
 function stamp(day,minute){return `${793+Math.floor(day/360)} A.F. · M${Math.floor(day%360/30)+1} D${day%30+1} · ${String(Math.floor(minute/60)).padStart(2,'0')}:${String(minute%60).padStart(2,'0')}`}
 function newHousehold(p){
- const id=p.nextHouseholdId++, surname=FAMILY_NAMES[(id-1)%FAMILY_NAMES.length];
+ const id=p.nextHouseholdId++, surname=availableSurname(id,p);
  const h={id,name:`${surname} household ${id}`,surname,address:`${1+Math.floor((id-1)/4)} ${['Mill Lane','Market Street','Orchard Row','West Fields'][(id-1)%4]}`};
  p.households.push(h);return h;
 }
@@ -318,8 +343,8 @@ function assignOccupation(r,p){
  [r.occupation,r.workplace]=jobs[r.id%jobs.length];
 }
 function migratePopulation(){
- if(world.population)return;
- const p=world.population={schema:1,nextResidentId:1,nextHouseholdId:1,households:[],residents:[],revision:0};
+ if(world.population){migrateHouseholdNames(world.population);return}
+ const p=world.population={schema:1,namingVersion:2,nextResidentId:1,nextHouseholdId:1,households:[],residents:[],revision:0};
  // Seed once: existing population total is authoritative, including tiny/empty saves.
  while(p.residents.length<world.pop){
   const h=newHousehold(p), size=Math.min(3+(h.id%3),world.pop-p.residents.length);
