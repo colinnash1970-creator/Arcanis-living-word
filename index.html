@@ -23,7 +23,7 @@
 </head>
 <body><main>
   <header class="masthead">
-    <div><small>ARCANUS · KIELINSTRIA · AEGISWATCH</small><h1>Kaddinghall</h1><p class="muted">Your living town · Experimental v1.8.1</p></div>
+    <div><small>ARCANUS · KIELINSTRIA · AEGISWATCH</small><h1>Kaddinghall</h1><p class="muted">Your living town · Experimental v1.8.2</p></div>
     <p id="buildStatus" class="muted build-label">Checking running JavaScript version…</p>
   </header>
   <div class="sticky-shell">
@@ -62,7 +62,7 @@
     <div class="population-grid">
       <section class="panel"><h3>Household wellbeing</h3><div class="stats"><div>Average wellbeing<strong id="householdWellbeing"></strong></div><div>Settled households<strong id="householdSettled"></strong></div><div>Struggling households<strong id="householdStruggling"></strong></div><div>Care pressure<strong id="householdCare"></strong></div></div><p id="needsSummary"></p>
         <details class="help"><summary>Occupations across town</summary><p id="occupations" class="muted"></p></details>
-        <details class="help"><summary>What shapes wellbeing?</summary><p class="muted">Food and warmth outlooks reflect town reserves and market firewood, not individual purchases. Care pressure reflects residents’ ages. Wellbeing changes daily and recovers gradually. Settled: 65–100 · Under strain: 35–64 · Struggling: 0–34.</p><p class="muted">Children under six need more care; residents aged 75 and over need support. These provisional simulation assumptions add no consumption, charges or extra deaths.</p><p id="needsBasis" class="muted"></p></details>
+        <details class="help"><summary>What shapes wellbeing?</summary><p class="muted">Food and warmth outlooks reflect town reserves and market firewood, not individual purchases. Care pressure reflects residents’ ages. Low reserve warnings carry mild penalties; serious shortage risk carries more weight. Cold affects households with young children or older residents more strongly. Wellbeing changes daily and recovers gradually. Settled: 65–100 · Under strain: 35–64 · Struggling: 0–34.</p><p class="muted">Children under six need more care; residents aged 75 and over need support. These provisional simulation assumptions add no consumption, charges or extra deaths.</p><p id="needsBasis" class="muted"></p></details>
         <details class="help"><summary>About daily life</summary><p class="muted">Residents, households and occupations are saved. Routines follow UK time and freeze while paused. The seventh town day is a rest day with essential morning duties. Names and assignments are provisional; household scenes add no wages, food use or timber sales.</p></details>
       </section>
       <section class="panel"><div class="register-toolbar"><h3>Household register</h3><div><label for="householdFilter">Show </label><select id="householdFilter" onchange="filterHouseholds(this.value)"><option value="all">All households</option><option value="attention">Needs attention</option></select></div></div><p id="householdMatches" class="muted"></p><div id="households"></div><div class="household-controls"><button id="previousHouseholds" class="secondary" onclick="changeHouseholdPage(-1)">Previous</button><span id="householdPage"></span><button id="nextHouseholds" class="secondary" onclick="changeHouseholdPage(1)">Next</button></div></section>
@@ -78,6 +78,6 @@
   <section id="view-chronicle" class="view" role="tabpanel" aria-labelledby="tab-chronicle" tabindex="0" hidden>
     <h2>Chronicle</h2><section class="panel"><p class="muted">The latest 20 entries from Kaddinghall’s story.</p><details class="help"><summary>How events are recorded</summary><p class="muted">Arcanus dates and UK hours/minutes. Hourly entries mark changes in town activity; household scenes and wellbeing bulletins add detail. Quiet hours stay quiet. Up to 150 entries are saved; older routines are condensed during long absences.</p></details><ul id="log"></ul></section>
   </section>
-  <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.8.1</footer>
-</main><script src="app.js?v=181-page-layout"></script></body>
+  <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.8.2</footer>
+</main><script src="app.js?v=182-wellbeing-balance"></script></body>
 </html>

@@ -1,4 +1,4 @@
-const BUILD_ID='v1.8.1 · Town Layout';
+const BUILD_ID='v1.8.2 · Household Wellbeing Balance';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -467,7 +467,12 @@ function householdOutlook(members,supplies){
  const warningBuffer=supplies.coldSeason?(vulnerable?14:7):3;
  const warmth=supplies.coldSeason&&supplies.backlogDays>=3?2:supplies.backlogDays>0||supplies.fuelDays<warningBuffer?1:0;
  const care=careLoad===0?0:adults===0?2:careLoad>adults*2?1:0;
- const target=Math.max(10,85-food*22-warmth*15-care*12);
+ // A reserve warning is not deprivation. The old flat penalties pushed every
+ // household below 'Settled' for a routine, just-under-two-month food buffer.
+ // Cold exposure matters more where young children or older residents live.
+ const foodPressure=[0,5,35][food];
+ const warmthPressure=warmth===2?(vulnerable?25:12):warmth===1?(vulnerable?5:2):0;
+ const target=Math.max(10,85-foodPressure-warmthPressure-care*12);
  return {food,warmth,care,target};
 }
 function residentGroups(){
