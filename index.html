@@ -24,13 +24,13 @@
 </head>
 <body><main>
   <header class="masthead">
-    <div><small>ARCANUS · KIELINSTRIA · AEGISWATCH</small><h1>Kaddinghall</h1><p class="muted">Your living town · Experimental v1.9.1</p></div>
+    <div><small>ARCANUS · KIELINSTRIA · AEGISWATCH</small><h1>Kaddinghall</h1><p class="muted">Your living town · Experimental v1.9.2</p></div>
     <p id="buildStatus" class="muted build-label">Checking running JavaScript version…</p>
   </header>
   <div class="sticky-shell">
     <div class="clockbar">
       <div class="clock-details"><p id="liveTime" aria-live="off">--:--:--</p><div><p id="date"></p><p id="clockStatus"></p></div></div>
-      <div class="clock-actions"><button id="pauseButton" class="secondary" onclick="togglePause()">Pause world</button><button class="secondary" onclick="openWorldControls()" aria-controls="worldControls">Controls</button></div>
+      <div class="clock-actions"><button id="pauseButton" class="secondary" data-world-action onclick="togglePause()">Pause world</button><button class="secondary" onclick="openWorldControls()" aria-controls="worldControls">Controls</button></div>
     </div>
     <nav class="tabs" role="tablist" aria-label="Town sections">
       <button role="tab" id="tab-overview" aria-controls="view-overview" aria-selected="true">Overview</button>
@@ -42,7 +42,7 @@
   <details id="worldControls" class="panel world-controls">
     <summary>Time, building &amp; saves</summary>
     <div class="control-grid">
-      <div><h3>Advance the world</h3><div class="button-row"><button onclick="advance(1)">+1 Month</button><button onclick="advance(12)">+1 Year</button></div><p class="muted help">Manual advances also work while paused.</p><h3>Build</h3><button onclick="buildFarm()">Farm · 150 coins</button></div>
+      <div><h3>Advance the world</h3><div class="button-row"><button data-world-action onclick="advance(1)">+1 Month</button><button data-world-action onclick="advance(12)">+1 Year</button></div><p class="muted help">Manual advances also work while paused.</p><h3>Build</h3><button data-world-action onclick="buildFarm()">Farm · 150 coins</button></div>
       <div><h3>World save</h3><div class="button-row"><button class="secondary" onclick="exportSave()">Export save</button><button class="secondary" onclick="document.getElementById('file').click()">Import save</button></div><input hidden type="file" id="file" accept="application/json,.json"><p id="saveStatus" class="muted" role="status"></p><details class="reset-control"><summary>Start over</summary><p class="muted">Export your save first if you want to keep this town.</p><button class="secondary" onclick="resetWorld()">Reset world</button></details></div>
     </div>
     <details class="help"><summary>How the clock works</summary><p id="nextDay" class="muted"></p><p class="muted">1 real second = 1 Arcanus second. Time follows the UK clock, including daylight saving. The date advances at UK midnight, with provisional 30-day months and monthly economy updates. Closing the app is fine: it catches up when you return. Pausing freezes routines and skips elapsed time on resume.</p></details>
@@ -51,7 +51,7 @@
   <section id="view-overview" class="view" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
     <h2>Town overview</h2>
     <div class="stats overview-stats"><div>Population<strong id="pop"></strong></div><div>Food stores<strong id="food"></strong></div><div>Treasury<strong id="gold"></strong></div><div>Farms<strong id="farms"></strong></div></div>
-    <div class="overview-grid">
+    <p id="treasuryStatus" class="muted"></p><div class="overview-grid">
       <section class="panel"><p class="eyebrow">Life in Kaddinghall</p><h3>Household wellbeing</h3><p id="overviewWellbeing" class="score"></p><p id="overviewNeeds" class="muted"></p><button class="secondary" onclick="showView('population')">Visit households</button></section>
       <section class="panel"><p class="eyebrow">Town supplies</p><h3>Food &amp; farming</h3><p id="foodStatus"></p><details class="help"><summary>About the food economy</summary><p class="muted">Seasonal harvests, Treasury-funded emergency imports and low-reserve warnings. One food unit per resident per month; yields and import costs are provisional.</p></details></section>
       <section class="panel wide"><div class="section-heading"><h3>Latest from the Chronicle</h3><button class="secondary" onclick="showView('chronicle')">Read Chronicle</button></div><ol id="recentEvents"></ol></section>
@@ -79,6 +79,7 @@
   <section id="view-chronicle" class="view" role="tabpanel" aria-labelledby="tab-chronicle" tabindex="0" hidden>
     <h2>Chronicle</h2><section class="panel"><p class="muted">The latest 20 entries from Kaddinghall’s story.</p><details class="help"><summary>How events are recorded</summary><p class="muted">Arcanus dates and UK hours/minutes. Hourly entries mark changes in town activity; household scenes and wellbeing bulletins add detail. Quiet hours stay quiet. Up to 150 entries are saved; older routines are condensed during long absences.</p></details><ul id="log"></ul></section>
   </section>
-  <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.9.1</footer>
-</main><script src="app.js?v=191-inn-staffing"></script></body>
+  <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.9.2</footer>
+</main><script src="app.js?v=192-save-recovery"></script></body>
 </html>
+

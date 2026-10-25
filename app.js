@@ -1,4 +1,4 @@
-const BUILD_ID='v1.9.1 · Inn Staffing Correction';
+const BUILD_ID='v1.9.2 · Save Recovery & Timber Repair';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -6,9 +6,10 @@ const ukParts=()=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'
 const ukDayNumber=()=>{const p=ukParts();return Math.floor(Date.UTC(p.year,p.month-1,p.day)/DAY)};
 const ukTime=()=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date());
 const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:false,lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
-let world, loadFailed=false;
+let world, loadFailed=false, saveTransaction=false, recoveryRaw=null;
 const $=id=>document.getElementById(id);
-function persist(){try{localStorage.setItem(KEY,JSON.stringify(world));$('saveStatus').textContent='Autosaved on this device.'}catch(err){$('saveStatus').textContent='Autosave failed. Export your save to keep your progress.'}}
+function persist(){if(loadFailed||saveTransaction)return;try{localStorage.setItem(KEY,JSON.stringify(world));$('saveStatus').textContent='Autosaved on this device.'}catch(err){$('saveStatus').textContent='Autosave failed. Export your save to keep your progress.'}}
+function updateRecoveryControls(){document.querySelectorAll('[data-world-action]').forEach(button=>button.disabled=loadFailed)}
 function addEvent(message){
  const at=eventContext||{day:worldDay(),minute:world.livingClock?.minute??clockMinute()};
  world.events.unshift('['+stamp(at.day,at.minute)+'] '+message);world.events=world.events.slice(0,150);
@@ -76,6 +77,20 @@ function fulfillOrders(b){
 function timberStock(b){return b.ready+b.construction+b.rawLogs+b.batches.reduce((a,x)=>a+x.tonnes,0)}
 function timberSpend(b,gp){b.cash-=gp;b.expenses+=gp}
 function timberSell(b,key,tonnes,price){const sold=Math.min(b[key],Math.max(0,tonnes));b[key]-=sold;b.cash+=sold*price;b.revenue+=sold*price;return sold}
+function millLogs(b,input,special=false){
+ const eligible=world.timber.mills.map((mill,index)=>({mill,index})).filter(x=>!special||x.index===1);
+ eligible.sort((a,c)=>a.mill.rate-c.mill.rate);
+ let remaining=input;
+ for(const {mill} of eligible){
+  const used=mill.todayProcessed||0,accepted=Math.min(remaining,Math.max(0,mill.capacity-used));
+  if(accepted<=0)continue;
+  const fee=accepted*mill.rate;
+  timberSpend(b,fee);mill.cash+=fee;mill.revenue+=fee;mill.processed+=accepted;
+  mill.todayProcessed=used+accepted;b.construction+=accepted*.9;remaining-=accepted;
+  if(remaining<1e-9)break;
+ }
+ return Math.max(0,remaining);
+}
 function simulateTimberDay(){
  const t=world.timber;t.elapsed++;
  if(!Array.isArray(t.ledger))t.ledger=[];
@@ -88,6 +103,9 @@ function simulateTimberDay(){
   if(working){
    const permanentWage=b.id==='oak'?1.6:1.0;
    timberSpend(b,permanentWage+(seasonal?b.seasonal*.3:0));
+   // Old saves do not distinguish ordinary and specialist raw logs. Use the
+   // manual mill conservatively: it can handle either type, at its actual fee.
+   if(b.rawLogs>0)b.rawLogs=millLogs(b,b.rawLogs,true);
    // Targets are annual green-input requirements; newly produced firewood matures after 360 days.
    const fireRaw=b.fireAnnual/.9/312, constructionRaw=b.buildAnnual/.9/312;
    const fireFinished=fireRaw*.9, constructionFinished=constructionRaw*.9;
@@ -96,7 +114,8 @@ function simulateTimberDay(){
    if(cutFire>0)b.batches.push({tonnes:cutFire,readyAt:day+360});
    // Construction timber uses sawmills, with limited daily throughput and real fees.
    const room=Math.max(0,b.capacity-timberStock(b));
-   const cutConstruction=Math.min(constructionFinished,room);
+   // Reserve space for raw input too, including input the mills cannot accept.
+   const cutConstruction=Math.min(constructionFinished,room*.9);
    if(cutConstruction>0){
     const input=cutConstruction/.9;
     // Provisional specialist-order share: 20% of construction logs require
@@ -104,19 +123,7 @@ function simulateTimberDay(){
     // the lower-priced available mill. No artificial profit guarantee.
     const portions=[{amount:input*.8,special:false},{amount:input*.2,special:true}];
     for(const part of portions){
-     const eligible=t.mills.map((mill,index)=>({mill,index})).filter(x=>!part.special||x.index===1);
-     eligible.sort((a,c)=>a.mill.rate-c.mill.rate);
-     let remaining=part.amount;
-     for(const {mill} of eligible){
-      const used=mill.todayProcessed||0;
-      const accepted=Math.min(remaining,Math.max(0,mill.capacity-used));
-      if(accepted<=0)continue;
-      const fee=accepted*mill.rate;
-      timberSpend(b,fee);mill.cash+=fee;mill.revenue+=fee;mill.processed+=accepted;
-      mill.todayProcessed=used+accepted;
-      b.construction+=accepted*.9;remaining-=accepted;
-      if(remaining<1e-9)break;
-     }
+     const remaining=millLogs(b,part.amount,part.special);
      // Any excess remains unprocessed; it does not become saleable timber.
      if(remaining>1e-8)b.rawLogs+=remaining;
     }
@@ -255,6 +262,7 @@ function simulateDays(days,logNeeds=true){
  }
 }
 function catchUp(){
+ if(loadFailed)return;
  const today=ukDayNumber(), minute=clockMinute(), current=today*1440+minute, c=world.livingClock;
  if(world.paused){
   const changed=c.cursor!==current||world.lastUKDay!==today;
@@ -281,6 +289,7 @@ function render(){
  $('liveTime').textContent=world.paused?String(Math.floor(world.livingClock.minute/60)).padStart(2,'0')+':'+String(world.livingClock.minute%60).padStart(2,'0')+' · paused':ukTime();
  $('date').textContent=`${793+Math.floor(world.month/12)} A.F. · Month ${world.month%12+1} · Day ${world.day}`;
  for(const id of ['pop','food','gold','farms'])$(id).textContent=world[id].toLocaleString('en-GB');
+ $('treasuryStatus').textContent=world.gold<0?'Treasury debt: '+Math.abs(world.gold).toLocaleString('en-GB')+' gp. Food imports and farm construction require available funds.':'Treasury funds available. Negative balances are retained as debt.';
  $('log').replaceChildren(...world.events.slice(0,20).map(e=>{const li=document.createElement('li');li.textContent=e;return li}));
  $('clockStatus').textContent=world.paused?'Paused — no time passes while away':'Running · 1 real day = 1 Arcanus day';
  $('pauseButton').textContent=world.paused?'Resume world':'Pause world';
@@ -724,21 +733,24 @@ function validateFamilies(p,data){
 
 
 function advance(n){
+ if(loadFailed)return;
  if(!Number.isInteger(n)||n<1||n>12)return;
  catchUp();simulateDays(n*DAYS_PER_MONTH,false);
  const outlook=needsSummary();
  addEvent('Manual advance: '+n+' month'+(n===1?'':'s')+'. Daily routines condensed; economy and population fully advanced. Household wellbeing: '+outlook.wellbeing+'/100 average; '+outlook.struggling+' struggling.');
  populationRenderKey='';world.lastUpdated=Date.now();persist();render();
 }
-function buildFarm(){catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
+function buildFarm(){if(loadFailed)return;catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
 function togglePause(){
+ if(loadFailed)return;
  catchUp();world.paused=!world.paused;world.lastUpdated=Date.now();world.lastUKDay=ukDayNumber();world.livingClock.cursor=civilMinute();
  if(!world.paused)world.livingClock.minute=clockMinute();
  addEvent(world.paused?'World paused.':'World resumed; paused time skipped.');persist();render();
 }
-function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?localStorage.getItem(KEY):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?(recoveryRaw??localStorage.getItem(KEY)??''):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=loadFailed?'kaddinghall-recovery.json':'kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function validateSave(data){
- if(!data||![1,2,3,4,5,6,7,8,9,10].includes(data.version)||!['month','pop','food','gold','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(!data||![1,2,3,4,5,6,7,8,9,10].includes(data.version)||!['month','pop','food','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Number.isFinite(data.gold)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(data.version>=8&&(!data.timber||!data.population||!Number.isSafeInteger(data.lastUKDay)||!Number.isFinite(data.lastUpdated)||typeof data.paused!=='boolean'||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Incomplete modern save or invalid clock');
  if(data.version>=9&&(!data.population||data.population.needsModel!==1))throw Error('Missing household needs');
  if(data.version===10&&(data.population.familyModel!==1||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Missing family data or invalid date');
  if(data.timber){
@@ -751,6 +763,30 @@ function validateSave(data){
   const rows=(list,fields,size)=>Array.isArray(list)&&(size===undefined||list.length===size)&&list.every(row=>row&&fields.every(k=>Number.isFinite(row[k])));
   if(t.ledger&&(!Array.isArray(t.ledger)||!t.ledger.every(e=>e&&Number.isFinite(e.month)&&rows(e.businesses,['fire','construction','income','cost','closingCash'])&&rows(e.mills,['logs','income','cost','days'])&&e.businesses.concat(e.mills).every(row=>typeof row.name==='string'))))throw Error('Invalid timber ledger');
   if(t.monthStart&&(!rows(t.monthStart.businesses,['revenue','expenses','soldFire','soldConstruction','ready','seasoning'],2)||!rows(t.monthStart.mills,['processed','revenue','expenses','days'],2)))throw Error('Invalid timber month snapshot');
+  const nonnegative=n=>Number.isFinite(n)&&n>=0;
+  const count=n=>Number.isSafeInteger(n)&&n>=0;
+  for(const b of t.businesses){
+   for(const [key,value] of Object.entries(sample.businesses[0]))if(typeof value==='number'&&key!=='cash'&&!nonnegative(b[key]))throw Error('Negative timber '+key);
+   if(!b.batches.every(x=>nonnegative(x.tonnes)&&count(x.readyAt)))throw Error('Invalid timber batch quantities');
+   if(!count(b.workers)||!count(b.seasonal))throw Error('Invalid timber staffing');
+  }
+  for(const m of t.mills){
+   for(const [key,value] of Object.entries(sample.mills[0]))if(typeof value==='number'&&key!=='cash'&&!nonnegative(m[key]))throw Error('Negative mill '+key);
+   if(m.capacity<=0||!count(m.workers)||!count(m.operatingDays)||(m.todayProcessed!==undefined&&(!nonnegative(m.todayProcessed)||m.todayProcessed>m.capacity+1e-8)))throw Error('Invalid mill capacity or operating days');
+  }
+  if(!nonnegative(t.prices.fire)||!nonnegative(t.prices.construction)||!nonnegative(t.municipalReserve))throw Error('Invalid timber prices or reserve');
+  if(data.version>=8&&(!Array.isArray(t.orders)||!Array.isArray(t.ledger)||!count(t.nextOrderId)||t.nextOrderId<1||!count(t.fulfilledOrders)||!nonnegative(t.unfilledTonnes)))throw Error('Incomplete timber accounting');
+  if(data.version>=8&&t.elapsed>0&&!t.monthStart)throw Error('Missing timber month snapshot');
+  if(t.orders){
+   if(!Array.isArray(t.orders)||new Set(t.orders.map(o=>o.id)).size!==t.orders.length||!t.orders.every(o=>count(o.id)&&o.id>0&&o.id<t.nextOrderId&&nonnegative(o.remaining)&&count(o.placedDay)&&o.placedDay<=t.elapsed&&nonnegative(o.tonnes)))throw Error('Invalid timber order quantities or identities');
+   const outstanding=t.orders.reduce((sum,o)=>sum+o.remaining,0);
+   if(Number.isFinite(t.unfilledTonnes)&&Math.abs(outstanding-t.unfilledTonnes)>1e-6*Math.max(1,outstanding))throw Error('Inconsistent timber orders');
+  }
+  if(t.ledger)for(const entry of t.ledger){
+   if(!count(entry.month)||entry.month<1||entry.month>Math.floor(t.elapsed/30)||!count(entry.openOrders)||!nonnegative(entry.outstanding)||entry.businesses.length!==2||entry.mills.length!==2)throw Error('Invalid timber ledger period');
+   if(!entry.businesses.every(row=>['fire','construction','income','cost','ready','seasoning'].every(k=>nonnegative(row[k])))||!entry.mills.every(row=>['logs','income','cost','days'].every(k=>nonnegative(row[k]))))throw Error('Invalid timber ledger quantities');
+  }
+  if(t.monthStart)for(const row of [...t.monthStart.businesses,...t.monthStart.mills])if(!Object.values(row).every(nonnegative))throw Error('Invalid timber snapshot quantities');
  }
  if(data.population){
   const p=data.population,c=data.livingClock;
@@ -779,17 +815,23 @@ function migrateWorld(){
 }
 function importWorld(data){
  validateSave(data);
- const previous=world;
- try{world=JSON.parse(JSON.stringify(data));migrateWorld();catchUp()}
- catch(err){world=previous;eventContext=null;throw err}
- loadFailed=false;householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;persist();render();
+ const previous=world,failed=loadFailed,raw=recoveryRaw;
+ saveTransaction=true;
+ try{world=JSON.parse(JSON.stringify(data));loadFailed=false;migrateWorld();catchUp();validateSave(world)}
+ catch(err){world=previous;loadFailed=failed;recoveryRaw=raw;eventContext=null;throw err}
+ finally{saveTransaction=false}
+ recoveryRaw=null;householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;updateRecoveryControls();persist();render();
 }
 $('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{importWorld(JSON.parse(await f.text()))}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
-function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;world=initial();migrateWorld();householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;persist();render()}}
+function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;recoveryRaw=null;world=initial();migrateWorld();householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;updateRecoveryControls();persist();render()}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 function start(){
- try{const saved=localStorage.getItem(KEY);world=saved?JSON.parse(saved):initial();validateSave(world);migrateWorld();catchUp();persist();render()}
- catch(err){loadFailed=true;$('saveStatus').textContent='Save could not be loaded: '+err.message+'. Export save can download the stored data before resetting.';}
+ $('buildStatus').textContent='Running '+BUILD_ID;
+ saveTransaction=true;
+ try{recoveryRaw=localStorage.getItem(KEY);world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();validateSave(world);migrateWorld();catchUp();validateSave(world)}
+ catch(err){loadFailed=true;$('worldControls').open=true;$('saveStatus').textContent='Save could not be loaded: '+err.message+'. Time and building controls are disabled. Export save preserves the original data; import a backup or reset to recover.';}
+ finally{saveTransaction=false;updateRecoveryControls()}
+ if(!loadFailed){recoveryRaw=null;persist();render()}
  window.addEventListener('focus',()=>{if(!loadFailed){catchUp();render()}});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!loadFailed){catchUp();render()}});
  setInterval(()=>{if(!document.hidden&&!loadFailed){catchUp();render()}},1000);
