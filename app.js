@@ -1,4 +1,4 @@
-const BUILD_ID='v1.9.2 · Save Recovery & Timber Repair';
+const BUILD_ID='v1.9.3 · The Town Inn';
 const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -13,6 +13,92 @@ function updateRecoveryControls(){document.querySelectorAll('[data-world-action]
 function addEvent(message){
  const at=eventContext||{day:worldDay(),minute:world.livingClock?.minute??clockMinute()};
  world.events.unshift('['+stamp(at.day,at.minute)+'] '+message);world.events=world.events.slice(0,150);
+}
+
+// v1.9.3: provisional private inn accounts, never a second town resource charge.
+// Money is stored in copper pieces (100 cp = 1 gp), avoiding rounding drift.
+const INN_TERMS=Object.freeze({visitCp:15,suppliesCp:4,wageCp:30,overheadCp:20,visitsPerWorker:6});
+function innWorkers(){return world.population.residents.filter(r=>r.occupation==='Inn worker'&&r.workplace==='The town inn'&&r.ageMonths>=192&&r.ageMonths<780).sort((a,b)=>a.id-b.id).slice(0,INN_STAFF_LIMIT)}
+function syncInnRoster(){
+ if(!world.inn)return;
+ const workers=innWorkers();world.inn.staffIds=workers.map(r=>r.id);
+ if(!workers.some(r=>r.id===world.inn.ownerId&&r.ageMonths>=216))world.inn.ownerId=workers.find(r=>r.ageMonths>=216)?.id??null;
+}
+function innPeriod(day,cash){return {month:Math.floor(day/30)+1,firstDay:day+1,lastDay:day,days:0,demand:0,served:0,capacity:0,staffDays:0,revenueCp:0,suppliesCp:0,wagesCp:0,overheadCp:0,openingCashCp:cash,closingCashCp:cash}}
+function migrateInn(){
+ // Called after legacy catch-up, so the new business never backdates trading.
+ if(!world.inn){
+  const day=worldDay();
+  world.inn={model:1,name:'The town inn',openedDay:day,lastDay:day,ownerId:null,staffIds:[],cashCp:0,revenueCp:0,suppliesCp:0,wagesCp:0,overheadCp:0,demand:0,served:0,current:innPeriod(day,0),ledger:[]};
+ }
+ syncInnRoster();world.version=11;
+}
+function innDemand(day){
+ if(!world.pop)return 0;
+ const homes=world.population.households;
+ const wellbeing=homes.length?homes.reduce((sum,h)=>sum+(h.needs?.wellbeing??70),0)/homes.length:70;
+ const season=[.85,1,1.15,1][Math.floor(((day-1)%360)/90)];
+ const rest=(day-1)%7===6?1.2:1;
+ return Math.max(0,Math.round(world.pop*.012*season*rest*(.6+wellbeing/200)));
+}
+function simulateInnDay(day){
+ const inn=world.inn;if(!inn||day<=inn.lastDay)return;
+ if(day!==inn.lastDay+1)throw Error('Inn clock is out of step');
+ syncInnRoster();
+ const staff=inn.ownerId===null?0:inn.staffIds.length;
+ const demand=innDemand(day),capacity=staff*INN_TERMS.visitsPerWorker,served=Math.min(demand,capacity);
+ const revenueCp=served*INN_TERMS.visitCp,suppliesCp=served*INN_TERMS.suppliesCp,wagesCp=staff*INN_TERMS.wageCp,overheadCp=INN_TERMS.overheadCp;
+ const row=inn.current;
+ row.lastDay=day;row.days++;row.staffDays+=staff;row.capacity+=capacity;
+ for(const [key,value] of Object.entries({demand,served,revenueCp,suppliesCp,wagesCp,overheadCp})){inn[key]+=value;row[key]+=value}
+ inn.cashCp+=revenueCp-suppliesCp-wagesCp-overheadCp;row.closingCashCp=inn.cashCp;inn.lastDay=day;
+ if(day%30===0){
+  inn.ledger.unshift({...row});inn.ledger=inn.ledger.slice(0,24);
+  const result=row.revenueCp-row.suppliesCp-row.wagesCp-row.overheadCp;
+  addEvent(`The town inn (provisional), month ${row.month}: ${row.served} visits served, ${row.demand-row.served} turned away; operating result ${(result/100).toFixed(2)} gp; private cash ${(inn.cashCp/100).toFixed(2)} gp${inn.cashCp<0?' (debt)':''}.`);
+  inn.current=innPeriod(day,inn.cashCp);
+ }
+}
+function validateInn(data){
+ const inn=data.inn;if(!inn)throw Error('Missing inn accounts');
+ const count=n=>Number.isSafeInteger(n)&&n>=0,money=n=>Number.isSafeInteger(n);
+ const day=data.month*30+data.day-1,totals=['demand','served','revenueCp','suppliesCp','wagesCp','overheadCp'];
+ if(inn.model!==1||inn.name!=='The town inn'||!count(inn.openedDay)||inn.openedDay>day||inn.lastDay!==day||!money(inn.cashCp)||!totals.every(k=>count(inn[k]))||!Array.isArray(inn.ledger)||inn.ledger.length>24)throw Error('Invalid inn accounts');
+ const expected=data.population.residents.filter(r=>r.occupation==='Inn worker'&&r.workplace==='The town inn'&&r.ageMonths>=192&&r.ageMonths<780).sort((a,b)=>a.id-b.id).slice(0,INN_STAFF_LIMIT);
+ if(!Array.isArray(inn.staffIds)||JSON.stringify(inn.staffIds)!==JSON.stringify(expected.map(r=>r.id)))throw Error('Invalid inn staffing');
+ if(inn.ownerId===null?expected.some(r=>r.ageMonths>=216):!expected.some(r=>r.id===inn.ownerId&&r.ageMonths>=216))throw Error('Invalid inn proprietor');
+ const check=row=>{
+  if(!row||!['month','firstDay','lastDay','days','capacity','staffDays',...totals].every(k=>count(row[k]))||!money(row.openingCashCp)||!money(row.closingCashCp)||row.days>30||row.firstDay!==row.lastDay-row.days+1||row.month!==Math.floor((row.firstDay-1)/30)+1||row.lastDay>row.month*30||row.firstDay<=inn.openedDay||row.lastDay>day||row.served>row.demand||row.served>row.capacity||row.staffDays>row.days*INN_STAFF_LIMIT)throw Error('Invalid inn ledger period');
+  if(row.capacity!==row.staffDays*INN_TERMS.visitsPerWorker||row.revenueCp!==row.served*INN_TERMS.visitCp||row.suppliesCp!==row.served*INN_TERMS.suppliesCp||row.wagesCp!==row.staffDays*INN_TERMS.wageCp||row.overheadCp!==row.days*INN_TERMS.overheadCp||row.closingCashCp!==row.openingCashCp+row.revenueCp-row.suppliesCp-row.wagesCp-row.overheadCp)throw Error('Inconsistent inn ledger');
+ };
+ check(inn.current);
+ if(inn.current.lastDay!==day||inn.current.month!==Math.floor(day/30)+1||inn.current.closingCashCp!==inn.cashCp)throw Error('Invalid current inn period');
+ let next=inn.current;
+ for(const row of inn.ledger){check(row);if(row.days===0||row.lastDay!==row.month*30||row.lastDay+1!==next.firstDay||row.closingCashCp!==next.openingCashCp)throw Error('Broken inn ledger history');next=row}
+ const expectedRows=Math.min(24,Math.floor(day/30)-Math.floor(inn.openedDay/30));
+ if(inn.ledger.length!==expectedRows||inn.revenueCp!==inn.served*INN_TERMS.visitCp||inn.suppliesCp!==inn.served*INN_TERMS.suppliesCp||inn.overheadCp!==(day-inn.openedDay)*INN_TERMS.overheadCp||inn.served>inn.demand||inn.wagesCp%INN_TERMS.wageCp!==0||inn.wagesCp>(day-inn.openedDay)*INN_STAFF_LIMIT*INN_TERMS.wageCp||inn.cashCp!==inn.revenueCp-inn.suppliesCp-inn.wagesCp-inn.overheadCp)throw Error('Inconsistent inn totals');
+ for(const key of totals){const retained=inn.current[key]+inn.ledger.reduce((sum,r)=>sum+r[key],0);if(retained>inn[key]||(Math.floor(day/30)-Math.floor(inn.openedDay/30)<=24&&retained!==inn[key]))throw Error('Inconsistent retained inn accounts')}
+ if(Math.floor(day/30)-Math.floor(inn.openedDay/30)<=24&&(next.firstDay!==inn.openedDay+1||next.openingCashCp!==0))throw Error('Invalid inn opening balance');
+}
+let innRenderKey='';
+function renderInn(){
+ const inn=world.inn;if(!inn)return;
+ const key=JSON.stringify([inn.lastDay,inn.ownerId,inn.staffIds,world.population.revision]);if(key===innRenderKey)return;innRenderKey=key;
+ const residents=new Map(world.population.residents.map(r=>[r.id,r])),row=inn.current,gp=n=>(n/100).toFixed(2)+' gp';
+ $('innOwner').textContent=inn.ownerId===null?'No eligible proprietor - trading paused':residents.get(inn.ownerId).name+' - provisional owner-manager';
+ $('innStaff').textContent=inn.staffIds.length+' / '+INN_STAFF_LIMIT+' staff (owner included)';
+ $('innCash').textContent=gp(inn.cashCp)+(inn.cashCp<0?' debt':'');
+ $('innCapacity').textContent=(inn.ownerId===null?0:inn.staffIds.length*INN_TERMS.visitsPerWorker)+' visits per day';
+ $('innTrading').textContent=`Accounts began ${stamp(inn.openedDay,0).split(' · 00:00')[0]}. ${row.days} day${row.days===1?'':'s'} recorded in the current month. ${row.served} visits served; ${row.demand-row.served} turned away. Current operating result: ${gp(row.revenueCp-row.suppliesCp-row.wagesCp-row.overheadCp)}.`;
+ $('innRoster').textContent=inn.staffIds.length?inn.staffIds.map(id=>residents.get(id).name+(id===inn.ownerId?' (owner-manager)':'')).join(' · '):'No current inn workers. Residents are not invented or reassigned to fill vacancies.';
+ const root=$('innLedger'),opened=new Set(Array.from(root.querySelectorAll('details')).filter(d=>d.open).map(d=>d.dataset.month));root.replaceChildren();
+ const rows=[{...row,current:true},...inn.ledger];
+ for(const r of rows){
+  const details=document.createElement('details');details.className='ledger-entry';details.dataset.month=String(r.month);details.open=opened.has(String(r.month));
+  const summary=document.createElement('summary');summary.textContent=`${793+Math.floor((r.month-1)/12)} A.F. month ${(r.month-1)%12+1}${r.current?' - in progress':''}: ${r.served} visits, ${gp(r.revenueCp-r.suppliesCp-r.wagesCp-r.overheadCp)} operating result`;
+  const text=document.createElement('p');text.textContent=`${r.days} recorded days; demand ${r.demand}, capacity ${r.capacity}, served ${r.served}, turned away ${r.demand-r.served}. Revenue ${gp(r.revenueCp)}; trade supplies ${gp(r.suppliesCp)}; wages ${gp(r.wagesCp)}; upkeep ${gp(r.overheadCp)}. Opening cash ${gp(r.openingCashCp)}; closing cash ${gp(r.closingCashCp)}.`;
+  details.append(summary,text);root.append(details);
+ }
 }
 
 // Timber economy v1: simulation assumptions, not established campaign canon.
@@ -255,7 +341,7 @@ function simulateMonth(){
 function simulateDays(days,logNeeds=true){
  for(let i=0;i<days;i++){
   eventContext={day:worldDay()+1,minute:0};
-  simulateTimberDay();world.day++;
+  simulateTimberDay();simulateInnDay(worldDay()+1);world.day++;
   if(world.day>DAYS_PER_MONTH){world.day=1;simulateMonth()}
   assessHouseholds(logNeeds);
   eventContext=null;
@@ -294,7 +380,7 @@ function render(){
  $('clockStatus').textContent=world.paused?'Paused — no time passes while away':'Running · 1 real day = 1 Arcanus day';
  $('pauseButton').textContent=world.paused?'Resume world':'Pause world';
  $('nextDay').textContent=world.paused?'Clock paused':`Next Arcanus day at midnight UK time`;
- renderTimber();
+ renderTimber();renderInn();
  renderPopulation();
  renderLayoutSummary();
  const foodStatus=$('foodStatus');if(foodStatus)foodStatus.textContent=`Food available: ${Math.floor(world.food/Math.max(1,world.pop)*10)/10} months of demand · Annual farm yield estimate: ${(world.farms*FOOD_YIELD_PER_FARM).toLocaleString('en-GB')} units · Import price: 0.02 gp/unit.`;
@@ -389,7 +475,7 @@ function populationMonth(births,deaths){
  }
  p.residents=p.residents.slice(0,world.pop);
  finishFamilyMonth(born,bereaved);
- const occupied=new Set(p.residents.map(r=>r.householdId));p.households=p.households.filter(h=>occupied.has(h.id));p.revision++;
+ const occupied=new Set(p.residents.map(r=>r.householdId));p.households=p.households.filter(h=>occupied.has(h.id));p.revision++;syncInnRoster();
 }
 function routine(r,minute,day=worldDay()){
  const hour=minute/60, rest=(day%7===6);
@@ -749,10 +835,10 @@ function togglePause(){
 }
 function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?(recoveryRaw??localStorage.getItem(KEY)??''):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=loadFailed?'kaddinghall-recovery.json':'kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function validateSave(data){
- if(!data||![1,2,3,4,5,6,7,8,9,10].includes(data.version)||!['month','pop','food','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Number.isFinite(data.gold)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(!data||![1,2,3,4,5,6,7,8,9,10,11].includes(data.version)||!['month','pop','food','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Number.isFinite(data.gold)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
  if(data.version>=8&&(!data.timber||!data.population||!Number.isSafeInteger(data.lastUKDay)||!Number.isFinite(data.lastUpdated)||typeof data.paused!=='boolean'||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Incomplete modern save or invalid clock');
  if(data.version>=9&&(!data.population||data.population.needsModel!==1))throw Error('Missing household needs');
- if(data.version===10&&(data.population.familyModel!==1||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Missing family data or invalid date');
+ if(data.version>=10&&(data.population.familyModel!==1||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Missing family data or invalid date');
  if(data.timber){
   const t=data.timber, sample=initialTimber();
   const check=(record,template)=>{if(!record)throw Error('Incomplete timber save');for(const [key,value] of Object.entries(template)){if(typeof value==='number'&&!Number.isFinite(record[key]))throw Error('Invalid timber '+key);if(typeof value==='string'&&typeof record[key]!=='string')throw Error('Invalid timber '+key)}};
@@ -796,6 +882,7 @@ function validateSave(data){
   if(!c||!Number.isSafeInteger(c.cursor)||!Number.isInteger(c.minute)||c.minute<0||c.minute>=1440)throw Error('Invalid living clock');
   validateNeeds(p,data);
   validateFamilies(p,data);
+  if(data.version===11||data.inn)validateInn(data);
  }
 }
 function migrateWorld(){
@@ -810,25 +897,25 @@ function migrateWorld(){
   if(!world.paused)simulateDays(Math.floor(Math.max(0,Date.now()-world.lastUpdated)/DAY));
   world.lastUKDay=ukDayNumber();
  }
- migrateFood();migratePopulation();migrateNeeds();migrateFamilies();world.version=10;
+ migrateFood();migratePopulation();migrateNeeds();migrateFamilies();world.version=world.inn?11:10;
  world.events=world.events.slice(0,150);
 }
 function importWorld(data){
  validateSave(data);
  const previous=world,failed=loadFailed,raw=recoveryRaw;
  saveTransaction=true;
- try{world=JSON.parse(JSON.stringify(data));loadFailed=false;migrateWorld();catchUp();validateSave(world)}
+ try{world=JSON.parse(JSON.stringify(data));loadFailed=false;migrateWorld();catchUp();migrateInn();validateSave(world)}
  catch(err){world=previous;loadFailed=failed;recoveryRaw=raw;eventContext=null;throw err}
  finally{saveTransaction=false}
- recoveryRaw=null;householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;updateRecoveryControls();persist();render();
+ recoveryRaw=null;householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;innRenderKey='';updateRecoveryControls();persist();render();
 }
 $('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{importWorld(JSON.parse(await f.text()))}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
-function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;recoveryRaw=null;world=initial();migrateWorld();householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;updateRecoveryControls();persist();render()}}
+function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;recoveryRaw=null;world=initial();migrateWorld();migrateInn();householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;innRenderKey='';updateRecoveryControls();persist();render()}}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 function start(){
  $('buildStatus').textContent='Running '+BUILD_ID;
  saveTransaction=true;
- try{recoveryRaw=localStorage.getItem(KEY);world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();validateSave(world);migrateWorld();catchUp();validateSave(world)}
+ try{recoveryRaw=localStorage.getItem(KEY);world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();validateSave(world);migrateWorld();catchUp();migrateInn();validateSave(world)}
  catch(err){loadFailed=true;$('worldControls').open=true;$('saveStatus').textContent='Save could not be loaded: '+err.message+'. Time and building controls are disabled. Export save preserves the original data; import a backup or reset to recover.';}
  finally{saveTransaction=false;updateRecoveryControls()}
  if(!loadFailed){recoveryRaw=null;persist();render()}
@@ -879,3 +966,4 @@ function initLayout(){
  window.addEventListener('hashchange',()=>showView(location.hash.slice(1)));
 }
 initLayout();
+

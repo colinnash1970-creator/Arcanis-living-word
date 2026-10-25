@@ -1,37 +1,43 @@
-# Kaddinghall v1.9.2 - Save Recovery & Timber Repair
+# Kaddinghall v1.9.3 - The Town Inn
 
-Prepared 25 October 2026 from recovered v1.9.1. This is a replacement-file package, not a deployment. Original archives remain unchanged.
+The generic town inn now has a provisional owner-manager, its existing staff, customer demand, private cash and a monthly ledger. Prepared 25 October 2026 from v1.9.2 in a separate copy. No live site or real user save was changed.
 
-## Changes
+## Use it
 
-- Negative Treasury balances remain recorded as debt and can be saved/reloaded. No debt is erased or money invented. Food imports and farm construction require available funds; ordinary income offsets debt. Overview explains the negative balance. No interest, loan or bankruptcy system is added.
-- Failed loads disable time/building controls and open recovery controls. Export downloads the original serialized data, including malformed JSON. A valid backup import restores controls; Reset requires confirmation.
-- Startup/import catch-up cannot autosave a partially migrated candidate. Validation completes before persistence; rejected imports restore the previous world and leave storage untouched.
-- Modern saves require population, clock, timber, orders, ledger and (after timber has started) month-snapshot data. Physical stocks, prices, demand, staffing and capacity receive stricter validation. Business cash and Treasury may be negative; physical resources may not.
-- Each business mills its raw-log backlog before new cutting. Old saves do not distinguish ordinary and specialist backlog, so it conservatively uses the manual mill, which supports both types. Capacity, 90% yield and actual fees apply once. New cutting retains the 80/20 split. Yard space reserves raw input volume to avoid overfilling when mills are constrained.
+Open Businesses to see The town inn and its ledger. The owner-manager is one of the existing inn workers, included within the eight-person cap. No person, name, occupation or extra employee is invented. The proprietor is provisional, not an established canon owner.
 
-The standard six-year run retained exactly the same date, population totals, food, Treasury, farms and full timber state as v1.7 at every monthly checkpoint. Existing backlog or constrained yards can now produce intentionally different results. Family rules, wellbeing and the eight-worker inn cap are unchanged.
+Accounts begin at zero when an older save is first opened in this version, after its ordinary elapsed-time catch-up. No earlier revenue or bills are reconstructed. Results accumulate with simulated days. The current month and latest 24 completed months are shown; the first month can be partial. The monthly Chronicle adds one inn summary.
 
-## Install
+The clock, pause/resume and manual time controls also apply to the inn. A manual month advances the whole world, not just this business.
 
-1. Export your existing save and keep the backup separately.
-2. Replace app.js and index.html together in the existing site folder. No build step or extra runtime dependency is needed.
-3. Keep existing service-worker, manifest and other assets. This package does not supply or change them. Update their caches separately if needed; do not clear site storage to refresh the application.
-4. Reload the same address in the same browser profile and confirm the running version is v1.9.2 - Save Recovery & Timber Repair (displayed with a middle dot).
-5. Check your town and export a new save. If recovery mode appears, export the original data before importing a backup or resetting.
+## Provisional trading model
 
-Different site addresses do not share browser saves: use Export/Import to move a town. No live site or real user save was modified during development.
+- Capacity: six visits per staff member per day, up to 48 with eight workers.
+- Revenue: 15 cp per served visit. Trade supplies: 4 cp per served visit.
+- Wages: 30 cp per working staff member each trading day, including the owner-manager. Upkeep: 20 cp per day, even when trading is paused for lack of a proprietor. 100 cp = 1 gp.
+- Demand: rounded population x 0.012 x seasonal factor x rest-day factor x wellbeing factor. Seasonal factors are 0.85, 1.00, 1.15 and 1.00; rest days use 1.20, other days 1.00; wellbeing factor is 0.60 + average household wellbeing / 200. Empty towns have zero demand.
+- Served visits are limited by demand and available staff capacity. Other visits are counted as turned away, not carried forward as orders.
+- Existing inn staff aged 16-64 are eligible for the roster; an owner-manager must be at least 18. The current eligible proprietor stays; if they retire or disappear, the lowest-ID eligible adult worker takes over provisionally. No ownership wealth or inheritance transfer is charged. If none qualifies, service and wages pause, but upkeep continues.
+- Cash stays in the private business and may become debt. The model adds no loans, interest, bankruptcy or personal profit withdrawals.
 
-## Compatibility
+These are simulation assumptions, not recovered historical rates. There are no lodging rooms or individual guest identities yet. Daily staffing allowances are not hourly timesheets; existing narrative routines remain unchanged.
 
-Save key: arcanus-kaddinghall. Schema remains 10: no extra persisted fields are required. Negative gold already existed in the simulation; this release fixes validation to preserve it. Generated saves from every recovered version v1.7-v1.9.1 and v1.9.2 itself were tested. Actual historical exports were unavailable.
+## No duplicate town charges
 
-Versions before v1.9 reject schema 10. v1.9/v1.9.1 may reject negative-Treasury saves, even though they can generate them. Keep a pre-upgrade export for rollback. Incomplete/physically invalid modern saves are intentionally rejected instead of having missing economic data silently rebuilt.
+Visits represent drinks and hospitality, not extra household staple meals. Supply costs represent external trade consumables. The inn's private cash records its own revenue, supplies, wages and upkeep. The town Treasury, food stock and timber accounts receive no additional deduction or income from the inn. Existing residents' daily routines did not charge payroll, so the new inn wages are recorded once.
 
-## Evidence and limitations
+Customer wallets, supplier balances and employee personal cash are outside the present model. This is not yet a closed money-flow simulation. The six-year regression confirms the existing town economy remains unchanged while the inn accounts run alongside it.
 
-See TESTING.md for this release's independent results and the separate validation ZIP for scripts, source snapshots and JSON results. HISTORY.md and HISTORICAL-TESTING.md preserve inherited documentation only.
+## Install and keep your backup
 
-Offline caching remains unverified. The recovered package references sw.js and manifest.webmanifest but includes neither; local tests received expected missing-file responses. Obtain the deployed assets before certifying offline behavior. No replacement cache strategy was invented.
+1. Export your v1.9.2 save and keep it separately for rollback.
+2. Replace app.js and index.html together in the same site folder.
+3. Keep existing service-worker, manifest and other assets. Do not clear browser storage to refresh the app.
+4. Reload the same address/profile and confirm Running v1.9.3. Open Businesses to inspect the inn.
+5. Confirm your existing people and town values, then export a new save.
 
-No new shops, inn economics, individual spending, family features or canon changes are included.
+The save key remains arcanus-kaddinghall. Save schema is now 11 because inn accounts must be preserved. Versions through v1.9.2 reject schema 11; do not use a new save to roll back. Generated saves from every recovered version v1.7-v1.9.2 were tested; actual historical user exports were not available. Modern saves missing or inconsistent inn accounts are rejected instead of silently reset.
+
+Offline caching remains unverified because the deployed manifest and service worker were not supplied. No live deployment was performed. The original recovery archives and v1.9.2 package remain unchanged.
+
+See TESTING.md and the validation ZIP for evidence. All rates and identities remain provisional; existing Arcanus canon is not changed.
