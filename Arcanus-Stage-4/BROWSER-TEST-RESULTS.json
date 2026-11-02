@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Crown and council follow 817/818 and rewind",
+    "status": "PASS"
+  },
+  {
+    "name": "Places filter and Sternia boundary",
+    "status": "PASS"
+  },
+  {
+    "name": "People references and birth boundary",
+    "status": "PASS"
+  },
+  {
+    "name": "Planned 828 battle remains separate at 829; absent from history",
+    "status": "PASS"
+  },
+  {
+    "name": "Readable original records retained",
+    "status": "PASS"
+  },
+  {
+    "name": "Invalid year recovers; export reflects current year",
+    "status": "PASS"
+  },
+  {
+    "name": "All sections fit mobile screen",
+    "status": "PASS"
+  },
+  {
+    "name": "Town calendar drives overview and preserves existing Stage 3 save key",
+    "status": "PASS"
+  },
+  {
+    "name": "No browser errors",
+    "status": "PASS"
+  }
+]
