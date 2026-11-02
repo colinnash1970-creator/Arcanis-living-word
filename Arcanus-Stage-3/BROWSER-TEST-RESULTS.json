@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Explorer opens directly offline; original search preserved",
+    "status": "PASS"
+  },
+  {
+    "name": "Year controls rewind and exclude planned battle",
+    "status": "PASS"
+  },
+  {
+    "name": "State export contains year and exclusion",
+    "status": "PASS"
+  },
+  {
+    "name": "Invalid year clears state and recovers",
+    "status": "PASS"
+  },
+  {
+    "name": "Mobile layout fits",
+    "status": "PASS"
+  },
+  {
+    "name": "Town starts offline and round-trips save without canon mutation",
+    "status": "PASS"
+  },
+  {
+    "name": "Town render tracks year boundary without injecting economy effects",
+    "status": "PASS"
+  },
+  {
+    "name": "No browser script errors",
+    "status": "PASS"
+  }
+]

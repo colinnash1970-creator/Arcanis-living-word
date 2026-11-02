@@ -1,0 +1,1862 @@
+{
+  "schema_version": "0.2",
+  "title": "Arcanus Kielinstria Canon Database",
+  "scope": "First structured expansion from Chronicle Volume I, plus nexus references in Volume II",
+  "editorial_notes": [
+    "Not a full extraction of all 12 volumes.",
+    "Malcolm and Star birth surname Brightblade follows later approved genealogy; Chronicle uses their later-known names.",
+    "Do not infer parentage from monarch succession.",
+    "Only events explicitly labelled planned are future campaign events.",
+    "No precise dates assigned where Chronicle leaves them unknown."
+  ],
+  "characters": [
+    {
+      "id": "person:tyrenvale:01",
+      "name": "Eryndor I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Unifier",
+      "reign": {
+        "start_af": 0,
+        "end_af": 38
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 1,
+      "birth": {
+        "era": "BF",
+        "year": 35
+      }
+    },
+    {
+      "id": "person:tyrenvale:02",
+      "name": "Caedric I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Lawgiver",
+      "reign": {
+        "start_af": 38,
+        "end_af": 91
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 2
+    },
+    {
+      "id": "person:tyrenvale:03",
+      "name": "Elowen I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Bridge Queen",
+      "reign": {
+        "start_af": 91,
+        "end_af": 143
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 3
+    },
+    {
+      "id": "person:tyrenvale:04",
+      "name": "Aldric I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Resolute",
+      "reign": {
+        "start_af": 143,
+        "end_af": 196
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 4
+    },
+    {
+      "id": "person:tyrenvale:05",
+      "name": "Seraphine I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Scholar",
+      "reign": {
+        "start_af": 196,
+        "end_af": 251
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 5
+    },
+    {
+      "id": "person:tyrenvale:06",
+      "name": "Caedric II",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Proud",
+      "reign": {
+        "start_af": 251,
+        "end_af": 301
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 6
+    },
+    {
+      "id": "person:tyrenvale:07",
+      "name": "Maerwyn I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Restorer",
+      "reign": {
+        "start_af": 301,
+        "end_af": 357
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 7
+    },
+    {
+      "id": "person:tyrenvale:08",
+      "name": "Eryndor II",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Watchful",
+      "reign": {
+        "start_af": 357,
+        "end_af": 410
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 8
+    },
+    {
+      "id": "person:tyrenvale:09",
+      "name": "Althea I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Just",
+      "reign": {
+        "start_af": 410,
+        "end_af": 463
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 9
+    },
+    {
+      "id": "person:tyrenvale:10",
+      "name": "Beren I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Merchant King",
+      "reign": {
+        "start_af": 463,
+        "end_af": 518
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 10
+    },
+    {
+      "id": "person:tyrenvale:11",
+      "name": "Elowen II",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Diplomat",
+      "reign": {
+        "start_af": 518,
+        "end_af": 571
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 11
+    },
+    {
+      "id": "person:tyrenvale:12",
+      "name": "Theron I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Patient",
+      "reign": {
+        "start_af": 571,
+        "end_af": 625
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 12
+    },
+    {
+      "id": "person:tyrenvale:13",
+      "name": "Cedran I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Iron Crown",
+      "reign": {
+        "start_af": 625,
+        "end_af": 677
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 13
+    },
+    {
+      "id": "person:tyrenvale:14",
+      "name": "Seraphine II",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Reconciler",
+      "reign": {
+        "start_af": 677,
+        "end_af": 724
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 14
+    },
+    {
+      "id": "person:tyrenvale:15",
+      "name": "Edric I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Quiet King",
+      "reign": {
+        "start_af": 724,
+        "end_af": 754
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 15
+    },
+    {
+      "id": "person:tyrenvale:16",
+      "name": "Alaric I Tyrenvale",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Exiled King",
+      "reign": {
+        "start_af": 754,
+        "end_af": 805
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 16,
+      "birth": {
+        "era": "AF",
+        "year": 729
+      }
+    },
+    {
+      "id": "person:tyrenvale:17",
+      "name": "Aldren I Tyrenvale",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Hidden King",
+      "reign": {
+        "start_af": 805,
+        "end_af": null
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 17,
+      "birth": {
+        "era": "AF",
+        "year": 793
+      }
+    },
+    {
+      "id": "person:malcolm",
+      "name": "Malcolm Brightblade",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8,
+            9
+          ]
+        }
+      ],
+      "aliases": [
+        "Malcolm Darkbane (later name)"
+      ],
+      "birth": {
+        "era": "AF",
+        "year": 752
+      },
+      "notes": "Born Brightblade; name clarification from later approved family-tree work"
+    },
+    {
+      "id": "person:star",
+      "name": "Star Brightblade",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            9,
+            10
+          ]
+        }
+      ],
+      "aliases": [
+        "Star Bright"
+      ],
+      "birth": {
+        "era": "AF",
+        "year": 762
+      },
+      "notes": "Born Brightblade; leads Church of Kielinya"
+    },
+    {
+      "id": "person:ulaire",
+      "name": "Ulaire",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            10
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 682
+      }
+    },
+    {
+      "id": "person:roxy",
+      "name": "Roxy Quills",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            10
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 742
+      }
+    },
+    {
+      "id": "person:thorn",
+      "name": "Thorn",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            10
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 762
+      }
+    },
+    {
+      "id": "person:bonekrakka",
+      "name": "Bonekrakka",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            10
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 764
+      }
+    },
+    {
+      "id": "person:corvum",
+      "name": "Corvum Zorander",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 760
+      }
+    },
+    {
+      "id": "person:elianora",
+      "name": "Elianora Thornvale",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 730
+      }
+    },
+    {
+      "id": "person:godric_vi",
+      "name": "Godric VI",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 536
+      }
+    },
+    {
+      "id": "person:godric_vii",
+      "name": "Godric VII",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 640
+      }
+    },
+    {
+      "id": "person:brynja",
+      "name": "Brynja",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 517
+      }
+    },
+    {
+      "id": "person:dragotha",
+      "name": "Dragotha",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            19
+          ]
+        }
+      ],
+      "aliases": [
+        "White dragon oracle"
+      ],
+      "notes": "Birth year deliberately unknown"
+    },
+    {
+      "id": "person:sula",
+      "name": "Sula",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            16
+          ]
+        }
+      ],
+      "aliases": [
+        "Leyborn child"
+      ],
+      "notes": "Born circa 10000 B.F.; not a precise date"
+    }
+  ],
+  "locations": [
+    {
+      "id": "province:aegiswatch",
+      "name": "Aegiswatch",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:glimmerdawn",
+      "name": "Glimmerdawn",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:silvermere",
+      "name": "Silvermere",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:ironveil",
+      "name": "Ironveil",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:verdantreach",
+      "name": "Verdantreach",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:sapphirestrand",
+      "name": "Sapphirestrand",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:emberward",
+      "name": "Emberward",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:frostlight",
+      "name": "Frostlight",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "location:twin_forks",
+      "name": "Twin Forks",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            17
+          ]
+        }
+      ],
+      "province": "Glimmerdawn",
+      "capital": true,
+      "nexus_type": "control"
+    },
+    {
+      "id": "location:kaddinghall",
+      "name": "Kaddinghall",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            17
+          ]
+        }
+      ],
+      "province": "Aegiswatch",
+      "nexus_type": "key"
+    },
+    {
+      "id": "location:sternia",
+      "name": "Sternia",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            17
+          ]
+        }
+      ],
+      "province": "Ironveil",
+      "nexus_condition_after_793": "weak, unguarded"
+    },
+    {
+      "id": "location:starhaven",
+      "name": "Starhaven",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "province": null
+    },
+    {
+      "id": "location:whiteridge",
+      "name": "Whiteridge",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            35
+          ]
+        }
+      ],
+      "province": null
+    }
+  ],
+  "factions": [
+    {
+      "id": "faction:council_eight",
+      "name": "Council of Eight",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            9
+          ]
+        }
+      ],
+      "abolished_af": 818
+    },
+    {
+      "id": "faction:royal_court",
+      "name": "Royal Court",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:house_tyrenvale",
+      "name": "House Tyrenvale",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:royal_blackguard",
+      "name": "Royal Blackguard",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:church_kielinya",
+      "name": "Church of Kielinya",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:shadow_syndicate",
+      "name": "Shadow Syndicate",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8,
+            9
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event:unification",
+      "name": "Unification of Kielinstria",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 0
+      },
+      "description": "Eryndor I unites eight kingdoms under one Crown and Council of Eight.",
+      "related_ids": [
+        "person:tyrenvale:01",
+        "faction:council_eight"
+      ]
+    },
+    {
+      "id": "event:miracle_kaddinghall",
+      "name": "Miracle of Kaddinghall",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8,
+            36
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 350
+      },
+      "description": "A major manifestation at Kaddinghall during Maerwyn I’s reign.",
+      "related_ids": [
+        "location:kaddinghall",
+        "person:tyrenvale:07"
+      ]
+    },
+    {
+      "id": "event:treaty_starhaven",
+      "name": "Treaty of Starhaven",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5,
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 560
+      },
+      "description": "Treaty sponsored by Elowen II.",
+      "related_ids": [
+        "person:tyrenvale:11",
+        "location:starhaven"
+      ]
+    },
+    {
+      "id": "event:malcolm_abducted",
+      "name": "Malcolm abducted",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 762
+      },
+      "description": "Malcolm abducted by bandits at age ten.",
+      "related_ids": [
+        "person:malcolm"
+      ]
+    },
+    {
+      "id": "event:malcolm_bandit_leader",
+      "name": "Malcolm leads bandits",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 768
+      },
+      "description": "Malcolm becomes leader aged sixteen.",
+      "related_ids": [
+        "person:malcolm"
+      ]
+    },
+    {
+      "id": "event:starhaven_raid",
+      "name": "Raid on Starhaven",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 772
+      },
+      "description": "Malcolm raids Starhaven; his and Star’s parents are killed.",
+      "related_ids": [
+        "person:malcolm",
+        "person:star",
+        "location:starhaven"
+      ]
+    },
+    {
+      "id": "event:elianora_killed",
+      "name": "Elianora physically killed",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 792
+      },
+      "description": "Elianora is physically killed; soul sacrificed the following year.",
+      "related_ids": [
+        "person:elianora"
+      ]
+    },
+    {
+      "id": "event:sternia_fall",
+      "name": "Destruction of Sternia",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8,
+            17
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 793
+      },
+      "description": "Arcane Syphon sabotage using Umbrathis obsidian destroys Sternia; its Nexus survives in weakened state.",
+      "related_ids": [
+        "location:sternia",
+        "person:malcolm",
+        "person:godric_vi",
+        "person:godric_vii"
+      ]
+    },
+    {
+      "id": "event:elianora_sacrifice",
+      "name": "Elianora soul sacrifice",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 793
+      },
+      "description": "Elianora’s soul is sacrificed.",
+      "related_ids": [
+        "person:elianora"
+      ]
+    },
+    {
+      "id": "event:drevan_death",
+      "name": "Death of Drevan",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 796
+      },
+      "description": "Malcolm kills Drevan; Star knows of death but not method.",
+      "related_ids": [
+        "person:malcolm",
+        "person:star"
+      ]
+    },
+    {
+      "id": "event:alaric_exile",
+      "name": "Exile of Alaric I",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8,
+            10
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 803
+      },
+      "description": "False treason accusation, Court deceived; Alaric escapes and Malcolm becomes Temporary High Councillor.",
+      "related_ids": [
+        "person:tyrenvale:16",
+        "person:malcolm",
+        "faction:royal_court"
+      ]
+    },
+    {
+      "id": "event:alaric_death",
+      "name": "Death of Alaric I",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 805
+      },
+      "description": "Alaric dies in exile.",
+      "related_ids": [
+        "person:tyrenvale:16"
+      ]
+    },
+    {
+      "id": "event:aldren_coronation",
+      "name": "Secret coronation of Aldren I",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 805
+      },
+      "description": "Star crowns Aldren in the Tomb of the First Paladin; Royal Blackguard witness.",
+      "related_ids": [
+        "person:tyrenvale:17",
+        "person:star",
+        "faction:royal_blackguard",
+        "location:kaddinghall"
+      ]
+    },
+    {
+      "id": "event:fairmont_assassination",
+      "name": "Assassination of Helena Fairmont",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 808
+      },
+      "description": "Helena Fairmont assassinated; Theron Valcrest framed and executed.",
+      "related_ids": []
+    },
+    {
+      "id": "event:amendment_failed",
+      "name": "Failed constitutional amendment",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 812
+      },
+      "description": "Fails 4–2; five affirmative votes required.",
+      "related_ids": [
+        "faction:council_eight"
+      ]
+    },
+    {
+      "id": "event:renewal_invalid",
+      "name": "Invalid emergency renewal",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 817
+      },
+      "description": "Malcolm engineers lack of quorum; sympathetic Court permits temporary continuation.",
+      "related_ids": [
+        "person:malcolm",
+        "faction:council_eight"
+      ]
+    },
+    {
+      "id": "event:council_abolished",
+      "name": "Abolition of Council of Eight",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 818
+      },
+      "description": "Malcolm unconstitutionally abolishes Council of Eight.",
+      "related_ids": [
+        "person:malcolm",
+        "faction:council_eight"
+      ]
+    },
+    {
+      "id": "event:star_escape",
+      "name": "Twin Forks Auditorium escape",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 818
+      },
+      "description": "Star publicly rejects Malcolm and escapes; Malcolm attacks escape routes.",
+      "related_ids": [
+        "person:malcolm",
+        "person:star",
+        "location:twin_forks"
+      ]
+    },
+    {
+      "id": "event:iron_rule",
+      "name": "Iron Rule begins",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 818
+      },
+      "description": "Malcolm’s Iron Rule begins.",
+      "related_ids": [
+        "person:malcolm"
+      ]
+    },
+    {
+      "id": "event:kaddinghall_battle",
+      "name": "Battle of Kaddinghall (planned)",
+      "type": "event",
+      "canon_status": "planned",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 828
+      },
+      "description": "Planned return of Aldren, dwarven allies and Dragotha; Malcolm’s defeat remains unplayed.",
+      "related_ids": [
+        "person:tyrenvale:17",
+        "person:star",
+        "person:malcolm",
+        "person:dragotha",
+        "person:godric_vii",
+        "person:brynja"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "subject_id": "person:malcolm",
+      "predicate": "sibling_of",
+      "object_id": "person:star",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:16",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:17",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:01",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:02",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:02",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:03",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:03",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:04",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:04",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:05",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:07",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:08",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:08",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:09",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:10",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:11",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:11",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:12",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:13",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:14",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:14",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:15",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:15",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:16",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:01",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:02",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:02",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:03",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:03",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:04",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:04",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:05",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:05",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:06",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:06",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:07",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:07",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:08",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:08",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:09",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:09",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:10",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:10",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:11",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:11",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:12",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:12",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:13",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:13",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:14",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:14",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:15",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:15",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:16",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:16",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:17",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    }
+  ]
+}
