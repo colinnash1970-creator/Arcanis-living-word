@@ -1,0 +1,34 @@
+{
+  "recovered_json": "Exact parsed database embedded in the original explorer; standalone v0.2 JSON was not found.",
+  "sources": [
+    {
+      "path": "C:/Users/sirsp/CrossDevice/Pixel 8a/storage/Download/ARCANUS_Kielinstria_Canon_Explorer_v0.2.html",
+      "sha256": "a0e1528ccb74d42cb6e6c1c112ed85aa8ad63451de33c7f1e42b5fbb85bf1bed"
+    },
+    {
+      "path": "C:\\Users\\sirsp\\Documents\\Codex\\2026-10-25\\referenced-chatgpt-conversation-this-is-an\\outputs\\Kaddinghall_v1.9.3\\index.html",
+      "sha256": "a460656273347a22c93dbdfa455be14da68ee19c05fdfeffa33a2fbfb1b835cd"
+    },
+    {
+      "path": "C:\\Users\\sirsp\\Documents\\Codex\\2026-10-25\\referenced-chatgpt-conversation-this-is-an\\outputs\\Kaddinghall_v1.9.3\\app.js",
+      "sha256": "f03506ade067d5538dea95959fc7144676fa158b2eaae8ed8d23bc80ad105adb"
+    }
+  ],
+  "counts": {
+    "characters": 30,
+    "locations": 13,
+    "factions": 6,
+    "events": 20,
+    "relationships": 29
+  },
+  "volume_ii_source": {
+    "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+    "sha256": "db6578d4b99977690e45e8dc0703c82bd7cf91562238e0b0fe175197d47c4eee",
+    "combined_pdf_pages": [
+      11,
+      21
+    ],
+    "volume": "II"
+  },
+  "active_database": "ARCANUS_Canon_v0.3.json"
+}

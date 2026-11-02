@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Original record fields and relationships preserved exactly",
+    "status": "PASS"
+  },
+  {
+    "name": "38 additions, 8 enriched records, 1 relationship; all IDs unique",
+    "status": "PASS"
+  },
+  {
+    "name": "Every new fact and issue has valid Volume II source references",
+    "status": "PASS"
+  },
+  {
+    "name": "Eight schools are mapped correctly; Arcanium and Dracarnia are excluded",
+    "status": "PASS"
+  },
+  {
+    "name": "Ancient events never receive fabricated precise dates",
+    "status": "PASS"
+  },
+  {
+    "name": "New source material does not alter established timeline projections",
+    "status": "PASS"
+  },
+  {
+    "name": "Approximate A.F. and range dates cannot trigger effects",
+    "status": "PASS"
+  },
+  {
+    "name": "Plans and unresolved sequence remain outside completed history",
+    "status": "PASS"
+  },
+  {
+    "name": "No invented birth dates or extra parentage",
+    "status": "PASS"
+  },
+  {
+    "name": "Reference formatter labels approximate, range and unknown dates",
+    "status": "PASS"
+  },
+  {
+    "name": "Browser payload exactly matches expanded JSON; baseline remains unchanged",
+    "status": "PASS"
+  }
+]

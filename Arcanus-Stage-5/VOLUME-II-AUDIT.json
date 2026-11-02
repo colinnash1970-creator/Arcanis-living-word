@@ -1,0 +1,363 @@
+{
+  "version": "0.3",
+  "source": {
+    "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+    "sha256": "db6578d4b99977690e45e8dc0703c82bd7cf91562238e0b0fe175197d47c4eee",
+    "combined_pdf_pages": [
+      11,
+      21
+    ],
+    "volume": "II"
+  },
+  "baseline_sha256": "60702c2892524e6ca7f4bb347db17f1389a0dc86332c43ecf6c66a6b7f9281c0",
+  "added_records": [
+    {
+      "collection": "locations",
+      "id": "realm:kielinstria",
+      "name": "Kielinstria",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "realm:pyrothar",
+      "name": "Pyrothar",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "realm:aquenaleth",
+      "name": "Aquenaleth",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "realm:terravalor",
+      "name": "Terravalor",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "realm:zephyros",
+      "name": "Zephyros",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "realm:umbrathis",
+      "name": "Umbrathis",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "realm:luminara",
+      "name": "Luminara",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "realm:eldarion",
+      "name": "Eldarion",
+      "pages": [
+        15
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "world:krynn",
+      "name": "Krynn",
+      "pages": [
+        13,
+        20
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "world:arcanus",
+      "name": "Arcanus",
+      "pages": [
+        12,
+        13,
+        20
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "location:arcanium",
+      "name": "Arcanium",
+      "pages": [
+        15,
+        16
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "realm:dracarnia",
+      "name": "Dracarnia",
+      "pages": [
+        15,
+        20
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "location:first_paladin_tomb",
+      "name": "Tomb of the First Paladin",
+      "pages": [
+        17,
+        19
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "location:dawnspire",
+      "name": "Dawnspire",
+      "pages": [
+        17
+      ]
+    },
+    {
+      "collection": "locations",
+      "id": "location:island_nexus",
+      "name": "Island Nexus (unnamed)",
+      "pages": [
+        16,
+        17
+      ]
+    },
+    {
+      "collection": "characters",
+      "id": "person:tiamat",
+      "name": "Tiamat",
+      "pages": [
+        13,
+        16
+      ]
+    },
+    {
+      "collection": "characters",
+      "id": "deity:kielinya",
+      "name": "Kielinya",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "collection": "characters",
+      "id": "deity:danel",
+      "name": "Danel",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "collection": "characters",
+      "id": "deity:dumi",
+      "name": "Dumi",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "collection": "characters",
+      "id": "deity:nyxara",
+      "name": "Nyxara",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "collection": "factions",
+      "id": "faction:sternia_guardians",
+      "name": "Dwarven guardians of Sternia",
+      "pages": [
+        17,
+        19
+      ]
+    },
+    {
+      "collection": "factions",
+      "id": "faction:white_flight",
+      "name": "White Flight",
+      "pages": [
+        19
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:first_key",
+      "name": "First Key of Existence",
+      "pages": [
+        13,
+        14,
+        20
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:eighteenfold_key",
+      "name": "Eighteenfold Key",
+      "pages": [
+        14,
+        19,
+        20
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:primordial_crystal",
+      "name": "Primordial Crystal",
+      "pages": [
+        13,
+        16
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:leyline_lattice",
+      "name": "Leyline Lattice",
+      "pages": [
+        14,
+        17,
+        20
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:nexus_functions",
+      "name": "Control and Key Nexuses",
+      "pages": [
+        17
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:arcane_syphon",
+      "name": "Arcane Syphon",
+      "pages": [
+        14,
+        17
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:arcanium_time",
+      "name": "Arcanium time",
+      "pages": [
+        16
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:first_law",
+      "name": "First Law",
+      "pages": [
+        18
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:shattered_veil",
+      "name": "Shattered Veil",
+      "pages": [
+        20
+      ]
+    },
+    {
+      "collection": "mechanics",
+      "id": "mechanic:eighteenfold_altar",
+      "name": "Eighteenfold Key altar or locus",
+      "pages": [
+        14
+      ]
+    },
+    {
+      "collection": "events",
+      "id": "event:krynn_destruction",
+      "name": "Destruction of Krynn",
+      "pages": [
+        13,
+        20
+      ]
+    },
+    {
+      "collection": "events",
+      "id": "event:first_dawn",
+      "name": "First Dawn",
+      "pages": [
+        13,
+        20
+      ]
+    },
+    {
+      "collection": "events",
+      "id": "event:sula_birth",
+      "name": "Birth of Sula",
+      "pages": [
+        20
+      ]
+    },
+    {
+      "collection": "events",
+      "id": "event:sula_exile",
+      "name": "Sula enters the Arcanium",
+      "pages": [
+        16,
+        20
+      ]
+    },
+    {
+      "collection": "events",
+      "id": "event:second_syphon_plan",
+      "name": "Second Arcane Syphon scheme",
+      "pages": [
+        16,
+        17
+      ]
+    },
+    {
+      "collection": "events",
+      "id": "event:reconstruction_sequence",
+      "name": "Arcanium reconstruction and briefing sequence",
+      "pages": [
+        16,
+        20
+      ]
+    }
+  ],
+  "enriched_records": [
+    "person:dragotha",
+    "person:sula",
+    "person:malcolm",
+    "location:kaddinghall",
+    "location:twin_forks",
+    "location:sternia",
+    "event:sternia_fall",
+    "event:kaddinghall_battle"
+  ],
+  "added_relationships": 1,
+  "counts": {
+    "characters": 35,
+    "locations": 28,
+    "factions": 8,
+    "events": 26,
+    "mechanics": 10,
+    "relationships": 30,
+    "review_issues": 5
+  },
+  "automatic_timeline_effects_added": 0,
+  "reason": "New source events are undated, approximate, planned or unresolved. Existing precise events already have rules."
+}

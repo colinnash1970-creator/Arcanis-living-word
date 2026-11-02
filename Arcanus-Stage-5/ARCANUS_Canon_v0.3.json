@@ -1,0 +1,3128 @@
+{
+  "schema_version": "0.3",
+  "title": "Arcanus Canon Database — Volumes I and II",
+  "scope": "Original v0.2 extraction preserved, expanded with Volume II (combined PDF pages 11–21). Not a full extraction of all 12 volumes.",
+  "editorial_notes": [
+    "Not a full extraction of all 12 volumes.",
+    "Malcolm and Star birth surname Brightblade follows later approved genealogy; Chronicle uses their later-known names.",
+    "Do not infer parentage from monarch succession.",
+    "Only events explicitly labelled planned are future campaign events.",
+    "No precise dates assigned where Chronicle leaves them unknown.",
+    "Stage 5: original record fields and relationships retained; Volume II additions have explicit source pages.",
+    "Undated and approximate events remain reference history, not precise simulator triggers.",
+    "The reconstruction sequence completion status is unresolved; its stated narrative facts are preserved without treating it as played.",
+    "Mechanics and reference facts are all-time source material, not automatic annual state changes."
+  ],
+  "characters": [
+    {
+      "id": "person:tyrenvale:01",
+      "name": "Eryndor I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Unifier",
+      "reign": {
+        "start_af": 0,
+        "end_af": 38
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 1,
+      "birth": {
+        "era": "BF",
+        "year": 35
+      }
+    },
+    {
+      "id": "person:tyrenvale:02",
+      "name": "Caedric I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Lawgiver",
+      "reign": {
+        "start_af": 38,
+        "end_af": 91
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 2
+    },
+    {
+      "id": "person:tyrenvale:03",
+      "name": "Elowen I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Bridge Queen",
+      "reign": {
+        "start_af": 91,
+        "end_af": 143
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 3
+    },
+    {
+      "id": "person:tyrenvale:04",
+      "name": "Aldric I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Resolute",
+      "reign": {
+        "start_af": 143,
+        "end_af": 196
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 4
+    },
+    {
+      "id": "person:tyrenvale:05",
+      "name": "Seraphine I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Scholar",
+      "reign": {
+        "start_af": 196,
+        "end_af": 251
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 5
+    },
+    {
+      "id": "person:tyrenvale:06",
+      "name": "Caedric II",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Proud",
+      "reign": {
+        "start_af": 251,
+        "end_af": 301
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 6
+    },
+    {
+      "id": "person:tyrenvale:07",
+      "name": "Maerwyn I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Restorer",
+      "reign": {
+        "start_af": 301,
+        "end_af": 357
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 7
+    },
+    {
+      "id": "person:tyrenvale:08",
+      "name": "Eryndor II",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Watchful",
+      "reign": {
+        "start_af": 357,
+        "end_af": 410
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 8
+    },
+    {
+      "id": "person:tyrenvale:09",
+      "name": "Althea I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Just",
+      "reign": {
+        "start_af": 410,
+        "end_af": 463
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 9
+    },
+    {
+      "id": "person:tyrenvale:10",
+      "name": "Beren I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Merchant King",
+      "reign": {
+        "start_af": 463,
+        "end_af": 518
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 10
+    },
+    {
+      "id": "person:tyrenvale:11",
+      "name": "Elowen II",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Diplomat",
+      "reign": {
+        "start_af": 518,
+        "end_af": 571
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 11
+    },
+    {
+      "id": "person:tyrenvale:12",
+      "name": "Theron I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Patient",
+      "reign": {
+        "start_af": 571,
+        "end_af": 625
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 12
+    },
+    {
+      "id": "person:tyrenvale:13",
+      "name": "Cedran I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Iron Crown",
+      "reign": {
+        "start_af": 625,
+        "end_af": 677
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 13
+    },
+    {
+      "id": "person:tyrenvale:14",
+      "name": "Seraphine II",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Reconciler",
+      "reign": {
+        "start_af": 677,
+        "end_af": 724
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 14
+    },
+    {
+      "id": "person:tyrenvale:15",
+      "name": "Edric I",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Quiet King",
+      "reign": {
+        "start_af": 724,
+        "end_af": 754
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 15
+    },
+    {
+      "id": "person:tyrenvale:16",
+      "name": "Alaric I Tyrenvale",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Exiled King",
+      "reign": {
+        "start_af": 754,
+        "end_af": 805
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 16,
+      "birth": {
+        "era": "AF",
+        "year": 729
+      }
+    },
+    {
+      "id": "person:tyrenvale:17",
+      "name": "Aldren I Tyrenvale",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ],
+      "title": "The Hidden King",
+      "reign": {
+        "start_af": 805,
+        "end_af": null
+      },
+      "dynasty": "House Tyrenvale",
+      "succession_index": 17,
+      "birth": {
+        "era": "AF",
+        "year": 793
+      }
+    },
+    {
+      "id": "person:malcolm",
+      "name": "Malcolm Brightblade",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8,
+            9
+          ]
+        }
+      ],
+      "aliases": [
+        "Malcolm Darkbane (later name)"
+      ],
+      "birth": {
+        "era": "AF",
+        "year": 752
+      },
+      "notes": "Born Brightblade; name clarification from later approved family-tree work",
+      "reference_facts": [
+        {
+          "label": "Understanding of the prison",
+          "value": "Seeks power without understanding that the collapse of the prison could mean the collapse of Arcanus.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                14,
+                18
+              ],
+              "volume": "II",
+              "volume_pages": [
+                4,
+                8
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "person:star",
+      "name": "Star Brightblade",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            9,
+            10
+          ]
+        }
+      ],
+      "aliases": [
+        "Star Bright"
+      ],
+      "birth": {
+        "era": "AF",
+        "year": 762
+      },
+      "notes": "Born Brightblade; leads Church of Kielinya"
+    },
+    {
+      "id": "person:ulaire",
+      "name": "Ulaire",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            10
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 682
+      }
+    },
+    {
+      "id": "person:roxy",
+      "name": "Roxy Quills",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            10
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 742
+      }
+    },
+    {
+      "id": "person:thorn",
+      "name": "Thorn",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            10
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 762
+      }
+    },
+    {
+      "id": "person:bonekrakka",
+      "name": "Bonekrakka",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            10
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 764
+      }
+    },
+    {
+      "id": "person:corvum",
+      "name": "Corvum Zorander",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 760
+      }
+    },
+    {
+      "id": "person:elianora",
+      "name": "Elianora Thornvale",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 730
+      }
+    },
+    {
+      "id": "person:godric_vi",
+      "name": "Godric VI",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 536
+      }
+    },
+    {
+      "id": "person:godric_vii",
+      "name": "Godric VII",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 640
+      }
+    },
+    {
+      "id": "person:brynja",
+      "name": "Brynja",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "aliases": [],
+      "birth": {
+        "era": "AF",
+        "year": 517
+      }
+    },
+    {
+      "id": "person:dragotha",
+      "name": "Dragotha",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            19
+          ]
+        }
+      ],
+      "aliases": [
+        "White dragon oracle"
+      ],
+      "notes": "Birth year deliberately unknown",
+      "reference_facts": [
+        {
+          "label": "Identity",
+          "value": "Female white dragon oracle; age and birth year deliberately unknown.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                19
+              ],
+              "volume": "II",
+              "volume_pages": [
+                9
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Key element",
+          "value": "Holds one exceptional element associated with the Eighteenfold Key.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                19
+              ],
+              "volume": "II",
+              "volume_pages": [
+                9
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Planned intervention",
+          "value": "Brings the White Flight to Kaddinghall because the assault threatens the prison; initially unaware of the full extent of Tiamat’s manipulation.",
+          "canon_status": "planned",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                19
+              ],
+              "volume": "II",
+              "volume_pages": [
+                9
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "person:sula",
+      "name": "Sula",
+      "type": "person",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            16
+          ]
+        }
+      ],
+      "aliases": [
+        "Leyborn child"
+      ],
+      "notes": "Born circa 10000 B.F.; not a precise date",
+      "reference_facts": [
+        {
+          "label": "Approximate birth",
+          "value": "Approximately 10,000 B.F.; not a precise date.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                20
+              ],
+              "volume": "II",
+              "volume_pages": [
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Arcanium exile",
+          "value": "Around 9,994 B.F., at about six years old; 1,541 Arcanium days pass while roughly 10,787 outside years pass.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                16,
+                20
+              ],
+              "volume": "II",
+              "volume_pages": [
+                6,
+                10
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "person:tiamat",
+      "name": "Tiamat",
+      "type": "being",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            13,
+            16
+          ],
+          "volume": "II",
+          "volume_pages": [
+            3,
+            6
+          ]
+        }
+      ],
+      "description": "The prisoner contained by Arcanus; formerly inseparable from Krynn. In the later reconstruction sequence, the being presenting itself as the Observer is secretly Tiamat.",
+      "aliases": [
+        "Observer (identity in the reconstruction sequence)"
+      ]
+    },
+    {
+      "id": "deity:kielinya",
+      "name": "Kielinya",
+      "type": "deity",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            18
+          ],
+          "volume": "II",
+          "volume_pages": [
+            8
+          ]
+        }
+      ],
+      "description": "Bound to Kielinstria’s elemental and spiritual history. Danel is her twin brother; this volume gives no settled awakening date."
+    },
+    {
+      "id": "deity:danel",
+      "name": "Danel",
+      "type": "deity",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            18
+          ],
+          "volume": "II",
+          "volume_pages": [
+            8
+          ]
+        }
+      ],
+      "description": "Kielinya’s twin brother, with a distinct and sometimes dangerous place in Kielinstria’s history. No settled awakening date is supplied."
+    },
+    {
+      "id": "deity:dumi",
+      "name": "Dumi",
+      "type": "deity",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            18
+          ],
+          "volume": "II",
+          "volume_pages": [
+            8
+          ]
+        }
+      ],
+      "description": "Associated with the underworld. No settled awakening date is supplied."
+    },
+    {
+      "id": "deity:nyxara",
+      "name": "Nyxara",
+      "type": "deity",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            18
+          ],
+          "volume": "II",
+          "volume_pages": [
+            8
+          ]
+        }
+      ],
+      "description": "Associated with death. No settled awakening date is supplied."
+    }
+  ],
+  "locations": [
+    {
+      "id": "province:aegiswatch",
+      "name": "Aegiswatch",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:glimmerdawn",
+      "name": "Glimmerdawn",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:silvermere",
+      "name": "Silvermere",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:ironveil",
+      "name": "Ironveil",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:verdantreach",
+      "name": "Verdantreach",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:sapphirestrand",
+      "name": "Sapphirestrand",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:emberward",
+      "name": "Emberward",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "province:frostlight",
+      "name": "Frostlight",
+      "type": "province",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3
+          ]
+        }
+      ],
+      "realm": "Kielinstria"
+    },
+    {
+      "id": "location:twin_forks",
+      "name": "Twin Forks",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            17
+          ]
+        }
+      ],
+      "province": "Glimmerdawn",
+      "capital": true,
+      "nexus_type": "control",
+      "reference_facts": [
+        {
+          "label": "Control Nexus",
+          "value": "The Control Nexus is at Twin Forks.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                17
+              ],
+              "volume": "II",
+              "volume_pages": [
+                7
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "location:kaddinghall",
+      "name": "Kaddinghall",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            17
+          ]
+        }
+      ],
+      "province": "Aegiswatch",
+      "nexus_type": "key",
+      "reference_facts": [
+        {
+          "label": "Key Nexus",
+          "value": "Beneath the Tomb of the First Paladin and Dawnspire.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                17
+              ],
+              "volume": "II",
+              "volume_pages": [
+                7
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "location:sternia",
+      "name": "Sternia",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            17
+          ]
+        }
+      ],
+      "province": "Ironveil",
+      "nexus_condition_after_793": "weak, unguarded",
+      "reference_facts": [
+        {
+          "label": "Guardian history",
+          "value": "Ancestors of Sternia’s dwarves were appointed guardians of a vulnerable lattice point; the appointment is undated.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                17,
+                19
+              ],
+              "volume": "II",
+              "volume_pages": [
+                7,
+                9
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "location:starhaven",
+      "name": "Starhaven",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "province": null
+    },
+    {
+      "id": "location:whiteridge",
+      "name": "Whiteridge",
+      "type": "settlement",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            35
+          ]
+        }
+      ],
+      "province": null
+    },
+    {
+      "id": "realm:kielinstria",
+      "name": "Kielinstria",
+      "type": "realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5
+          ]
+        }
+      ],
+      "description": "Containment, warding and protection.",
+      "magical_school": "Abjuration",
+      "eight_realms_member": true
+    },
+    {
+      "id": "realm:pyrothar",
+      "name": "Pyrothar",
+      "type": "realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5
+          ]
+        }
+      ],
+      "description": "Released force, elemental energy and destructive or transformative magical discharge.",
+      "magical_school": "Evocation",
+      "eight_realms_member": true
+    },
+    {
+      "id": "realm:aquenaleth",
+      "name": "Aquenaleth",
+      "type": "realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5
+          ]
+        }
+      ],
+      "description": "Connection, passage and calling matter or beings across boundaries.",
+      "magical_school": "Conjuration",
+      "eight_realms_member": true
+    },
+    {
+      "id": "realm:terravalor",
+      "name": "Terravalor",
+      "type": "realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5
+          ]
+        }
+      ],
+      "description": "Changing matter, reshaping stone and adapting physical forms.",
+      "magical_school": "Transmutation",
+      "eight_realms_member": true
+    },
+    {
+      "id": "realm:zephyros",
+      "name": "Zephyros",
+      "type": "realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5
+          ]
+        }
+      ],
+      "description": "Appearances, shifting perception and echoes of things that once existed.",
+      "magical_school": "Illusion",
+      "eight_realms_member": true
+    },
+    {
+      "id": "realm:umbrathis",
+      "name": "Umbrathis",
+      "type": "realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5
+          ]
+        }
+      ],
+      "description": "Death and the spiritual residue of Krynn’s destruction.",
+      "magical_school": "Necromancy",
+      "eight_realms_member": true
+    },
+    {
+      "id": "realm:luminara",
+      "name": "Luminara",
+      "type": "realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5
+          ]
+        }
+      ],
+      "description": "Possible futures, visions and patterns in fractures of time.",
+      "magical_school": "Divination",
+      "eight_realms_member": true
+    },
+    {
+      "id": "realm:eldarion",
+      "name": "Eldarion",
+      "type": "realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5
+          ]
+        }
+      ],
+      "description": "Will, feeling, memory and the influence of minds upon one another.",
+      "magical_school": "Enchantment",
+      "eight_realms_member": true
+    },
+    {
+      "id": "world:krynn",
+      "name": "Krynn",
+      "type": "former world",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            13,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            3,
+            10
+          ]
+        }
+      ],
+      "description": "The world that preceded Arcanus. Tiamat was bound to its foundations for an unknown reason. Activation of the First Key destroyed it; no definitive year is assigned."
+    },
+    {
+      "id": "world:arcanus",
+      "name": "Arcanus",
+      "type": "prison-world",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            12,
+            13,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            2,
+            3,
+            10
+          ]
+        }
+      ],
+      "description": "Formed from the energies and surviving fragments of Krynn around Tiamat’s imprisonment. Its structure sustains both the world and the confinement."
+    },
+    {
+      "id": "location:arcanium",
+      "name": "Arcanium",
+      "type": "astral confluence",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15,
+            16
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5,
+            6
+          ]
+        }
+      ],
+      "description": "The metaphysical meeting point of the Eight Realms, with eight spires, libraries and the Primordial Crystal. A threshold and regulator of magical exchange, not a ninth magical-school realm.",
+      "eight_realms_member": false
+    },
+    {
+      "id": "realm:dracarnia",
+      "name": "Dracarnia",
+      "type": "dragon realm",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            15,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            5,
+            10
+          ]
+        }
+      ],
+      "description": "The dragon realm outside the Leyline Lattice and the Eight-school structure. Dracaryn is an earlier archived draft name.",
+      "aliases": [
+        "Dracaryn (archived draft name)"
+      ],
+      "eight_realms_member": false
+    },
+    {
+      "id": "location:first_paladin_tomb",
+      "name": "Tomb of the First Paladin",
+      "type": "tomb",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            17,
+            19
+          ],
+          "volume": "II",
+          "volume_pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "description": "At Kaddinghall; its significance extends beyond ordinary religious history. The Key Nexus lies beneath the tomb and Dawnspire.",
+      "related_ids": [
+        "location:kaddinghall"
+      ]
+    },
+    {
+      "id": "location:dawnspire",
+      "name": "Dawnspire",
+      "type": "landmark",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            17
+          ],
+          "volume": "II",
+          "volume_pages": [
+            7
+          ]
+        }
+      ],
+      "description": "Named with the Tomb of the First Paladin above Kaddinghall’s Key Nexus. This volume does not specify its structure or construction date.",
+      "related_ids": [
+        "location:kaddinghall"
+      ]
+    },
+    {
+      "id": "location:island_nexus",
+      "name": "Island Nexus (unnamed)",
+      "type": "nexus",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            16,
+            17
+          ],
+          "volume": "II",
+          "volume_pages": [
+            6,
+            7
+          ]
+        }
+      ],
+      "description": "An island Nexus linked directly to the Arcanium, associated with Malcolm’s planned second Arcane Syphon. The island’s name and geographical position are not supplied.",
+      "related_ids": [
+        "location:arcanium"
+      ]
+    }
+  ],
+  "factions": [
+    {
+      "id": "faction:council_eight",
+      "name": "Council of Eight",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            9
+          ]
+        }
+      ],
+      "abolished_af": 818
+    },
+    {
+      "id": "faction:royal_court",
+      "name": "Royal Court",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:house_tyrenvale",
+      "name": "House Tyrenvale",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:royal_blackguard",
+      "name": "Royal Blackguard",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:church_kielinya",
+      "name": "Church of Kielinya",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:shadow_syndicate",
+      "name": "Shadow Syndicate",
+      "type": "faction",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faction:sternia_guardians",
+      "name": "Dwarven guardians of Sternia",
+      "type": "guardian community",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            17,
+            19
+          ],
+          "volume": "II",
+          "volume_pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "description": "Sternia’s dwarven ancestors were appointed guardians of a vulnerable lattice point. The duty survived through ages; its exact appointment date is not recorded.",
+      "related_ids": [
+        "location:sternia"
+      ]
+    },
+    {
+      "id": "faction:white_flight",
+      "name": "White Flight",
+      "type": "dragon flight",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            19
+          ],
+          "volume": "II",
+          "volume_pages": [
+            9
+          ]
+        }
+      ],
+      "description": "The flight Dragotha brings to Kaddinghall in the planned final struggle. The intervention remains campaign material, not completed history.",
+      "related_ids": [
+        "person:dragotha"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "event:unification",
+      "name": "Unification of Kielinstria",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            3,
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 0
+      },
+      "description": "Eryndor I unites eight kingdoms under one Crown and Council of Eight.",
+      "related_ids": [
+        "person:tyrenvale:01",
+        "faction:council_eight"
+      ]
+    },
+    {
+      "id": "event:miracle_kaddinghall",
+      "name": "Miracle of Kaddinghall",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8,
+            36
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 350
+      },
+      "description": "A major manifestation at Kaddinghall during Maerwyn I’s reign.",
+      "related_ids": [
+        "location:kaddinghall",
+        "person:tyrenvale:07"
+      ]
+    },
+    {
+      "id": "event:treaty_starhaven",
+      "name": "Treaty of Starhaven",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5,
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 560
+      },
+      "description": "Treaty sponsored by Elowen II.",
+      "related_ids": [
+        "person:tyrenvale:11",
+        "location:starhaven"
+      ]
+    },
+    {
+      "id": "event:malcolm_abducted",
+      "name": "Malcolm abducted",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 762
+      },
+      "description": "Malcolm abducted by bandits at age ten.",
+      "related_ids": [
+        "person:malcolm"
+      ]
+    },
+    {
+      "id": "event:malcolm_bandit_leader",
+      "name": "Malcolm leads bandits",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 768
+      },
+      "description": "Malcolm becomes leader aged sixteen.",
+      "related_ids": [
+        "person:malcolm"
+      ]
+    },
+    {
+      "id": "event:starhaven_raid",
+      "name": "Raid on Starhaven",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 772
+      },
+      "description": "Malcolm raids Starhaven; his and Star’s parents are killed.",
+      "related_ids": [
+        "person:malcolm",
+        "person:star",
+        "location:starhaven"
+      ]
+    },
+    {
+      "id": "event:elianora_killed",
+      "name": "Elianora physically killed",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 792
+      },
+      "description": "Elianora is physically killed; soul sacrificed the following year.",
+      "related_ids": [
+        "person:elianora"
+      ]
+    },
+    {
+      "id": "event:sternia_fall",
+      "name": "Destruction of Sternia",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8,
+            17
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 793
+      },
+      "description": "Arcane Syphon sabotage using Umbrathis obsidian destroys Sternia; its Nexus survives in weakened state.",
+      "related_ids": [
+        "location:sternia",
+        "person:malcolm",
+        "person:godric_vi",
+        "person:godric_vii"
+      ],
+      "reference_facts": [
+        {
+          "label": "Lattice consequences",
+          "value": "Sternia’s Nexus survives dangerously weak and without its original dwarven guardians.",
+          "canon_status": "established",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                17
+              ],
+              "volume": "II",
+              "volume_pages": [
+                7
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "event:elianora_sacrifice",
+      "name": "Elianora soul sacrifice",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 793
+      },
+      "description": "Elianora’s soul is sacrificed.",
+      "related_ids": [
+        "person:elianora"
+      ]
+    },
+    {
+      "id": "event:drevan_death",
+      "name": "Death of Drevan",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 796
+      },
+      "description": "Malcolm kills Drevan; Star knows of death but not method.",
+      "related_ids": [
+        "person:malcolm",
+        "person:star"
+      ]
+    },
+    {
+      "id": "event:alaric_exile",
+      "name": "Exile of Alaric I",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            8,
+            10
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 803
+      },
+      "description": "False treason accusation, Court deceived; Alaric escapes and Malcolm becomes Temporary High Councillor.",
+      "related_ids": [
+        "person:tyrenvale:16",
+        "person:malcolm",
+        "faction:royal_court"
+      ]
+    },
+    {
+      "id": "event:alaric_death",
+      "name": "Death of Alaric I",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 805
+      },
+      "description": "Alaric dies in exile.",
+      "related_ids": [
+        "person:tyrenvale:16"
+      ]
+    },
+    {
+      "id": "event:aldren_coronation",
+      "name": "Secret coronation of Aldren I",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 805
+      },
+      "description": "Star crowns Aldren in the Tomb of the First Paladin; Royal Blackguard witness.",
+      "related_ids": [
+        "person:tyrenvale:17",
+        "person:star",
+        "faction:royal_blackguard",
+        "location:kaddinghall"
+      ]
+    },
+    {
+      "id": "event:fairmont_assassination",
+      "name": "Assassination of Helena Fairmont",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 808
+      },
+      "description": "Helena Fairmont assassinated; Theron Valcrest framed and executed.",
+      "related_ids": []
+    },
+    {
+      "id": "event:amendment_failed",
+      "name": "Failed constitutional amendment",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 812
+      },
+      "description": "Fails 4–2; five affirmative votes required.",
+      "related_ids": [
+        "faction:council_eight"
+      ]
+    },
+    {
+      "id": "event:renewal_invalid",
+      "name": "Invalid emergency renewal",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 817
+      },
+      "description": "Malcolm engineers lack of quorum; sympathetic Court permits temporary continuation.",
+      "related_ids": [
+        "person:malcolm",
+        "faction:council_eight"
+      ]
+    },
+    {
+      "id": "event:council_abolished",
+      "name": "Abolition of Council of Eight",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 818
+      },
+      "description": "Malcolm unconstitutionally abolishes Council of Eight.",
+      "related_ids": [
+        "person:malcolm",
+        "faction:council_eight"
+      ]
+    },
+    {
+      "id": "event:star_escape",
+      "name": "Twin Forks Auditorium escape",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 818
+      },
+      "description": "Star publicly rejects Malcolm and escapes; Malcolm attacks escape routes.",
+      "related_ids": [
+        "person:malcolm",
+        "person:star",
+        "location:twin_forks"
+      ]
+    },
+    {
+      "id": "event:iron_rule",
+      "name": "Iron Rule begins",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 818
+      },
+      "description": "Malcolm’s Iron Rule begins.",
+      "related_ids": [
+        "person:malcolm"
+      ]
+    },
+    {
+      "id": "event:kaddinghall_battle",
+      "name": "Battle of Kaddinghall (planned)",
+      "type": "event",
+      "canon_status": "planned",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "date": {
+        "era": "AF",
+        "year": 828
+      },
+      "description": "Planned return of Aldren, dwarven allies and Dragotha; Malcolm’s defeat remains unplayed.",
+      "related_ids": [
+        "person:tyrenvale:17",
+        "person:star",
+        "person:malcolm",
+        "person:dragotha",
+        "person:godric_vii",
+        "person:brynja"
+      ],
+      "reference_facts": [
+        {
+          "label": "White Flight intervention",
+          "value": "Dragotha brings the White Flight in the planned final struggle. This is not an ancient historical event.",
+          "canon_status": "planned",
+          "temporal_scope": "reference; not an annual state assertion",
+          "sources": [
+            {
+              "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+              "pages": [
+                19,
+                20
+              ],
+              "volume": "II",
+              "volume_pages": [
+                9,
+                10
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "event:krynn_destruction",
+      "name": "Destruction of Krynn",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            13,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            3,
+            10
+          ]
+        }
+      ],
+      "description": "Activation of the First Key destroys Krynn; released energies and surviving fragments are reorganised around Tiamat’s imprisonment.",
+      "date": {
+        "precision": "unknown",
+        "relative": "Before the founding calendar; no definitive year"
+      },
+      "related_ids": [
+        "world:krynn",
+        "world:arcanus",
+        "person:tiamat",
+        "mechanic:first_key"
+      ]
+    },
+    {
+      "id": "event:first_dawn",
+      "name": "First Dawn",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            13,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            3,
+            10
+          ]
+        }
+      ],
+      "description": "The Eight Realms, Arcanium, Primordial Crystal and magical currents stabilise. The source gives a broad sequence rather than a definitive calendar year.",
+      "date": {
+        "precision": "unknown",
+        "relative": "Following the First Key; before the Lost Ages"
+      },
+      "related_ids": [
+        "world:arcanus",
+        "location:arcanium",
+        "mechanic:primordial_crystal"
+      ]
+    },
+    {
+      "id": "event:sula_birth",
+      "name": "Birth of Sula",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            10
+          ]
+        }
+      ],
+      "description": "Sula is born amid the ancient leyline era. The date is approximate.",
+      "date": {
+        "era": "BF",
+        "year": 10000,
+        "precision": "approximate"
+      },
+      "related_ids": [
+        "person:sula"
+      ]
+    },
+    {
+      "id": "event:sula_exile",
+      "name": "Sula enters the Arcanium",
+      "type": "event",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            16,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            6,
+            10
+          ]
+        }
+      ],
+      "description": "Sula is exiled into the Arcanium at about six years old, around 9,994 B.F.; ancient dates remain approximate.",
+      "date": {
+        "era": "BF",
+        "year": 9994,
+        "precision": "approximate"
+      },
+      "related_ids": [
+        "person:sula",
+        "location:arcanium"
+      ]
+    },
+    {
+      "id": "event:second_syphon_plan",
+      "name": "Second Arcane Syphon scheme",
+      "type": "event",
+      "canon_status": "planned",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            16,
+            17
+          ],
+          "volume": "II",
+          "volume_pages": [
+            6,
+            7
+          ]
+        }
+      ],
+      "description": "Malcolm’s planned second Syphon targets an island Nexus directly linked to the Arcanium and seeks the Crystal’s power. Completion and outcome are not established.",
+      "date": {
+        "precision": "unknown",
+        "relative": "Later development; exact year not supplied"
+      },
+      "related_ids": [
+        "person:malcolm",
+        "location:island_nexus",
+        "location:arcanium",
+        "mechanic:primordial_crystal",
+        "mechanic:arcane_syphon"
+      ]
+    },
+    {
+      "id": "event:reconstruction_sequence",
+      "name": "Arcanium reconstruction and briefing sequence",
+      "type": "event",
+      "canon_status": "unresolved",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            16,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            6,
+            10
+          ]
+        }
+      ],
+      "description": "The later campaign sequence spans five Arcanium days and thirty-five outside years, from 793 to 828 A.F. The Observer in this sequence is secretly Tiamat. The participants are not listed and the volume does not explicitly establish whether the sequence has been played.",
+      "date": {
+        "era": "AF",
+        "start_year": 793,
+        "end_year": 828,
+        "precision": "range"
+      },
+      "review_reason": "Narrative facts are recorded, but completion/play status is unclear; not applied as completed history.",
+      "related_ids": [
+        "location:arcanium",
+        "person:tiamat",
+        "mechanic:arcanium_time"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "subject_id": "person:malcolm",
+      "predicate": "sibling_of",
+      "object_id": "person:star",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:16",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:17",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:01",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:02",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:02",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:03",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:03",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:04",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:04",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:05",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:07",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:08",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:08",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:09",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:10",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:11",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:11",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:12",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:13",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:14",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:14",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:15",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:15",
+      "predicate": "parent_of",
+      "object_id": "person:tyrenvale:16",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:01",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:02",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:02",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:03",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:03",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:04",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:04",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:05",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:05",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:06",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:06",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:07",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:07",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:08",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:08",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:09",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:09",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:10",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:10",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:11",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:11",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:12",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:12",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:13",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:13",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:14",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:14",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:15",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:15",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:16",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "person:tyrenvale:16",
+      "predicate": "succeeded_by",
+      "object_id": "person:tyrenvale:17",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "subject_id": "deity:kielinya",
+      "predicate": "sibling_of",
+      "object_id": "deity:danel",
+      "qualifier": "twins",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            18
+          ],
+          "volume": "II",
+          "volume_pages": [
+            8
+          ]
+        }
+      ]
+    }
+  ],
+  "mechanics": [
+    {
+      "id": "mechanic:first_key",
+      "name": "First Key of Existence",
+      "type": "artefact",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            13,
+            14,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            3,
+            4,
+            10
+          ]
+        }
+      ],
+      "description": "The instrument whose activation destroyed Krynn and established the prison-world. It is distinct from the later Eighteenfold Key.",
+      "related_ids": [
+        "world:krynn",
+        "world:arcanus",
+        "person:tiamat"
+      ]
+    },
+    {
+      "id": "mechanic:eighteenfold_key",
+      "name": "Eighteenfold Key",
+      "type": "artefact",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            14,
+            19,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            4,
+            9,
+            10
+          ]
+        }
+      ],
+      "description": "The Second Key of Existence stabilises the prison. Its design has eighteen elements: sixteen associated with the Eight Realms, two per realm, plus exceptional elements associated with Tiamat and Dragotha. Correct reassembly and installation restore lattice stability; this is not a simple means of opening the prison.",
+      "aliases": [
+        "Second Key of Existence"
+      ],
+      "related_ids": [
+        "person:tiamat",
+        "person:dragotha"
+      ]
+    },
+    {
+      "id": "mechanic:primordial_crystal",
+      "name": "Primordial Crystal",
+      "type": "artefact",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            13,
+            16
+          ],
+          "volume": "II",
+          "volume_pages": [
+            3,
+            6
+          ]
+        }
+      ],
+      "description": "A surviving remnant of Krynn at the heart of the Arcanium; the central regulator of the Eight Realms’ magical forces. Access through a damaged Nexus would threaten the wider lattice.",
+      "related_ids": [
+        "location:arcanium",
+        "world:krynn"
+      ]
+    },
+    {
+      "id": "mechanic:leyline_lattice",
+      "name": "Leyline Lattice",
+      "type": "world system",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            14,
+            17,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            4,
+            7,
+            10
+          ]
+        }
+      ],
+      "description": "Carries magical currents between realms. Its crossings form Nexuses; together they sustain Arcanus and confine Tiamat. Nexus damage can propagate through the structure. The lattice is not identical to the Shattered Veil."
+    },
+    {
+      "id": "mechanic:nexus_functions",
+      "name": "Control and Key Nexuses",
+      "type": "world system",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            17
+          ],
+          "volume": "II",
+          "volume_pages": [
+            7
+          ]
+        }
+      ],
+      "description": "Control Nexuses direct or regulate flows; Key Nexuses occupy major concentrations of crossings and connect to the prison’s stabilising architecture. Their functions are not interchangeable.",
+      "related_ids": [
+        "location:kaddinghall",
+        "location:twin_forks"
+      ]
+    },
+    {
+      "id": "mechanic:arcane_syphon",
+      "name": "Arcane Syphon",
+      "type": "mechanism",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            14,
+            17
+          ],
+          "volume": "II",
+          "volume_pages": [
+            4,
+            7
+          ]
+        }
+      ],
+      "description": "Draws power from leylines and Nexuses. Malcolm used Umbrathis obsidian to engineer its failure at Sternia in 793 A.F. The later island scheme remains separate from that established event.",
+      "related_ids": [
+        "person:malcolm",
+        "location:sternia",
+        "realm:umbrathis"
+      ]
+    },
+    {
+      "id": "mechanic:arcanium_time",
+      "name": "Arcanium time",
+      "type": "setting rule",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            16
+          ],
+          "volume": "II",
+          "volume_pages": [
+            6
+          ]
+        }
+      ],
+      "description": "One day inside the Arcanium corresponds to approximately seven years outside. Sula’s stay is given as 1,541 inside days and roughly 10,787 outside years. Approximate ancient dates and the stated time relationship are preserved; no new calendar conversion is imposed.",
+      "related_ids": [
+        "location:arcanium",
+        "person:sula"
+      ]
+    },
+    {
+      "id": "mechanic:first_law",
+      "name": "First Law",
+      "type": "setting rule",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            18
+          ],
+          "volume": "II",
+          "volume_pages": [
+            8
+          ]
+        }
+      ],
+      "description": "A being belonging to Arcanus cannot knowingly and willingly act with the direct purpose of destroying the world itself. This restrains intent, not cruelty or unintended catastrophic consequences. Its exact application to every god, external visitor and artefact is not settled here."
+    },
+    {
+      "id": "mechanic:shattered_veil",
+      "name": "Shattered Veil",
+      "type": "cosmological structure",
+      "canon_status": "established",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            10
+          ]
+        }
+      ],
+      "description": "Distinct from the Leyline Lattice. It has not been definitively sealed in the current campaign. No exact date or fuller mechanism is supplied by this volume."
+    },
+    {
+      "id": "mechanic:eighteenfold_altar",
+      "name": "Eighteenfold Key altar or locus",
+      "type": "scenario element",
+      "canon_status": "planned",
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            14
+          ],
+          "volume": "II",
+          "volume_pages": [
+            4
+          ]
+        }
+      ],
+      "description": "The intended installation locus of the completed Key. Its precise physical design is still developing; no historical construction date is established.",
+      "related_ids": [
+        "mechanic:eighteenfold_key"
+      ]
+    }
+  ],
+  "review_issues": [
+    {
+      "id": "review:reconstruction_status",
+      "name": "Has the reconstruction sequence been played?",
+      "canon_status": "unresolved",
+      "decision_needed": true,
+      "description": "Page 16 describes the five-day / 35-year sequence; page 20 keeps the 828 finale planned. These do not prove whether this separate sequence has already been played. Preserve its stated range and identity revelation, but do not count it as completed history without a canon decision.",
+      "related_ids": [
+        "event:reconstruction_sequence"
+      ],
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            16,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            6,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "id": "review:ancient_dates",
+      "name": "Ancient dates remain approximate or unknown",
+      "canon_status": "unresolved",
+      "decision_needed": false,
+      "description": "No precise First Dawn or Krynn-destruction year is supplied; Sula’s ancient dates are approximate. Do not manufacture precise dates or derive new ones from elapsed time.",
+      "related_ids": [
+        "event:first_dawn",
+        "event:krynn_destruction",
+        "event:sula_birth",
+        "event:sula_exile"
+      ],
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            13,
+            16,
+            20
+          ],
+          "volume": "II",
+          "volume_pages": [
+            3,
+            6,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "id": "review:altar_design",
+      "name": "Final altar design remains developing",
+      "canon_status": "unresolved",
+      "decision_needed": false,
+      "description": "The design is a developing prop/scenario element, not a confirmed physical design or dated historical construction.",
+      "related_ids": [
+        "mechanic:eighteenfold_altar"
+      ],
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            14
+          ],
+          "volume": "II",
+          "volume_pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "id": "review:first_law_scope",
+      "name": "First Law edge cases are not settled",
+      "canon_status": "unresolved",
+      "decision_needed": false,
+      "description": "Do not extend the rule to every god, outside visitor or artefact without a separate canon decision.",
+      "related_ids": [
+        "mechanic:first_law"
+      ],
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            18
+          ],
+          "volume": "II",
+          "volume_pages": [
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "id": "review:island_identity",
+      "name": "Island name and position are not recorded",
+      "canon_status": "unresolved",
+      "decision_needed": false,
+      "description": "The planned Syphon’s island Nexus is linked directly to the Arcanium, but no island name or map position is supplied in this volume.",
+      "related_ids": [
+        "location:island_nexus"
+      ],
+      "sources": [
+        {
+          "document": "ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf",
+          "pages": [
+            16,
+            17
+          ],
+          "volume": "II",
+          "volume_pages": [
+            6,
+            7
+          ]
+        }
+      ]
+    }
+  ]
+}
