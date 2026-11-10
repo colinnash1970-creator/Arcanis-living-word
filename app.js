@@ -1,5 +1,5 @@
 const BUILD_ID='v1.10.0 · Arcanus Calendar';
-const KEY='arcanus-kaddinghall-stage3';
+const KEY='arcanus-kaddinghall';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const ukParts=()=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,Number(x.value)]));
@@ -878,7 +878,7 @@ function importWorld(data){
 }
 $('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{importWorld(JSON.parse(await f.text()))}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
 function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;recoveryRaw=null;world=initial();migrateWorld();migrateInn();householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;innRenderKey='';updateRecoveryControls();persist();render()}}
-// Offline file release: no service worker.
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 function start(){
  $('buildStatus').textContent='Running '+BUILD_ID;
  saveTransaction=true;

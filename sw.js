@@ -1,5 +1,5 @@
-const CACHE='arcanus-calendar-v1100';
-const FILES=['./','./index.html','./app.js?v=1100','./manifest.webmanifest',
+const CACHE='arcanus-world-v1110';
+const FILES=['./world-screen.js','./world-screen.css','./Kaddinghall/index.html','./Kaddinghall/app.js?v=1100','./Calendar/world-bridge.js','./','./index.html','./app.js?v=1100','./manifest.webmanifest',
  './Calendar/index.html','./Calendar/style.css','./Calendar/town-calendar.css','./Calendar/canon.js','./Calendar/astronomy.js','./Calendar/engine.js','./Calendar/app.js','./Calendar/town-calendar.js',
  './Arcanus-Stage-5/index.html','./Arcanus-Stage-5/world-overview.css','./Arcanus-Stage-5/canon-data.js','./Arcanus-Stage-5/canon-engine.js','./Arcanus-Stage-5/canon-reference.js','./Arcanus-Stage-5/canon-explorer.js','./Arcanus-Stage-5/canon-panel.js','./Arcanus-Stage-5/Kaddinghall/index.html','./Arcanus-Stage-5/Kaddinghall/app.js?v=1100'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
