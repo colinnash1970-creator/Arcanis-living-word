@@ -1,5 +1,27 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arcanus · Living World Simulator</title><link rel="stylesheet" href="world-screen.css"></head><body>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Arcanus · Living World Simulator</title><style>:root{color-scheme:dark;--bg:#101b20;--panel:#192b31;--line:#365057;--muted:#b6c5c5;--gold:#e2c58a;--text:#f1eee5}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif}header{padding:22px 4vw;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:23px;letter-spacing:4px;color:var(--gold)}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px}header p{font-size:12px;color:var(--muted)}main{max-width:1500px;margin:auto;padding:24px 4vw}h1,h2,h3{font-family:Georgia,serif;font-weight:400}h1{font-size:36px;margin:0 0 12px}h2{font-size:24px}h3{font-size:21px}p{margin:8px 0 16px}button,input{font:inherit;border:1px solid #547078;border-radius:7px;padding:10px 16px;color:var(--text);background:#20373f}button{cursor:pointer}button:hover,button[aria-pressed=true]{background:#36545c;border-color:var(--gold)}button:disabled{opacity:.45;cursor:wait}button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}.clock-panel{background:linear-gradient(110deg,#213c43,#182d34);border:1px solid #6c7562;border-radius:12px;padding:24px;margin-bottom:20px}.calendar-display{display:grid;grid-template-columns:.8fr 1fr 1.2fr 1fr 1.4fr;margin:0;gap:24px}.calendar-display>div{min-width:0}.calendar-display dt{color:var(--gold);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}.calendar-display dd{margin:0;font-family:Georgia,serif;font-size:clamp(22px,2.4vw,32px);overflow-wrap:anywhere}#world-time{font-family:system-ui,sans-serif;font-variant-numeric:tabular-nums;font-weight:300;font-size:40px;line-height:1.1}.step-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}.muted,#clock-status{color:var(--muted);font-size:13px}#clock-status{margin:15px 0 0}.main-nav{display:flex;gap:10px;margin:22px 0 28px;flex-wrap:wrap}.main-nav button{min-width:135px}.intro{padding:10px 0 20px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{background:var(--panel);padding:24px;border-radius:10px;border:1px solid var(--line);margin-bottom:24px}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px}.card h2{margin:8px 0}.card p:last-child{margin-bottom:0}#world-error:not(:empty){background:#512f2c;padding:15px;border-radius:6px;color:#ffe0d6}iframe{border:1px solid var(--line);width:100%;height:78vh;min-height:650px;border-radius:10px;background:#101b19}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:14px;border-bottom:1px solid var(--line)}th{color:var(--gold)}label{display:block}input{margin:10px 0;width:min(450px,100%)}a{color:#b8ded7}[hidden]{display:none!important}footer{font-size:12px;color:var(--muted);margin-top:30px}.world-nav{display:flex;gap:8px;flex-wrap:wrap}.world-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}.world-card,.world-event{padding:18px;border:1px solid var(--line);border-radius:8px;margin-top:15px;min-width:0;overflow-wrap:anywhere}.world-heading h2{margin:5px 0}.world-card dl{margin:12px 0}.world-card dt{color:var(--gold)}.world-card dd{margin-left:0}.world-card details{margin-top:15px}.world-card summary{cursor:pointer}.evidence,.source{font-size:12px;color:var(--muted)}@media(max-width:950px){.calendar-display{grid-template-columns:repeat(3,1fr)}.cards{grid-template-columns:1fr 1fr}.cards .card:last-child{grid-column:1/-1}}@media(max-width:600px){header{padding:18px}header p{display:none}main{padding:16px}.clock-panel{padding:20px}.calendar-display{grid-template-columns:1fr 1fr;gap:22px 15px}.calendar-display>div:last-child{grid-column:1/-1}.calendar-display dd{font-size:24px}#world-time{font-size:36px}.cards{grid-template-columns:1fr}.cards .card:last-child{grid-column:auto}.main-nav button{min-width:0;flex:1;padding:10px}h1{font-size:29px}.card{padding:20px}iframe{min-height:600px}.step-controls button{flex:1;font-size:13px;padding:9px 8px}}
+</style><style>@scope (#town-content){
+    :scope{color-scheme:dark;--bg:#101b19;--panel:#20332e;--border:#39534a;--text:#f4f0df;--muted:#b7c9c1;--accent:#b9d7ac;--sticky-height:150px}
+    *{box-sizing:border-box}:scope{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);margin:0;line-height:1.55}.town-main{max-width:1120px;margin:auto;padding:24px}h1,h2,h3,h4{line-height:1.2}h1{font-size:2rem;margin:4px 0}h2{font-size:1.5rem;margin:0 0 16px}h3{font-size:1.12rem;margin:0 0 12px}h4{margin-bottom:12px}p{margin:10px 0 16px}small,.muted{color:var(--muted)}small{font-size:.75rem;letter-spacing:.08em}.masthead{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}.masthead p{margin:0;font-size:.88rem}.build-label{text-align:right;max-width:230px}
+    .sticky-shell{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0 0}.clockbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#192b27;border:1px solid var(--border);border-radius:12px}.clock-details{display:flex;align-items:center;gap:16px}#liveTime{font-size:1.4rem;font-variant-numeric:tabular-nums;font-weight:650;white-space:nowrap;margin:0}#date{font-size:.95rem;margin:0}#clockStatus{font-size:.8rem;color:var(--muted);margin:0}.clock-actions{display:flex;gap:8px;flex-shrink:0}
+    .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;padding-bottom:10px;border-bottom:1px solid var(--border)}.tabs button{background:transparent;color:var(--muted);border:1px solid transparent;border-radius:8px}.tabs button[aria-selected=true]{background:var(--accent);color:#10201a}.tabs button:hover{border-color:var(--accent)}
+    button,select{font:inherit}button{background:var(--accent);color:#10201a;border:0;border-radius:8px;padding:10px 14px;font-size:.9rem;font-weight:650;cursor:pointer;min-height:44px}button.secondary{background:#345047;color:var(--text)}button:disabled{opacity:.4;cursor:default}button:focus-visible,summary:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #f4db88;outline-offset:3px}a{color:var(--accent)}[hidden]{display:none!important}
+    .view,.world-controls{scroll-margin-top:var(--sticky-height)}.view{padding:22px 0 0}.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}.panel>:last-child{margin-bottom:0}.world-controls{margin:14px 0 0;padding:12px 16px}.world-controls>summary{font-size:.9rem;color:var(--muted)}.control-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-top:20px}.button-row{display:flex;flex-wrap:wrap;gap:8px}.help{margin-top:16px;font-size:.9rem}.help p{max-width:75ch}summary{cursor:pointer;min-height:32px}.reset-control{margin-top:16px}#saveStatus{font-size:.85rem}
+    .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stats>div{background:#294139;border-radius:9px;padding:12px;font-size:.85rem}.stats strong{display:block;font-size:1.55rem;line-height:1.25;margin-top:5px;color:var(--text);font-variant-numeric:tabular-nums}.overview-stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:16px}.overview-stats>div{padding:18px}.overview-stats strong{font-size:1.9rem}.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.overview-grid .panel{margin:0}.wide{grid-column:1/-1}.score{font-size:2.1rem;margin:8px 0}.eyebrow{text-transform:uppercase;letter-spacing:.08em;font-size:.73rem;color:var(--muted)}
+    .population-grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:16px;align-items:start}.population-grid .panel{margin:0}.population-grid .panel p{font-size:.92rem}.register-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}select{color:var(--text);background:#294139;padding:9px;border:1px solid #718b7e;border-radius:8px;max-width:100%;min-height:44px}#householdMatches{font-size:.8rem}.ledger-entry{padding:14px 0;border-top:1px solid var(--border)}.ledger-entry summary{font-weight:600}.ledger-entry p{font-size:.9rem;color:#d6e1d7}.household-needs{background:#294139;padding:12px;border-radius:8px}.household-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--border);padding-top:14px}.household-controls span{font-size:.85rem}
+    #timberBusinesses{display:grid;grid-template-columns:1fr 1fr;gap:20px}.timber-business{border-top:1px solid var(--border);padding-top:8px}.timber-business h4{font-size:1.1rem}.timber-business strong{font-size:1.15rem}#timberMills{padding-left:20px}#log,#recentEvents{list-style:none;padding:0;margin:0}#log li,#recentEvents li{border-top:1px solid var(--border);padding:14px 0;font-size:.95rem}#log li:first-child,#recentEvents li:first-child{border-top:0}#log li{padding-left:16px;border-left:2px solid #6f967b;margin-bottom:6px}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:8px}.section-heading h3{margin:0}footer{font-size:.78rem;color:var(--muted);padding:28px 0 8px}p,li,summary{overflow-wrap:anywhere}
+    @media(max-width:760px){.town-main{padding:16px}.population-grid,.overview-grid{grid-template-columns:1fr}.clock-details{display:block}.clockbar{align-items:flex-start}.overview-stats>div{padding:12px}.overview-stats strong{font-size:1.5rem}.build-label{max-width:170px}.masthead h1{font-size:1.8rem}}
+    @media(max-width:520px){:scope{--sticky-height:190px}.town-main{padding:12px}.masthead{align-items:flex-start;gap:8px}.build-label{display:none}.masthead small{font-size:.62rem}.masthead p{font-size:.78rem}.clockbar{padding:10px;flex-wrap:wrap;gap:8px}.clock-details{width:100%;display:flex;justify-content:space-between;gap:8px;align-items:center}#liveTime{font-size:1.15rem}#date{font-size:.8rem}#clockStatus{display:none}.clock-actions{width:100%;justify-content:flex-end}.clock-actions button{padding:8px 12px;min-height:40px}.tabs{gap:2px}.tabs button{font-size:.8rem;padding:10px 4px}.panel{padding:16px}.overview-stats{grid-template-columns:1fr 1fr}.overview-stats strong{font-size:1.6rem}.control-grid,#timberBusinesses{grid-template-columns:1fr;gap:18px}.section-heading{align-items:flex-start}.section-heading button{font-size:.8rem}.view{padding-top:18px}.stats strong{font-size:1.3rem}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  .family-links{border-left:2px solid #718b7e;padding-left:10px;font-size:.82rem!important;color:#b7c9c1!important;margin-top:-6px}
+}</style><style>#liveTime{white-space:normal;overflow-wrap:anywhere;max-width:100%}
+.clock-details{min-width:0}.clock-details>div{min-width:0}
+#calendarHeading{margin-top:0}#calendarError:not(:empty){color:#ffb6a4}
+#calendarSummary p{overflow-wrap:anywhere}
+#calendarOffset{max-width:100%;width:110px;padding:8px}
+#calendarHemisphere{max-width:100%;padding:8px}
+@media(max-width:520px){.clock-details{flex-direction:column;align-items:flex-start}#liveTime{font-size:1.05rem}.clockbar .clock-actions{width:auto}#calendarBrowse{overflow-wrap:anywhere}}
+</style></head><body>
 <header><div class="brand">✦ ARCANUS<small>LIVING WORLD SIMULATOR</small></div><p>Your world. Your time.</p></header>
 <main>
 <section class="clock-panel" aria-label="Simulation calendar"><dl class="calendar-display" aria-live="polite" aria-atomic="true">
@@ -9,10 +31,1348 @@
 <div><dt>Weekday</dt><dd id="world-weekday">Loading…</dd></div>
 <div><dt>Arcanian date</dt><dd id="world-date">Loading…</dd></div>
 </dl><div class="step-controls" aria-label="Advance simulation time"><button disabled data-step="60" data-unit="minutes">+1 Hour</button><button disabled data-step="180" data-unit="minutes">+1 Watch</button><button disabled data-step="1440" data-unit="minutes">+1 Day</button><button disabled data-step="1" data-unit="months">+1 Month</button><button disabled data-step="12" data-unit="months">+1 Year</button></div><p id="clock-status">Connecting to the saved simulation calendar…</p></section>
-<p id="world-error" role="alert"></p>
+<p id="local-save-note" class="muted" role="status"></p><p id="world-error" role="alert">Starting the simulator. If this message remains, open the single-file edition in your normal web browser.</p>
 <nav class="main-nav" aria-label="World sections"><button id="nav-world" aria-pressed="true">World overview</button><button id="nav-town" aria-pressed="false">Kaddinghall</button><button id="nav-register" aria-pressed="false">Calendar register</button></nav>
 <section id="view-world"><div class="intro"><p class="eyebrow">THE WORLD OF ARCANUS</p><h1>One world. One shared calendar.</h1><p class="muted">The calendar above follows the simulation. Open a place below to explore its daily life.</p></div><div class="cards"><article class="card"><p class="eyebrow">PLACES</p><h2>Kaddinghall</h2><p>People, households, businesses and the town chronicle.</p><button id="open-town">Enter Kaddinghall →</button></article><article class="card"><p class="eyebrow">ON THIS DAY</p><h2>Observances & birthdays</h2><div id="today-events">Loading the current date…</div></article><article class="card"><p class="eyebrow">SKY & SEASON</p><h2 id="season">Loading…</h2><p id="season-detail" class="muted"></p><p id="moon-detail" class="muted"></p><p class="eyebrow">EARTH REFERENCE ONLY</p><p id="earth-reference" class="muted"></p></article></div><section class="card"><div id="canon-state"></div></section></section>
-<section id="view-town" hidden><h1>Kaddinghall</h1><p class="muted">This town uses the calendar above. Its time controls update the world display too. Existing saves, exports and recovery tools are available within the town.</p><iframe id="town-frame" title="Kaddinghall town simulator" src="Arcanus-Stage-5/Kaddinghall/index.html"></iframe></section>
+<section id="view-town" hidden><h1>Kaddinghall</h1><p class="muted">This town uses the calendar above. Its time controls update the world display too. Existing saves, exports and recovery tools are available within the town.</p><div id="town-content"><div class="town-main">
+  <header class="masthead">
+    <div><small>ARCANUS · KIELINSTRIA · AEGISWATCH</small><h1>Kaddinghall</h1><p class="muted">Your living town · Experimental v1.10.0</p></div>
+    <p id="buildStatus" class="muted build-label">Checking running JavaScript version…</p>
+  </header>
+  <div class="sticky-shell">
+    <div class="clockbar">
+      <div class="clock-details"><p id="liveTime" aria-live="off">--:--:--</p><div><p id="date"></p><p id="clockStatus"></p></div></div>
+      <div class="clock-actions"><button id="pauseButton" class="secondary" data-world-action onclick="togglePause()">Pause world</button><button class="secondary" onclick="openWorldControls()" aria-controls="worldControls">Controls</button></div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Town sections">
+      <button role="tab" id="tab-overview" aria-controls="view-overview" aria-selected="true">Overview</button>
+      <button role="tab" id="tab-population" aria-controls="view-population" aria-selected="false" tabindex="-1">Population</button>
+      <button role="tab" id="tab-businesses" aria-controls="view-businesses" aria-selected="false" tabindex="-1">Businesses</button>
+      <button role="tab" id="tab-chronicle" aria-controls="view-chronicle" aria-selected="false" tabindex="-1">Chronicle</button>
+    </nav>
+  </div>
+  <section class="panel" aria-labelledby="calendarHeading"><h2 id="calendarHeading">Arcanus calendar</h2><div id="calendarSummary" aria-live="polite"></div><p id="calendarError" role="alert"></p><button id="calendarBackup" hidden onclick="exportCalendarBackup()">Export pre-calendar backup</button><div class="button-row"><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(60))">+1 Hour</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(180))">+1 Watch</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(1440))">+1 Day</button><button data-world-action onclick="advance(1)">+1 Calendar month</button><button data-world-action onclick="advance(12)">+1 Calendar year</button></div><p><a id="calendarBrowse" data-base="Calendar/index.html" href="Calendar/index.html" target="_blank" rel="noopener">Browse calendar, convert dates and search all 58 records</a></p><p class="muted">Browsing other dates does not rewind the town or change its economy. Town time moves forward only through the controls above.</p><details><summary>Calendar alignment</summary><label>Hemisphere <select id="calendarHemisphere"><option value="north">Northern</option><option value="south">Southern</option></select></label> <label>Starhaven offset from UTC, minutes <input id="calendarOffset" type="number" min="-840" max="840" step="1" value="0"></label> <button data-world-action onclick="updateCalendarSettings()">Apply alignment</button><p>UTC+0 is provisional, not established geography. No DST applies to Starhaven.</p></details><p class="muted">Compatibility: town budgets, harvests, ageing and ledgers retain their existing 30-day accounting periods and provisional economic seasonal cycle. These are not canonical calendar months or astronomical seasons. Existing balances are not recalculated.</p></section><details id="worldControls" class="panel world-controls">
+    <summary>Time, building &amp; saves</summary>
+    <div class="control-grid">
+      <div><h3>Advance the world</h3><div class="button-row"><button data-world-action onclick="advance(1)">+1 Month</button><button data-world-action onclick="advance(12)">+1 Year</button></div><p class="muted help">Calendar steps advance the town only when you choose.</p><h3>Build</h3><button data-world-action onclick="buildFarm()">Farm · 150 coins</button></div>
+      <div><h3>World save</h3><div class="button-row"><button class="secondary" onclick="exportSave()">Export save</button><button class="secondary" onclick="document.getElementById('file').click()">Import save</button></div><input hidden type="file" id="file" accept="application/json,.json"><p id="saveStatus" class="muted" role="status"></p><details class="reset-control"><summary>Start over</summary><p class="muted">Export your save first if you want to keep this town.</p><button class="secondary" onclick="resetWorld()">Reset world</button></details></div>
+    </div>
+    <details class="help"><summary>How the clock works</summary><p id="nextDay" class="muted"></p><p class="muted">Campaign time is manual. The named Gregorian-length calendar is saved with the town. No elapsed real-world time is processed on opening, importing or returning. Daily economic steps still settle in legacy 30-day accounting periods.</p></details>
+  </details>
+
+  <section id="view-overview" class="view" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
+    <h2>Town overview</h2>
+    <div class="stats overview-stats"><div>Population<strong id="pop"></strong></div><div>Food stores<strong id="food"></strong></div><div>Treasury<strong id="gold"></strong></div><div>Farms<strong id="farms"></strong></div></div>
+    <p id="treasuryStatus" class="muted"></p><div class="overview-grid">
+      <section class="panel"><p class="eyebrow">Life in Kaddinghall</p><h3>Household wellbeing</h3><p id="overviewWellbeing" class="score"></p><p id="overviewNeeds" class="muted"></p><button class="secondary" onclick="showView('population')">Visit households</button></section>
+      <section class="panel"><p class="eyebrow">Town supplies</p><h3>Food &amp; farming</h3><p id="foodStatus"></p><details class="help"><summary>About the food economy</summary><p class="muted">Seasonal harvests, Treasury-funded emergency imports and low-reserve warnings. One food unit per resident per month; yields and import costs are provisional.</p></details></section>
+      <section class="panel wide"><div class="section-heading"><h3>Latest from the Chronicle</h3><button class="secondary" onclick="showView('chronicle')">Read Chronicle</button></div><ol id="recentEvents"></ol></section>
+    </div>
+  </section>
+
+  <section id="view-population" class="view" role="tabpanel" aria-labelledby="tab-population" tabindex="0" hidden>
+    <h2>Living population</h2><p id="populationSummary"></p>
+    <div class="population-grid">
+      <section class="panel"><h3>Household wellbeing</h3><div class="stats"><div>Average wellbeing<strong id="householdWellbeing"></strong></div><div>Settled households<strong id="householdSettled"></strong></div><div>Struggling households<strong id="householdStruggling"></strong></div><div>Care pressure<strong id="householdCare"></strong></div></div><p id="needsSummary"></p>
+        <details class="help"><summary>Family register</summary><p id="familySummary"></p><p class="muted">Parents, partners, children and guardians appear beneath each resident. Initial links are provisional, based on plausible age gaps within existing households; unknown parentage stays unrecorded. No past weddings or births are invented.</p><p class="muted">Grown children can establish homes from ages 20–24 when dependants have care. At most two new homes form per month; relatives and members of the same original household do not become partners. Residents keep their names and jobs. A new household represents a new home arrangement, not a paid construction project.</p><p class="muted">Starting children need several years to reach this stage. Births and deaths still follow the existing town economy. Family updates are grouped into one monthly Chronicle entry.</p></details><details class="help"><summary>Occupations across town</summary><p id="occupations" class="muted"></p><p class="muted">The single generic town inn has up to eight staff, provisionally. The generic inn now has private accounts under Businesses; other non-timber jobs still describe broad sectors.</p></details>
+        <details class="help"><summary>What shapes wellbeing?</summary><p class="muted">Food and warmth outlooks reflect town reserves and market firewood, not individual purchases. Care pressure reflects residents’ ages. Low reserve warnings carry mild penalties; serious shortage risk carries more weight. Cold affects households with young children or older residents more strongly. Wellbeing changes daily and recovers gradually. Settled: 65–100 · Under strain: 35–64 · Struggling: 0–34.</p><p class="muted">Children under six need more care; residents aged 75 and over need support. These provisional simulation assumptions add no consumption, charges or extra deaths.</p><p id="needsBasis" class="muted"></p></details>
+        <details class="help"><summary>About daily life</summary><p class="muted">Residents, households and occupations are saved. Routines follow the saved Starhaven time. The seventh town day is a rest day with essential morning duties. Names and assignments are provisional; household scenes add no wages, food use or timber sales.</p></details>
+      </section>
+      <section class="panel"><div class="register-toolbar"><h3>Household register</h3><div><label for="householdFilter">Show </label><select id="householdFilter" onchange="filterHouseholds(this.value)"><option value="all">All households</option><option value="attention">Needs attention</option></select></div></div><p id="householdMatches" class="muted"></p><div id="households"></div><div class="household-controls"><button id="previousHouseholds" class="secondary" onclick="changeHouseholdPage(-1)">Previous</button><span id="householdPage"></span><button id="nextHouseholds" class="secondary" onclick="changeHouseholdPage(1)">Next</button></div></section>
+    </div>
+  </section>
+
+  <section id="view-businesses" class="view" role="tabpanel" aria-labelledby="tab-businesses" tabindex="0" hidden>
+    <h2>Businesses</h2>
+    <section class="panel" aria-labelledby="innHeading"><p class="eyebrow">First town business · Provisional simulation</p><h3 id="innHeading">The town inn</h3><p id="innOwner"></p><div class="stats overview-stats"><div>Staff<strong id="innStaff"></strong></div><div>Daily capacity<strong id="innCapacity"></strong></div><div>Private cash<strong id="innCash"></strong></div></div><p id="innTrading"></p><details class="help"><summary>Staff register</summary><p id="innRoster"></p></details><details class="help"><summary>How the inn trades</summary><p>The owner-manager is one of the existing inn workers, included within the eight-person limit. If they retire or leave, an eligible adult worker takes over provisionally. Without an adult proprietor, trading pauses; upkeep continues.</p><p>Visits cover drinks and hospitality, not extra household meals. Demand changes with town population, season, rest days and household wellbeing. Each worker supports six visits per day. A visit earns 15 cp and costs 4 cp in trade supplies; daily wages are 30 cp per working staff member, including the owner, plus 20 cp of upkeep. 100 cp = 1 gp.</p><p>The inn pays its own bills; the town Treasury, staple food and timber stores are unchanged. Private customer spending and external supplies are estimated; personal wallets are not yet tracked. Cash can become debt. There is no automatic financing, bankruptcy or charged inheritance.</p><p>Accounts begin at the saved simulation day when this version is first loaded. No earlier inn trading is invented. Names, ownership and rates are provisional, not established Arcanus canon.</p></details></section>
+    <section class="panel"><h3>Inn ledger</h3><p class="muted">Current month and the latest 24 closed months. An upgrade part-way through a month records only the remaining days.</p><div id="innLedger"></div></section>
+    <section class="panel"><h3>Timber economy</h3><p class="muted">Timber simulation days: <span id="timberDays">0</span> · Municipal emergency wood reserve: <span id="timberReserve">30 t</span></p><p id="timberOrders" class="muted">Customer orders loading…</p><details class="help"><summary>About these businesses</summary><p class="muted">Two independent timber businesses and two sawmills, with seasoning batches, operating cash, customer orders and catch-up. Demand and staffing are provisional. The generic inn has separate private accounts below. Other shops remain broad sectors.</p></details><div id="timberBusinesses"></div><h4>Independent sawmills</h4><ul id="timberMills"></ul></section>
+    <section class="panel"><h3>Timber business ledger</h3><p class="muted">Monthly income, expenses, sales and sawmill orders. Earlier activity is not reconstructed.</p><div id="timberLedger"></div></section>
+  </section>
+
+  <section id="view-chronicle" class="view" role="tabpanel" aria-labelledby="tab-chronicle" tabindex="0" hidden>
+    <h2>Chronicle</h2><section class="panel"><p class="muted">The latest 20 entries from Kaddinghall’s story.</p><details class="help"><summary>How events are recorded</summary><p class="muted">Arcanus dates and Starhaven hours/minutes. Hourly entries mark changes in town activity; household scenes and wellbeing bulletins add detail. Quiet hours stay quiet. Up to 150 entries are saved; routines are condensed during manual multi-day advances.</p></details><ul id="log"></ul></section>
+  </section>
+  <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.10.0</footer>
+</div></div></section>
 <section id="view-register" class="card" hidden><h1>Calendar register</h1><p id="register-year"></p><label for="event-search">Find an observance or birthday</label><input id="event-search" type="search" placeholder="Name, realm or dedication"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Name</th><th>Category</th><th>Context</th></tr></thead><tbody id="event-rows"></tbody></table></div></section>
 <footer>Campaign time remains manual. Historical lunar projections and seasonal templates outside 828 AF are approximate. The existing economic accounting model remains unchanged.</footer>
-</main><script src="Arcanus-Stage-5/canon-data.js"></script><script src="Arcanus-Stage-5/canon-engine.js"></script><script src="Arcanus-Stage-5/canon-reference.js"></script><script src="Arcanus-Stage-5/canon-panel.js"></script><script src="Calendar/canon.js"></script><script src="Calendar/astronomy.js"></script><script src="Calendar/engine.js"></script><script src="world-screen.js"></script></body></html>
+</main><script>(()=>{try{localStorage.getItem('arcanus-kaddinghall-stage3')}catch(error){
+if(location.protocol!=='file:')throw error;
+const memory=new Map();Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>memory.get(k)??null,setItem:(k,v)=>memory.set(k,String(v)),removeItem:k=>memory.delete(k)}});
+document.getElementById('local-save-note').textContent='This browser blocks local-file saving. This session runs in memory; use Kaddinghall → Export save before closing.';
+}})();</script><script>window.ARCANUS_DB={"schema_version":"0.3","title":"Arcanus Canon Database — Volumes I and II","scope":"Original v0.2 extraction preserved, expanded with Volume II (combined PDF pages 11–21). Not a full extraction of all 12 volumes.","editorial_notes":["Not a full extraction of all 12 volumes.","Malcolm and Star birth surname Brightblade follows later approved genealogy; Chronicle uses their later-known names.","Do not infer parentage from monarch succession.","Only events explicitly labelled planned are future campaign events.","No precise dates assigned where Chronicle leaves them unknown.","Stage 5: original record fields and relationships retained; Volume II additions have explicit source pages.","Undated and approximate events remain reference history, not precise simulator triggers.","The reconstruction sequence completion status is unresolved; its stated narrative facts are preserved without treating it as played.","Mechanics and reference facts are all-time source material, not automatic annual state changes."],"characters":[{"id":"person:tyrenvale:01","name":"Eryndor I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Unifier","reign":{"start_af":0,"end_af":38},"dynasty":"House Tyrenvale","succession_index":1,"birth":{"era":"BF","year":35}},{"id":"person:tyrenvale:02","name":"Caedric I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Lawgiver","reign":{"start_af":38,"end_af":91},"dynasty":"House Tyrenvale","succession_index":2},{"id":"person:tyrenvale:03","name":"Elowen I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Bridge Queen","reign":{"start_af":91,"end_af":143},"dynasty":"House Tyrenvale","succession_index":3},{"id":"person:tyrenvale:04","name":"Aldric I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Resolute","reign":{"start_af":143,"end_af":196},"dynasty":"House Tyrenvale","succession_index":4},{"id":"person:tyrenvale:05","name":"Seraphine I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Scholar","reign":{"start_af":196,"end_af":251},"dynasty":"House Tyrenvale","succession_index":5},{"id":"person:tyrenvale:06","name":"Caedric II","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Proud","reign":{"start_af":251,"end_af":301},"dynasty":"House Tyrenvale","succession_index":6},{"id":"person:tyrenvale:07","name":"Maerwyn I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Restorer","reign":{"start_af":301,"end_af":357},"dynasty":"House Tyrenvale","succession_index":7},{"id":"person:tyrenvale:08","name":"Eryndor II","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Watchful","reign":{"start_af":357,"end_af":410},"dynasty":"House Tyrenvale","succession_index":8},{"id":"person:tyrenvale:09","name":"Althea I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Just","reign":{"start_af":410,"end_af":463},"dynasty":"House Tyrenvale","succession_index":9},{"id":"person:tyrenvale:10","name":"Beren I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Merchant King","reign":{"start_af":463,"end_af":518},"dynasty":"House Tyrenvale","succession_index":10},{"id":"person:tyrenvale:11","name":"Elowen II","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Diplomat","reign":{"start_af":518,"end_af":571},"dynasty":"House Tyrenvale","succession_index":11},{"id":"person:tyrenvale:12","name":"Theron I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Patient","reign":{"start_af":571,"end_af":625},"dynasty":"House Tyrenvale","succession_index":12},{"id":"person:tyrenvale:13","name":"Cedran I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Iron Crown","reign":{"start_af":625,"end_af":677},"dynasty":"House Tyrenvale","succession_index":13},{"id":"person:tyrenvale:14","name":"Seraphine II","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Reconciler","reign":{"start_af":677,"end_af":724},"dynasty":"House Tyrenvale","succession_index":14},{"id":"person:tyrenvale:15","name":"Edric I","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Quiet King","reign":{"start_af":724,"end_af":754},"dynasty":"House Tyrenvale","succession_index":15},{"id":"person:tyrenvale:16","name":"Alaric I Tyrenvale","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Exiled King","reign":{"start_af":754,"end_af":805},"dynasty":"House Tyrenvale","succession_index":16,"birth":{"era":"AF","year":729}},{"id":"person:tyrenvale:17","name":"Aldren I Tyrenvale","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}],"title":"The Hidden King","reign":{"start_af":805,"end_af":null},"dynasty":"House Tyrenvale","succession_index":17,"birth":{"era":"AF","year":793}},{"id":"person:malcolm","name":"Malcolm Brightblade","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,8,9]}],"aliases":["Malcolm Darkbane (later name)"],"birth":{"era":"AF","year":752},"notes":"Born Brightblade; name clarification from later approved family-tree work","reference_facts":[{"label":"Understanding of the prison","value":"Seeks power without understanding that the collapse of the prison could mean the collapse of Arcanus.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[14,18],"volume":"II","volume_pages":[4,8]}]}]},{"id":"person:star","name":"Star Brightblade","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,9,10]}],"aliases":["Star Bright"],"birth":{"era":"AF","year":762},"notes":"Born Brightblade; leads Church of Kielinya"},{"id":"person:ulaire","name":"Ulaire","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,10]}],"aliases":[],"birth":{"era":"AF","year":682}},{"id":"person:roxy","name":"Roxy Quills","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,10]}],"aliases":[],"birth":{"era":"AF","year":742}},{"id":"person:thorn","name":"Thorn","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,10]}],"aliases":[],"birth":{"era":"AF","year":762}},{"id":"person:bonekrakka","name":"Bonekrakka","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,10]}],"aliases":[],"birth":{"era":"AF","year":764}},{"id":"person:corvum","name":"Corvum Zorander","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7]}],"aliases":[],"birth":{"era":"AF","year":760}},{"id":"person:elianora","name":"Elianora Thornvale","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,8]}],"aliases":[],"birth":{"era":"AF","year":730}},{"id":"person:godric_vi","name":"Godric VI","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,8]}],"aliases":[],"birth":{"era":"AF","year":536}},{"id":"person:godric_vii","name":"Godric VII","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,9]}],"aliases":[],"birth":{"era":"AF","year":640}},{"id":"person:brynja","name":"Brynja","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,9]}],"aliases":[],"birth":{"era":"AF","year":517}},{"id":"person:dragotha","name":"Dragotha","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,19]}],"aliases":["White dragon oracle"],"notes":"Birth year deliberately unknown","reference_facts":[{"label":"Identity","value":"Female white dragon oracle; age and birth year deliberately unknown.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[19],"volume":"II","volume_pages":[9]}]},{"label":"Key element","value":"Holds one exceptional element associated with the Eighteenfold Key.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[19],"volume":"II","volume_pages":[9]}]},{"label":"Planned intervention","value":"Brings the White Flight to Kaddinghall because the assault threatens the prison; initially unaware of the full extent of Tiamat’s manipulation.","canon_status":"planned","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[19],"volume":"II","volume_pages":[9]}]}]},{"id":"person:sula","name":"Sula","type":"person","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,16]}],"aliases":["Leyborn child"],"notes":"Born circa 10000 B.F.; not a precise date","reference_facts":[{"label":"Approximate birth","value":"Approximately 10,000 B.F.; not a precise date.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[20],"volume":"II","volume_pages":[10]}]},{"label":"Arcanium exile","value":"Around 9,994 B.F., at about six years old; 1,541 Arcanium days pass while roughly 10,787 outside years pass.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[16,20],"volume":"II","volume_pages":[6,10]}]}]},{"id":"person:tiamat","name":"Tiamat","type":"being","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[13,16],"volume":"II","volume_pages":[3,6]}],"description":"The prisoner contained by Arcanus; formerly inseparable from Krynn. In the later reconstruction sequence, the being presenting itself as the Observer is secretly Tiamat.","aliases":["Observer (identity in the reconstruction sequence)"]},{"id":"deity:kielinya","name":"Kielinya","type":"deity","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[18],"volume":"II","volume_pages":[8]}],"description":"Bound to Kielinstria’s elemental and spiritual history. Danel is her twin brother; this volume gives no settled awakening date."},{"id":"deity:danel","name":"Danel","type":"deity","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[18],"volume":"II","volume_pages":[8]}],"description":"Kielinya’s twin brother, with a distinct and sometimes dangerous place in Kielinstria’s history. No settled awakening date is supplied."},{"id":"deity:dumi","name":"Dumi","type":"deity","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[18],"volume":"II","volume_pages":[8]}],"description":"Associated with the underworld. No settled awakening date is supplied."},{"id":"deity:nyxara","name":"Nyxara","type":"deity","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[18],"volume":"II","volume_pages":[8]}],"description":"Associated with death. No settled awakening date is supplied."}],"locations":[{"id":"province:aegiswatch","name":"Aegiswatch","type":"province","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3]}],"realm":"Kielinstria"},{"id":"province:glimmerdawn","name":"Glimmerdawn","type":"province","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3]}],"realm":"Kielinstria"},{"id":"province:silvermere","name":"Silvermere","type":"province","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3]}],"realm":"Kielinstria"},{"id":"province:ironveil","name":"Ironveil","type":"province","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3]}],"realm":"Kielinstria"},{"id":"province:verdantreach","name":"Verdantreach","type":"province","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3]}],"realm":"Kielinstria"},{"id":"province:sapphirestrand","name":"Sapphirestrand","type":"province","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3]}],"realm":"Kielinstria"},{"id":"province:emberward","name":"Emberward","type":"province","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3]}],"realm":"Kielinstria"},{"id":"province:frostlight","name":"Frostlight","type":"province","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3]}],"realm":"Kielinstria"},{"id":"location:twin_forks","name":"Twin Forks","type":"settlement","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3,17]}],"province":"Glimmerdawn","capital":true,"nexus_type":"control","reference_facts":[{"label":"Control Nexus","value":"The Control Nexus is at Twin Forks.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[17],"volume":"II","volume_pages":[7]}]}]},{"id":"location:kaddinghall","name":"Kaddinghall","type":"settlement","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3,17]}],"province":"Aegiswatch","nexus_type":"key","reference_facts":[{"label":"Key Nexus","value":"Beneath the Tomb of the First Paladin and Dawnspire.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[17],"volume":"II","volume_pages":[7]}]}]},{"id":"location:sternia","name":"Sternia","type":"settlement","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3,17]}],"province":"Ironveil","nexus_condition_after_793":"weak, unguarded","reference_facts":[{"label":"Guardian history","value":"Ancestors of Sternia’s dwarves were appointed guardians of a vulnerable lattice point; the appointment is undated.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[17,19],"volume":"II","volume_pages":[7,9]}]}]},{"id":"location:starhaven","name":"Starhaven","type":"settlement","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8]}],"province":null},{"id":"location:whiteridge","name":"Whiteridge","type":"settlement","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[35]}],"province":null},{"id":"realm:kielinstria","name":"Kielinstria","type":"realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15],"volume":"II","volume_pages":[5]}],"description":"Containment, warding and protection.","magical_school":"Abjuration","eight_realms_member":true},{"id":"realm:pyrothar","name":"Pyrothar","type":"realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15],"volume":"II","volume_pages":[5]}],"description":"Released force, elemental energy and destructive or transformative magical discharge.","magical_school":"Evocation","eight_realms_member":true},{"id":"realm:aquenaleth","name":"Aquenaleth","type":"realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15],"volume":"II","volume_pages":[5]}],"description":"Connection, passage and calling matter or beings across boundaries.","magical_school":"Conjuration","eight_realms_member":true},{"id":"realm:terravalor","name":"Terravalor","type":"realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15],"volume":"II","volume_pages":[5]}],"description":"Changing matter, reshaping stone and adapting physical forms.","magical_school":"Transmutation","eight_realms_member":true},{"id":"realm:zephyros","name":"Zephyros","type":"realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15],"volume":"II","volume_pages":[5]}],"description":"Appearances, shifting perception and echoes of things that once existed.","magical_school":"Illusion","eight_realms_member":true},{"id":"realm:umbrathis","name":"Umbrathis","type":"realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15],"volume":"II","volume_pages":[5]}],"description":"Death and the spiritual residue of Krynn’s destruction.","magical_school":"Necromancy","eight_realms_member":true},{"id":"realm:luminara","name":"Luminara","type":"realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15],"volume":"II","volume_pages":[5]}],"description":"Possible futures, visions and patterns in fractures of time.","magical_school":"Divination","eight_realms_member":true},{"id":"realm:eldarion","name":"Eldarion","type":"realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15],"volume":"II","volume_pages":[5]}],"description":"Will, feeling, memory and the influence of minds upon one another.","magical_school":"Enchantment","eight_realms_member":true},{"id":"world:krynn","name":"Krynn","type":"former world","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[13,20],"volume":"II","volume_pages":[3,10]}],"description":"The world that preceded Arcanus. Tiamat was bound to its foundations for an unknown reason. Activation of the First Key destroyed it; no definitive year is assigned."},{"id":"world:arcanus","name":"Arcanus","type":"prison-world","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[12,13,20],"volume":"II","volume_pages":[2,3,10]}],"description":"Formed from the energies and surviving fragments of Krynn around Tiamat’s imprisonment. Its structure sustains both the world and the confinement."},{"id":"location:arcanium","name":"Arcanium","type":"astral confluence","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15,16],"volume":"II","volume_pages":[5,6]}],"description":"The metaphysical meeting point of the Eight Realms, with eight spires, libraries and the Primordial Crystal. A threshold and regulator of magical exchange, not a ninth magical-school realm.","eight_realms_member":false},{"id":"realm:dracarnia","name":"Dracarnia","type":"dragon realm","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[15,20],"volume":"II","volume_pages":[5,10]}],"description":"The dragon realm outside the Leyline Lattice and the Eight-school structure. Dracaryn is an earlier archived draft name.","aliases":["Dracaryn (archived draft name)"],"eight_realms_member":false},{"id":"location:first_paladin_tomb","name":"Tomb of the First Paladin","type":"tomb","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[17,19],"volume":"II","volume_pages":[7,9]}],"description":"At Kaddinghall; its significance extends beyond ordinary religious history. The Key Nexus lies beneath the tomb and Dawnspire.","related_ids":["location:kaddinghall"]},{"id":"location:dawnspire","name":"Dawnspire","type":"landmark","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[17],"volume":"II","volume_pages":[7]}],"description":"Named with the Tomb of the First Paladin above Kaddinghall’s Key Nexus. This volume does not specify its structure or construction date.","related_ids":["location:kaddinghall"]},{"id":"location:island_nexus","name":"Island Nexus (unnamed)","type":"nexus","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[16,17],"volume":"II","volume_pages":[6,7]}],"description":"An island Nexus linked directly to the Arcanium, associated with Malcolm’s planned second Arcane Syphon. The island’s name and geographical position are not supplied.","related_ids":["location:arcanium"]}],"factions":[{"id":"faction:council_eight","name":"Council of Eight","type":"faction","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3,9]}],"abolished_af":818},{"id":"faction:royal_court","name":"Royal Court","type":"faction","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3,8,9]}]},{"id":"faction:house_tyrenvale","name":"House Tyrenvale","type":"faction","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5]}]},{"id":"faction:royal_blackguard","name":"Royal Blackguard","type":"faction","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[10]}]},{"id":"faction:church_kielinya","name":"Church of Kielinya","type":"faction","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[10]}]},{"id":"faction:shadow_syndicate","name":"Shadow Syndicate","type":"faction","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8,9]}]},{"id":"faction:sternia_guardians","name":"Dwarven guardians of Sternia","type":"guardian community","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[17,19],"volume":"II","volume_pages":[7,9]}],"description":"Sternia’s dwarven ancestors were appointed guardians of a vulnerable lattice point. The duty survived through ages; its exact appointment date is not recorded.","related_ids":["location:sternia"]},{"id":"faction:white_flight","name":"White Flight","type":"dragon flight","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[19],"volume":"II","volume_pages":[9]}],"description":"The flight Dragotha brings to Kaddinghall in the planned final struggle. The intervention remains campaign material, not completed history.","related_ids":["person:dragotha"]}],"events":[{"id":"event:unification","name":"Unification of Kielinstria","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[3,8]}],"date":{"era":"AF","year":0},"description":"Eryndor I unites eight kingdoms under one Crown and Council of Eight.","related_ids":["person:tyrenvale:01","faction:council_eight"]},{"id":"event:miracle_kaddinghall","name":"Miracle of Kaddinghall","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8,36]}],"date":{"era":"AF","year":350},"description":"A major manifestation at Kaddinghall during Maerwyn I’s reign.","related_ids":["location:kaddinghall","person:tyrenvale:07"]},{"id":"event:treaty_starhaven","name":"Treaty of Starhaven","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[5,8]}],"date":{"era":"AF","year":560},"description":"Treaty sponsored by Elowen II.","related_ids":["person:tyrenvale:11","location:starhaven"]},{"id":"event:malcolm_abducted","name":"Malcolm abducted","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8]}],"date":{"era":"AF","year":762},"description":"Malcolm abducted by bandits at age ten.","related_ids":["person:malcolm"]},{"id":"event:malcolm_bandit_leader","name":"Malcolm leads bandits","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8]}],"date":{"era":"AF","year":768},"description":"Malcolm becomes leader aged sixteen.","related_ids":["person:malcolm"]},{"id":"event:starhaven_raid","name":"Raid on Starhaven","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8]}],"date":{"era":"AF","year":772},"description":"Malcolm raids Starhaven; his and Star’s parents are killed.","related_ids":["person:malcolm","person:star","location:starhaven"]},{"id":"event:elianora_killed","name":"Elianora physically killed","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,8]}],"date":{"era":"AF","year":792},"description":"Elianora is physically killed; soul sacrificed the following year.","related_ids":["person:elianora"]},{"id":"event:sternia_fall","name":"Destruction of Sternia","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8,17]}],"date":{"era":"AF","year":793},"description":"Arcane Syphon sabotage using Umbrathis obsidian destroys Sternia; its Nexus survives in weakened state.","related_ids":["location:sternia","person:malcolm","person:godric_vi","person:godric_vii"],"reference_facts":[{"label":"Lattice consequences","value":"Sternia’s Nexus survives dangerously weak and without its original dwarven guardians.","canon_status":"established","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[17],"volume":"II","volume_pages":[7]}]}]},{"id":"event:elianora_sacrifice","name":"Elianora soul sacrifice","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8]}],"date":{"era":"AF","year":793},"description":"Elianora’s soul is sacrificed.","related_ids":["person:elianora"]},{"id":"event:drevan_death","name":"Death of Drevan","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8]}],"date":{"era":"AF","year":796},"description":"Malcolm kills Drevan; Star knows of death but not method.","related_ids":["person:malcolm","person:star"]},{"id":"event:alaric_exile","name":"Exile of Alaric I","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[8,10]}],"date":{"era":"AF","year":803},"description":"False treason accusation, Court deceived; Alaric escapes and Malcolm becomes Temporary High Councillor.","related_ids":["person:tyrenvale:16","person:malcolm","faction:royal_court"]},{"id":"event:alaric_death","name":"Death of Alaric I","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9,10]}],"date":{"era":"AF","year":805},"description":"Alaric dies in exile.","related_ids":["person:tyrenvale:16"]},{"id":"event:aldren_coronation","name":"Secret coronation of Aldren I","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9,10]}],"date":{"era":"AF","year":805},"description":"Star crowns Aldren in the Tomb of the First Paladin; Royal Blackguard witness.","related_ids":["person:tyrenvale:17","person:star","faction:royal_blackguard","location:kaddinghall"]},{"id":"event:fairmont_assassination","name":"Assassination of Helena Fairmont","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9]}],"date":{"era":"AF","year":808},"description":"Helena Fairmont assassinated; Theron Valcrest framed and executed.","related_ids":[]},{"id":"event:amendment_failed","name":"Failed constitutional amendment","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9]}],"date":{"era":"AF","year":812},"description":"Fails 4–2; five affirmative votes required.","related_ids":["faction:council_eight"]},{"id":"event:renewal_invalid","name":"Invalid emergency renewal","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9]}],"date":{"era":"AF","year":817},"description":"Malcolm engineers lack of quorum; sympathetic Court permits temporary continuation.","related_ids":["person:malcolm","faction:council_eight"]},{"id":"event:council_abolished","name":"Abolition of Council of Eight","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9]}],"date":{"era":"AF","year":818},"description":"Malcolm unconstitutionally abolishes Council of Eight.","related_ids":["person:malcolm","faction:council_eight"]},{"id":"event:star_escape","name":"Twin Forks Auditorium escape","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9]}],"date":{"era":"AF","year":818},"description":"Star publicly rejects Malcolm and escapes; Malcolm attacks escape routes.","related_ids":["person:malcolm","person:star","location:twin_forks"]},{"id":"event:iron_rule","name":"Iron Rule begins","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9]}],"date":{"era":"AF","year":818},"description":"Malcolm’s Iron Rule begins.","related_ids":["person:malcolm"]},{"id":"event:kaddinghall_battle","name":"Battle of Kaddinghall (planned)","type":"event","canon_status":"planned","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[9]}],"date":{"era":"AF","year":828},"description":"Planned return of Aldren, dwarven allies and Dragotha; Malcolm’s defeat remains unplayed.","related_ids":["person:tyrenvale:17","person:star","person:malcolm","person:dragotha","person:godric_vii","person:brynja"],"reference_facts":[{"label":"White Flight intervention","value":"Dragotha brings the White Flight in the planned final struggle. This is not an ancient historical event.","canon_status":"planned","temporal_scope":"reference; not an annual state assertion","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[19,20],"volume":"II","volume_pages":[9,10]}]}]},{"id":"event:krynn_destruction","name":"Destruction of Krynn","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[13,20],"volume":"II","volume_pages":[3,10]}],"description":"Activation of the First Key destroys Krynn; released energies and surviving fragments are reorganised around Tiamat’s imprisonment.","date":{"precision":"unknown","relative":"Before the founding calendar; no definitive year"},"related_ids":["world:krynn","world:arcanus","person:tiamat","mechanic:first_key"]},{"id":"event:first_dawn","name":"First Dawn","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[13,20],"volume":"II","volume_pages":[3,10]}],"description":"The Eight Realms, Arcanium, Primordial Crystal and magical currents stabilise. The source gives a broad sequence rather than a definitive calendar year.","date":{"precision":"unknown","relative":"Following the First Key; before the Lost Ages"},"related_ids":["world:arcanus","location:arcanium","mechanic:primordial_crystal"]},{"id":"event:sula_birth","name":"Birth of Sula","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[20],"volume":"II","volume_pages":[10]}],"description":"Sula is born amid the ancient leyline era. The date is approximate.","date":{"era":"BF","year":10000,"precision":"approximate"},"related_ids":["person:sula"]},{"id":"event:sula_exile","name":"Sula enters the Arcanium","type":"event","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[16,20],"volume":"II","volume_pages":[6,10]}],"description":"Sula is exiled into the Arcanium at about six years old, around 9,994 B.F.; ancient dates remain approximate.","date":{"era":"BF","year":9994,"precision":"approximate"},"related_ids":["person:sula","location:arcanium"]},{"id":"event:second_syphon_plan","name":"Second Arcane Syphon scheme","type":"event","canon_status":"planned","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[16,17],"volume":"II","volume_pages":[6,7]}],"description":"Malcolm’s planned second Syphon targets an island Nexus directly linked to the Arcanium and seeks the Crystal’s power. Completion and outcome are not established.","date":{"precision":"unknown","relative":"Later development; exact year not supplied"},"related_ids":["person:malcolm","location:island_nexus","location:arcanium","mechanic:primordial_crystal","mechanic:arcane_syphon"]},{"id":"event:reconstruction_sequence","name":"Arcanium reconstruction and briefing sequence","type":"event","canon_status":"unresolved","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[16,20],"volume":"II","volume_pages":[6,10]}],"description":"The later campaign sequence spans five Arcanium days and thirty-five outside years, from 793 to 828 A.F. The Observer in this sequence is secretly Tiamat. The participants are not listed and the volume does not explicitly establish whether the sequence has been played.","date":{"era":"AF","start_year":793,"end_year":828,"precision":"range"},"review_reason":"Narrative facts are recorded, but completion/play status is unclear; not applied as completed history.","related_ids":["location:arcanium","person:tiamat","mechanic:arcanium_time"]}],"relationships":[{"subject_id":"person:malcolm","predicate":"sibling_of","object_id":"person:star","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[7,8]}]},{"subject_id":"person:tyrenvale:16","predicate":"parent_of","object_id":"person:tyrenvale:17","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[5,10]}]},{"subject_id":"person:tyrenvale:01","predicate":"parent_of","object_id":"person:tyrenvale:02","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4]}]},{"subject_id":"person:tyrenvale:02","predicate":"parent_of","object_id":"person:tyrenvale:03","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4]}]},{"subject_id":"person:tyrenvale:03","predicate":"parent_of","object_id":"person:tyrenvale:04","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4]}]},{"subject_id":"person:tyrenvale:04","predicate":"parent_of","object_id":"person:tyrenvale:05","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4]}]},{"subject_id":"person:tyrenvale:07","predicate":"parent_of","object_id":"person:tyrenvale:08","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4]}]},{"subject_id":"person:tyrenvale:08","predicate":"parent_of","object_id":"person:tyrenvale:09","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[5]}]},{"subject_id":"person:tyrenvale:10","predicate":"parent_of","object_id":"person:tyrenvale:11","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[5]}]},{"subject_id":"person:tyrenvale:11","predicate":"parent_of","object_id":"person:tyrenvale:12","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[5]}]},{"subject_id":"person:tyrenvale:13","predicate":"parent_of","object_id":"person:tyrenvale:14","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[5]}]},{"subject_id":"person:tyrenvale:14","predicate":"parent_of","object_id":"person:tyrenvale:15","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[5]}]},{"subject_id":"person:tyrenvale:15","predicate":"parent_of","object_id":"person:tyrenvale:16","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[5]}]},{"subject_id":"person:tyrenvale:01","predicate":"succeeded_by","object_id":"person:tyrenvale:02","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:02","predicate":"succeeded_by","object_id":"person:tyrenvale:03","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:03","predicate":"succeeded_by","object_id":"person:tyrenvale:04","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:04","predicate":"succeeded_by","object_id":"person:tyrenvale:05","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:05","predicate":"succeeded_by","object_id":"person:tyrenvale:06","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:06","predicate":"succeeded_by","object_id":"person:tyrenvale:07","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:07","predicate":"succeeded_by","object_id":"person:tyrenvale:08","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:08","predicate":"succeeded_by","object_id":"person:tyrenvale:09","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:09","predicate":"succeeded_by","object_id":"person:tyrenvale:10","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:10","predicate":"succeeded_by","object_id":"person:tyrenvale:11","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:11","predicate":"succeeded_by","object_id":"person:tyrenvale:12","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:12","predicate":"succeeded_by","object_id":"person:tyrenvale:13","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:13","predicate":"succeeded_by","object_id":"person:tyrenvale:14","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:14","predicate":"succeeded_by","object_id":"person:tyrenvale:15","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:15","predicate":"succeeded_by","object_id":"person:tyrenvale:16","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"person:tyrenvale:16","predicate":"succeeded_by","object_id":"person:tyrenvale:17","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[4,5,6]}]},{"subject_id":"deity:kielinya","predicate":"sibling_of","object_id":"deity:danel","qualifier":"twins","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[18],"volume":"II","volume_pages":[8]}]}],"mechanics":[{"id":"mechanic:first_key","name":"First Key of Existence","type":"artefact","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[13,14,20],"volume":"II","volume_pages":[3,4,10]}],"description":"The instrument whose activation destroyed Krynn and established the prison-world. It is distinct from the later Eighteenfold Key.","related_ids":["world:krynn","world:arcanus","person:tiamat"]},{"id":"mechanic:eighteenfold_key","name":"Eighteenfold Key","type":"artefact","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[14,19,20],"volume":"II","volume_pages":[4,9,10]}],"description":"The Second Key of Existence stabilises the prison. Its design has eighteen elements: sixteen associated with the Eight Realms, two per realm, plus exceptional elements associated with Tiamat and Dragotha. Correct reassembly and installation restore lattice stability; this is not a simple means of opening the prison.","aliases":["Second Key of Existence"],"related_ids":["person:tiamat","person:dragotha"]},{"id":"mechanic:primordial_crystal","name":"Primordial Crystal","type":"artefact","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[13,16],"volume":"II","volume_pages":[3,6]}],"description":"A surviving remnant of Krynn at the heart of the Arcanium; the central regulator of the Eight Realms’ magical forces. Access through a damaged Nexus would threaten the wider lattice.","related_ids":["location:arcanium","world:krynn"]},{"id":"mechanic:leyline_lattice","name":"Leyline Lattice","type":"world system","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[14,17,20],"volume":"II","volume_pages":[4,7,10]}],"description":"Carries magical currents between realms. Its crossings form Nexuses; together they sustain Arcanus and confine Tiamat. Nexus damage can propagate through the structure. The lattice is not identical to the Shattered Veil."},{"id":"mechanic:nexus_functions","name":"Control and Key Nexuses","type":"world system","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[17],"volume":"II","volume_pages":[7]}],"description":"Control Nexuses direct or regulate flows; Key Nexuses occupy major concentrations of crossings and connect to the prison’s stabilising architecture. Their functions are not interchangeable.","related_ids":["location:kaddinghall","location:twin_forks"]},{"id":"mechanic:arcane_syphon","name":"Arcane Syphon","type":"mechanism","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[14,17],"volume":"II","volume_pages":[4,7]}],"description":"Draws power from leylines and Nexuses. Malcolm used Umbrathis obsidian to engineer its failure at Sternia in 793 A.F. The later island scheme remains separate from that established event.","related_ids":["person:malcolm","location:sternia","realm:umbrathis"]},{"id":"mechanic:arcanium_time","name":"Arcanium time","type":"setting rule","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[16],"volume":"II","volume_pages":[6]}],"description":"One day inside the Arcanium corresponds to approximately seven years outside. Sula’s stay is given as 1,541 inside days and roughly 10,787 outside years. Approximate ancient dates and the stated time relationship are preserved; no new calendar conversion is imposed.","related_ids":["location:arcanium","person:sula"]},{"id":"mechanic:first_law","name":"First Law","type":"setting rule","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[18],"volume":"II","volume_pages":[8]}],"description":"A being belonging to Arcanus cannot knowingly and willingly act with the direct purpose of destroying the world itself. This restrains intent, not cruelty or unintended catastrophic consequences. Its exact application to every god, external visitor and artefact is not settled here."},{"id":"mechanic:shattered_veil","name":"Shattered Veil","type":"cosmological structure","canon_status":"established","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[20],"volume":"II","volume_pages":[10]}],"description":"Distinct from the Leyline Lattice. It has not been definitively sealed in the current campaign. No exact date or fuller mechanism is supplied by this volume."},{"id":"mechanic:eighteenfold_altar","name":"Eighteenfold Key altar or locus","type":"scenario element","canon_status":"planned","sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[14],"volume":"II","volume_pages":[4]}],"description":"The intended installation locus of the completed Key. Its precise physical design is still developing; no historical construction date is established.","related_ids":["mechanic:eighteenfold_key"]}],"review_issues":[{"id":"review:reconstruction_status","name":"Has the reconstruction sequence been played?","canon_status":"unresolved","decision_needed":true,"description":"Page 16 describes the five-day / 35-year sequence; page 20 keeps the 828 finale planned. These do not prove whether this separate sequence has already been played. Preserve its stated range and identity revelation, but do not count it as completed history without a canon decision.","related_ids":["event:reconstruction_sequence"],"sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[16,20],"volume":"II","volume_pages":[6,10]}]},{"id":"review:ancient_dates","name":"Ancient dates remain approximate or unknown","canon_status":"unresolved","decision_needed":false,"description":"No precise First Dawn or Krynn-destruction year is supplied; Sula’s ancient dates are approximate. Do not manufacture precise dates or derive new ones from elapsed time.","related_ids":["event:first_dawn","event:krynn_destruction","event:sula_birth","event:sula_exile"],"sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[13,16,20],"volume":"II","volume_pages":[3,6,10]}]},{"id":"review:altar_design","name":"Final altar design remains developing","canon_status":"unresolved","decision_needed":false,"description":"The design is a developing prop/scenario element, not a confirmed physical design or dated historical construction.","related_ids":["mechanic:eighteenfold_altar"],"sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[14],"volume":"II","volume_pages":[4]}]},{"id":"review:first_law_scope","name":"First Law edge cases are not settled","canon_status":"unresolved","decision_needed":false,"description":"Do not extend the rule to every god, outside visitor or artefact without a separate canon decision.","related_ids":["mechanic:first_law"],"sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[18],"volume":"II","volume_pages":[8]}]},{"id":"review:island_identity","name":"Island name and position are not recorded","canon_status":"unresolved","decision_needed":false,"description":"The planned Syphon’s island Nexus is linked directly to the Arcanium, but no island name or map position is supplied in this volume.","related_ids":["location:island_nexus"],"sources":[{"document":"ARCANUS_Grand_Chronicle_Complete_12_Volumes.pdf","pages":[16,17],"volume":"II","volume_pages":[6,7]}]}]};
+</script><script>/* Pure annual canon projection. No economy, random outcomes or source mutations. */
+(function(root){
+'use strict';
+const rules = {
+ 'event:unification': [['faction:council_eight','institution','constituted']],
+ 'event:sternia_fall': [['location:sternia','settlement','destroyed'],['location:sternia','nexus','survives, weakened']],
+ 'event:elianora_killed': [['person:elianora','physical_state','physically killed']],
+ 'event:elianora_sacrifice': [['person:elianora','soul_state','sacrificed']],
+ 'event:alaric_exile': [['person:tyrenvale:16','political_state','exiled'],['person:malcolm','office','Temporary High Councillor']],
+ 'event:alaric_death': [['person:tyrenvale:16','physical_state','dead']],
+ 'event:aldren_coronation': [['person:tyrenvale:17','coronation','secretly crowned']],
+ 'event:council_abolished': [['faction:council_eight','institution','unconstitutionally abolished']],
+ 'event:iron_rule': [['person:malcolm','rule','Iron Rule begun']]
+};
+function validate(db){
+ const records=['characters','locations','factions','events'].flatMap(k=>{if(!Array.isArray(db[k]))throw Error('Missing collection: '+k);return db[k]}).concat(db.mechanics||[]);
+ const ids=new Set();for(const r of records){if(!r.id||ids.has(r.id))throw Error('Missing or duplicate record ID');ids.add(r.id);if(!r.canon_status)throw Error('Missing canon status: '+r.id)}
+ for(const r of records){for(const id of r.related_ids||[])if(!ids.has(id))throw Error('Broken reference: '+id)}
+ for(const r of db.relationships||[])for(const id of [r.subject_id,r.object_id])if(!ids.has(id))throw Error('Broken relationship: '+id);
+ return true;
+}
+function project(db,year){
+ if(!Number.isSafeInteger(year)||year<0||year>9999)throw Error('Choose a whole A.F. year from 0 to 9999.');
+ validate(db);
+ const entities=Object.fromEntries(['characters','locations','factions'].flatMap(k=>db[k].map(r=>[r.id,{id:r.id,name:r.name,facts:{}}])));
+ const set=(id,key,value,e)=>{if(!entities[id])throw Error('Missing effect target: '+id);entities[id].facts[key]={value,event_id:e.id,sources:e.sources}};
+ const dated=e=>e.date?.era==='AF'&&Number.isSafeInteger(e.date.year)&&e.date.year>=0&&(!e.date.precision||e.date.precision==='exact');
+ const ordered=db.events.map((e,i)=>({e,i})).sort((a,b)=>(a.e.date?.year??Infinity)-(b.e.date?.year??Infinity)||a.i-b.i).map(x=>x.e);
+ const occurred=[],pending=[],excluded=[];
+ for(const e of ordered){
+  if(e.canon_status!=='established'||!dated(e)){excluded.push({id:e.id,status:e.canon_status,reason:e.canon_status!=='established'?'Not established completed history':'Reference history; no precise supported A.F. date'});continue}
+  if(e.date.year>year){pending.push(e.id);continue}
+  occurred.push(e.id);for(const [id,key,value] of rules[e.id]||[])set(id,key,value,e);
+ }
+ // The source explicitly says AFTER 793; do not assign an invented day within 793.
+ const sternia=db.locations.find(r=>r.id==='location:sternia');
+ if(year>793&&sternia?.canon_status==='established'&&occurred.includes('event:sternia_fall')&&sternia.nexus_condition_after_793)set(sternia.id,'nexus_condition',sternia.nexus_condition_after_793,sternia);
+ const monarchs=db.characters.filter(r=>r.canon_status==='established'&&r.reign&&r.reign.start_af<=year&&(r.reign.end_af===null||year<r.reign.end_af)).map(r=>r.id);
+ return {schema_version:'stage3.1',year_af:year,precision:'annual; events included in their listed year; no within-year order asserted',entities,monarch_ids:monarchs,occurred_event_ids:occurred,pending_event_ids:pending,excluded_events:excluded};
+}
+const api={project,validate,rules};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.ArcanusCanon=api;
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script><script>(function(){
+'use strict';
+const db=window.ARCANUS_DB,collections=['characters','locations','factions','events','mechanics'];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const all=collections.flatMap(k=>db[k]||[]),record=id=>all.find(r=>r.id===id),name=id=>record(id)?.name||'Unresolved reference';
+const status=s=>({established:'Confirmed canon',planned:'Planned — not completed history',unresolved:'Unresolved — not applied to history'}[s]||s);
+function date(d){if(!d)return 'Not recorded';const era=d.era==='AF'?'A.F.':d.era==='BF'?'B.F.':d.era||'';if(d.precision==='range')return d.start_year+'–'+d.end_year+' '+era+' (range; not a single-year event)';if(d.precision==='unknown')return 'Undated'+(d.relative?' — '+d.relative:'');return (d.precision==='approximate'?'Approximately ':'')+d.year+' '+era}
+const sources=r=>(r?.sources||[]).map(s=>'Grand Chronicle · PDF pages '+s.pages.join(', ')+(s.volume?' · Volume '+s.volume+', pages '+s.volume_pages.join(', '):'')).join('; ');
+const source=r=>'<small class="source">'+esc(sources(r)||'Source not recorded')+'</small>';
+const facts=r=>(r?.reference_facts||[]).map(f=>'<div class="reference-fact"><strong>'+esc(f.label)+'</strong><p>'+esc(f.value)+'</p><small>'+esc(status(f.canon_status))+' · Reference, not a dated state change</small>'+source(f)+'</div>').join('');
+window.ArcanusReference={collections,all,esc,record,name,status,date,sources,source,facts};
+})();
+</script><script>(function(){
+'use strict';
+const db=window.ARCANUS_DB,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const records=['characters','locations','factions','events','mechanics'].flatMap(k=>db[k]||[]),get=id=>records.find(r=>r.id===id),name=id=>get(id)?.name||'Not recorded';
+let current,active='crown',query='';
+const labels={institution:'Council status',settlement:'Settlement condition',nexus:'Nexus',nexus_condition:'Later nexus condition',physical_state:'Physical state',soul_state:'Soul',political_state:'Political status',office:'Recorded appointment',coronation:'Coronation',rule:'Rule'};
+const source=window.ArcanusReference.source;
+const row=(k,v)=>'<dt>'+esc(k)+'</dt><dd>'+esc(v??'Not recorded')+'</dd>';
+function facts(id){const list=Object.entries(current.entities[id]?.facts||{});return list.length?'<dl>'+list.map(([k,f])=>row(labels[k]||k,f.value)+'<dd class="evidence">'+esc(name(f.event_id))+source(f)+'</dd>').join('')+'</dl>':'<p class="muted">Conditions at this year: Not recorded.</p>'}
+function event(e){return '<article class="world-event"><h4>'+esc(window.ArcanusReference.date(e.date))+' · '+esc(e.name)+'</h4><p>'+esc(e.description)+'</p>'+source(e)+'</article>'}
+function events(id){const list=current.occurred_event_ids.map(get).filter(e=>(e.related_ids||[]).includes(id));return list.length?'<details><summary>Recorded events through '+current.year_af+' ('+list.length+')</summary>'+list.map(event).join('')+'</details>':'<p class="muted">Dated events through this year: Not recorded.</p>'}
+function family(id){const list=db.relationships.filter(r=>(r.subject_id===id||r.object_id===id)&&r.predicate!=='succeeded_by');return '<details><summary>Family reference · not dated</summary><p class="muted">All-time relationships; not claims about who is alive in the selected year.</p>'+(list.length?'<dl>'+list.map(r=>{const f=r.subject_id===id;return row(r.predicate==='parent_of'?(f?'Parent of':'Child of'):'Sibling of',name(f?r.object_id:r.subject_id))+'<dd>'+source(r)+'</dd>'}).join('')+'</dl>':'<p>Not recorded.</p>')+'</details>'}
+function person(p){return '<article class="world-card"><h3>'+esc(p.name)+'</h3>'+(p.birth?.era==='AF'&&p.birth.year>current.year_af?'<p class="badge">Not yet born at this year</p>':facts(p.id))+'<details><summary>Biographical reference · all-time</summary><dl>'+row('Known names',p.aliases?.join('; ')||'Not recorded')+row('Birth',p.birth?p.birth.year+' '+p.birth.era:'Not recorded')+row('Title',p.title)+row('Dynasty',p.dynasty)+(p.reign?row('Recorded reign',p.reign.start_af+'–'+(p.reign.end_af??'onward')+' A.F.'):'')+'</dl><p>Titles and aliases have no effective date in this database.</p>'+(p.description?'<p>'+esc(p.description)+'</p>':'')+window.ArcanusReference.facts(p)+source(p)+'</details>'+family(p.id)+events(p.id)+'</article>'}
+function filter(label){return '<label for="world-filter">'+label+'</label><input id="world-filter" type="search" value="'+esc(query)+'" placeholder="Search by name">'}
+function body(){
+if(active==='crown')return '<div class="world-grid"><article class="world-card"><p class="eyebrow">The Crown</p><h3>'+esc(current.monarch_ids.map(name).join(', ')||'Not recorded')+'</h3><p>Recorded monarch for '+current.year_af+' A.F.; this does not imply public recognition or effective control.</p>'+current.monarch_ids.map(id=>source(get(id))+facts(id)).join('')+'</article><article class="world-card"><h3>Council of Eight</h3>'+facts('faction:council_eight')+events('faction:council_eight')+'</article><article class="world-card"><h3>Malcolm Brightblade</h3>'+facts('person:malcolm')+'<p class="muted">Appointments are shown as recorded events; no end date is inferred.</p></article></div>';
+if(active==='places'){const list=db.locations.filter(p=>p.name.toLowerCase().includes(query.toLowerCase()));return filter('Find a place')+'<p>'+list.length+' places</p><div class="world-grid">'+list.map(p=>'<article class="world-card"><h3>'+esc(p.name)+'</h3>'+facts(p.id)+'<details><summary>Geographical reference · not dated</summary><dl>'+row('Kind',p.type)+row('Province',p.province)+row('Realm',p.realm)+row('Nexus type',p.nexus_type)+row('Magical school',p.magical_school)+(p.eight_realms_member!==undefined?row('One of the Eight Realms',p.eight_realms_member?'Yes':'No'):'')+'</dl>'+(p.description?'<p>'+esc(p.description)+'</p>':'')+window.ArcanusReference.facts(p)+source(p)+'</details>'+events(p.id)+'</article>').join('')+'</div>'}
+if(active==='people'){const list=db.characters.filter(p=>[p.name,...p.aliases||[]].join(' ').toLowerCase().includes(query.toLowerCase()));return filter('Find a person')+'<p>'+list.length+' people · Missing records do not establish whether a person is alive.</p><div class="world-grid">'+list.map(person).join('')+'</div>'}
+if(active==='foundations')return '<p>All-time reference rules and artefacts. These do not advance the simulator clock or imply that a planned construction is complete.</p><div class="world-grid">'+db.mechanics.map(r=>'<article class="world-card"><span class="badge">'+esc(window.ArcanusReference.status(r.canon_status))+'</span><h3>'+esc(r.name)+'</h3><p>'+esc(r.description)+'</p>'+source(r)+'</article>').join('')+'</div>';
+if(active==='review')return '<p>Questions and limits recorded during the Volume II audit. No automatic canon decisions are made here.</p>'+db.review_issues.map(r=>'<article class="world-card"><h3>'+esc(r.name)+'</h3><span class="badge">'+(r.decision_needed?'Completion status needs confirmation':'Known limit — left open')+'</span><p>'+esc(r.description)+'</p>'+source(r)+'</article>').join('');
+if(active==='planned')return '<p class="planned-note">Plans are not history. Passing the proposed year does not confirm an event or its outcome.</p>'+db.events.filter(e=>e.canon_status==='planned').map(e=>'<section class="world-card"><span class="badge">Planned · unplayed</span>'+event(e)+'</section>').join('')+(db.mechanics||[]).filter(r=>r.canon_status==='planned').map(r=>'<article class="world-card"><h3>'+esc(r.name)+'</h3><p>'+esc(r.description)+'</p>'+source(r)+'</article>').join('')+current.excluded_events.filter(x=>x.status==='unresolved').map(x=>'<p>'+esc(name(x.id))+' — '+esc(x.reason)+'</p>').join('');
+return '<p>Established events through '+current.year_af+' A.F.</p>'+current.occurred_event_ids.map(id=>event(get(id))).join('')+'<h3>Undated and approximate history · reference only</h3><p>These events are confirmed in the source but are not scheduled at a precise year by the simulator.</p>'+current.excluded_events.filter(x=>x.status==='established').map(x=>event(get(x.id))).join('');
+}
+function bindFilter(){const input=document.getElementById('world-filter');if(input)input.addEventListener('input',()=>{query=input.value;const cursor=input.selectionStart;document.getElementById('world-content').innerHTML=body();bindFilter();const next=document.getElementById('world-filter');next.focus();if(cursor!==null)next.setSelectionRange(cursor,cursor)})}
+function paint(){const host=document.getElementById('canon-state');host.innerHTML='<div class="world-heading"><span class="eyebrow">World overview</span><h2>'+current.year_af+' A.F.</h2><p>Last documented facts through this year. Unknowns stay “Not recorded”.</p></div><p class="muted">Annual view: events are included in their listed year, without an invented month or day. Recorded facts persist until a documented change; later views are not forecasts. All-time references are labelled separately.</p><nav class="world-nav" aria-label="World overview sections">'+[['crown','Crown & Council'],['places','Places'],['people','People'],['planned','Planned events'],['history','History'],['foundations','World foundations'],['review','Open questions']].map(([key,label])=>'<button type="button" data-world-view="'+key+'" aria-pressed="'+(active===key)+'">'+label+'</button>').join('')+'</nav><section id="world-content" aria-label="Selected world section">'+body()+'</section>';host.querySelectorAll('[data-world-view]').forEach(b=>b.addEventListener('click',()=>{active=b.dataset.worldView;query='';paint();host.querySelector('[data-world-view="'+active+'"]').focus()}));bindFilter()}
+function render(year){const host=document.getElementById('canon-state');if(!host||current?.year_af===year)return;try{current=ArcanusCanon.project(db,year)}catch(e){current=null;host.textContent=e.message;return}paint()}
+window.renderCanonYear=render;
+const year=document.getElementById('canon-year');if(year){year.addEventListener('input',()=>render(year.value.trim()===''?NaN:Number(year.value)));document.querySelectorAll('[data-canon-year]').forEach(b=>b.addEventListener('click',()=>{year.value=b.dataset.canonYear;render(Number(year.value))}));render(Number(year.value))}
+document.getElementById('canon-export')?.addEventListener('click',()=>{if(!current)return;const url=URL.createObjectURL(new Blob([JSON.stringify(current,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='arcanus-canon-state-'+current.year_af+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+})();
+</script><script>(function(root){
+  const data = {
+    months: ['Dawnmere','Frostveil','Thawen','Bloomtide','Kielara','Suncrest','Emberfall','Goldharvest','Duskwane','Veilwatch','Stormrend','Nightrest'],
+    weekdays: ['Lunareth','Daneth','Stoneward','Stormwake','Kielday','Starwatch','Dawnrest'],
+    watches: ['Deepwatch','First Stirring','Dawnwake','Rising Light','Highsun','Waning Light','Duskfall','Nightwatch'],
+    seasons: ['Verdantia','Solara','Aurumn','Nivara'],
+    yearOffset:1198, lunarPeriodDays:29.53059,
+    eventStatus:'Canonical register supplied by the user: 50 annual observances, The Hidden Dawn, seven birthdays.',
+    // UTC offset is deliberately unset. Calendar arithmetic uses a neutral civil timeline.
+    starhavenUtcOffsetMinutes:null,
+    weekdayConvention:'Lunareth corresponds to Monday; Dawnrest to Sunday.',
+    watchConvention:'Deepwatch begins at 00:00; each watch lasts three hours.'
+  };
+  const annual=[];
+  function add(category,rows,realm){rows.forEach(([month,day,name,notes='',originYear])=>annual.push({id:'canon-'+(annual.length+1),type:'observance',category,month,day,name,notes,...(realm?{realm}:{}),...(originYear!==undefined?{originYear}:{})}));}
+  add('ancient',[[1,1,'First Light'],[3,20,'Awakening'],[6,21,'Long Light'],[9,22,'Gathering'],[12,21,'Vigil of Stars']]);
+  add('religious',[[3,21,'First Bloom','Kielinya and Danel'],[6,21,'Oath of Dawn','Danel'],[9,22,'Hearthbinding','Kielinya and Danel'],[12,25,'Frostweave Fest','Kielinya']],'Kielinstria');
+  add('religious',[[2,14,'First Ember','Irazael and Eryos'],[5,18,'Trial of Cinders','Irazael'],[7,17,'Phoenix Ascendant','Eryos'],[11,12,'Last Flame','Irazael and Eryos']],'Pyrothar');
+  add('religious',[[3,8,'Tides’ Blessing','Caelios and Nyxas'],[6,16,'Moonlit Current','Nyxas'],[8,9,'Crossing of Waters','Caelios'],[10,19,'Returning Tide','Caelios and Nyxas']],'Aquenaleth');
+  add('religious',[[3,12,'Stone Awakening','Valtharion and Zarthos'],[6,6,'Shaping','Valtharion'],[9,18,'Unbroken Oath','Zarthos'],[12,8,'Deep Remembrance','Valtharion and Zarthos']],'Terravalor');
+  add('religious',[[4,7,'Whispering Winds','Sylphira and Vileth'],[6,24,'Masquerade of a Thousand Faces','Vileth'],[9,13,'Dreamweaver’s Night','Sylphira'],[11,29,'Veil of Truth','Sylphira and Vileth']],'Zephyros');
+  add('religious',[[2,9,'Vigil of Ancestors','Maravith and Veldrin'],[5,11,'Eternal Record','Maravith'],[8,27,'Binding of Shadows','Veldrin'],[10,31,'Night of Whispers','Maravith and Veldrin']],'Umbrathis');
+  add('religious',[[1,15,'First Vision','Ilyana and Malon'],[4,10,'Celestial Convergence','Ilyana'],[7,23,'Starfall Vigil','Malon'],[11,16,'Turning of the Hours','Ilyana and Malon']],'Luminara');
+  add('religious',[[3,19,'Blooming Hearts','Thalora and Korath'],[6,12,'Song of Enchantment','Thalora'],[9,5,'Binding Promise','Korath'],[12,18,'Everlasting Song','Thalora and Korath']],'Eldarion');
+  add('historical',[[1,1,'Day of Unity','Foundation of Eryndorion',0],[4,8,'Concord of Eight','Unification and Council of Eight',2],[5,15,'Day of Miracle','Miracle of Kaddinghall',350],[8,12,'Day of Accord','Treaty of Starhaven',560],[11,11,'Day of Ashes','Fall of Sternia',793]]);
+  add('kingdom',[[2,20,'Winter Crown','Frostlight'],[4,3,"Founder's Day",'Aegiswatch'],[5,9,'Green Crown','Verdantreach'],[6,14,'Azure Tides','Sapphirestrand'],[6,18,'Twin Rivers','Glimmerdawn'],[7,19,'Forge','Ironveil'],[7,23,'Eternal Flame','Emberward'],[8,7,'Silver Crown','Silvermere']]);
+  data.annualObservances=annual;
+  data.leapFestivals=[{id:'hidden-dawn',type:'leap-festival',category:'ancient',name:'The Hidden Dawn',month:2,day:29,notes:'Leap years only.'}];
+  data.birthdays=[[2,1,'Sula',undefined,'Birth year undetermined; physically 14 on leaving the Arcanium.'],[3,23,'Malcolm Darkbane',702],[6,6,'Ulaire',632],[7,4,'Thorn',711],[8,10,'Star Bright',712],[9,8,'Bonekrakka',714],[11,25,'Roxy Quills',713]].map(([month,day,name,birthYear,notes=''],i)=>({id:'birthday-'+i,type:'birthday',month,day,name,notes,...(birthYear!==undefined?{birthYear}:{})}));
+  data.events=[...data.annualObservances,...data.leapFestivals,...data.birthdays];
+  if(typeof module==='object') module.exports=data; else root.ArcanusCalendarData=data;
+})(globalThis);
+</script><script>(function(root){
+  const phases = [
+    ['01-03T10:03','Full moon'],['01-10T15:48','Last quarter'],['01-18T19:52','New moon'],['01-26T04:48','First quarter'],
+    ['02-01T22:09','Full moon'],['02-09T12:43','Last quarter'],['02-17T12:01','New moon'],['02-24T12:28','First quarter'],
+    ['03-03T11:38','Full moon'],['03-11T09:39','Last quarter'],['03-19T01:23','New moon'],['03-25T19:18','First quarter'],
+    ['04-02T02:12','Full moon'],['04-10T04:52','Last quarter'],['04-17T11:52','New moon'],['04-24T02:32','First quarter'],
+    ['05-01T17:23','Full moon'],['05-09T21:11','Last quarter'],['05-16T20:01','New moon'],['05-23T11:11','First quarter'],['05-31T08:45','Full moon'],
+    ['06-08T10:01','Last quarter'],['06-15T02:54','New moon'],['06-21T21:55','First quarter'],['06-29T23:57','Full moon'],
+    ['07-07T19:29','Last quarter'],['07-14T09:44','New moon'],['07-21T11:06','First quarter'],['07-29T14:36','Full moon'],
+    ['08-06T02:22','Last quarter'],['08-12T17:37','New moon'],['08-20T02:46','First quarter'],['08-28T04:18','Full moon'],
+    ['09-04T07:51','Last quarter'],['09-11T03:27','New moon'],['09-18T20:44','First quarter'],['09-26T16:49','Full moon'],
+    ['10-03T13:25','Last quarter'],['10-10T15:50','New moon'],['10-18T16:13','First quarter'],['10-26T04:12','Full moon'],
+    ['11-01T20:28','Last quarter'],['11-09T07:02','New moon'],['11-17T11:48','First quarter'],['11-24T14:53','Full moon'],
+    ['12-01T06:09','Last quarter'],['12-09T00:52','New moon'],['12-17T05:43','First quarter'],['12-24T01:28','Full moon'],['12-30T19:00','Last quarter']
+  ].map(([date,name])=>({utc:'2026-'+date+':00Z',name}));
+  const data={
+    lunarEpoch:'2026-01-18T19:52:00Z', phases2026:phases,
+    // UTC minute-resolution 2026 reference; reused as a seasonal template in other years.
+    seasonTurns:[{month:3,day:20,hour:14,minute:46},{month:6,day:21,hour:8,minute:24},{month:9,day:23,hour:0,minute:5},{month:12,day:21,hour:20,minute:50}],
+    sources:[{title:'Fred Espenak / AstroPixels — lunar phases (GMT)',url:'https://astropixels.com/ephemeris/moon/phases2001.html'}, {title:'US National Weather Service — 2026 seasons (UT)',url:'https://www.weather.gov/dvn/Climate_Astronomical_Seasons'}]
+  };
+  if(typeof module==='object') module.exports=data; else root.ArcanusAstronomy=data;
+})(globalThis);
+</script><script>(function(root){
+  const C=typeof module==='object'?require('./canon.js'):root.ArcanusCalendarData;
+  const A=typeof module==='object'?require('./astronomy.js'):root.ArcanusAstronomy;
+  const DAY=86400000, MINUTE=60000, MAX_YEAR=8801;
+  const mod=(a,b)=>((a%b)+b)%b;
+  function yearCheck(y){if(!Number.isInteger(y)||y<0||y>MAX_YEAR)throw Error('Year must be a whole number from 0 to 8801 AF.');}
+  function leap(y){yearCheck(y);const ce=y+C.yearOffset;return ce%4===0&&(ce%100!==0||ce%400===0);}
+  function daysInMonth(y,m){yearCheck(y);if(!Number.isInteger(m)||m<1||m>12)throw Error('Month must be 1–12.');return [31,leap(y)?29:28,31,30,31,30,31,31,30,31,30,31][m-1];}
+  function validate(d){yearCheck(d.year);if(!Number.isInteger(d.day)||d.day<1||d.day>daysInMonth(d.year,d.month))throw Error('That day does not exist in the selected month.');for(const [k,max]of [['hour',23],['minute',59]])if(!Number.isInteger(d[k]??0)||(d[k]??0)<0||(d[k]??0)>max)throw Error('Use a valid 24-hour time.');return d;}
+  function toStamp(d){validate(d);return Date.UTC(d.year+C.yearOffset,d.month-1,d.day,d.hour??0,d.minute??0);}
+  function fromStamp(ms){if(!Number.isFinite(ms))throw Error('Invalid date.');const d=new Date(ms);return validate({year:d.getUTCFullYear()-C.yearOffset,month:d.getUTCMonth()+1,day:d.getUTCDate(),hour:d.getUTCHours(),minute:d.getUTCMinutes()});}
+  function shift(d,minutes){if(!Number.isFinite(minutes))throw Error('Invalid time step.');return fromStamp(toStamp(d)+minutes*MINUTE);}
+  function shiftMonth(d,delta){validate(d);if(!Number.isInteger(delta))throw Error('Month step must be whole.');const n=d.year*12+d.month-1+delta,y=Math.floor(n/12),m=mod(n,12)+1;return validate({...d,year:y,month:m,day:Math.min(d.day,daysInMonth(y,m))});}
+  function weekday(d){return mod(new Date(toStamp(d)).getUTCDay()+6,7);}
+  function watch(d){validate(d);const index=Math.floor((d.hour??0)/3);return {index,name:C.watches[index],start:index*3,end:(index+1)*3};}
+  function offsetCheck(offset){if(!Number.isInteger(offset)||offset< -840||offset>840)throw Error('Earth alignment must be whole minutes from −840 to +840.');}
+  function earthStamp(d,offset=0){offsetCheck(offset);return toStamp(d)-offset*MINUTE;}
+  function fromEarth(iso,offset=0){offsetCheck(offset);if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?Z$/.test(iso))throw Error('Use an explicit UTC date and time.');const ms=Date.parse(iso);if(!Number.isFinite(ms))throw Error('Invalid Earth date.');const normalized=new Date(ms).toISOString().slice(0,16);if(normalized!==iso.slice(0,16))throw Error('Invalid Earth date.');return fromStamp(ms+offset*MINUTE);}
+  function moon(d,offset=0){const t=earthStamp(d,offset),period=C.lunarPeriodDays*DAY,age=mod(t-Date.parse(A.lunarEpoch),period)/DAY, fraction=age/C.lunarPeriodDays;
+    const names=['New moon','Waxing crescent','First quarter','Waxing gibbous','Full moon','Waning gibbous','Last quarter','Waning crescent'];
+    return {age,fraction,illumination:(1-Math.cos(2*Math.PI*fraction))/2,name:names[Math.round(fraction*8)%8],nextNew:t+(C.lunarPeriodDays-age)*DAY,quality:d.year<828?'Approximate historical back-projection':d.year===828?'Mean-cycle estimate, anchored to the 2026 new moon':'Approximate forward projection'};
+  }
+  function season(d,hemisphere='north',offset=0){if(!['north','south'].includes(hemisphere))throw Error('Choose north or south.');const t=earthStamp(d,offset),ce=d.year+C.yearOffset;let index=3;
+    A.seasonTurns.forEach((s,i)=>{if(t>=Date.UTC(ce,s.month-1,s.day,s.hour,s.minute))index=i;});
+    if(hemisphere==='south')index=(index+2)%4;
+    return {name:C.seasons[index],index,quality:d.year===828?'2026 astronomical turning points':'Approximate: repeated 2026 seasonal template'};
+  }
+  function validateEvents(events){if(!Array.isArray(events)||events.length>5000)throw Error('Events must be an array of at most 5,000 entries.');const ids=new Set();return events.map(e=>{
+    if(!e||typeof e.id!=='string'||!e.id.trim()||ids.has(e.id))throw Error('Each event needs a unique text id.');ids.add(e.id);
+    if(typeof e.name!=='string'||!e.name.trim()||e.name.length>160)throw Error('Each event needs a name (1–160 characters).');
+    if(!['observance','birthday','leap-festival','campaign'].includes(e.type))throw Error('Unknown event type.');
+    if(e.year!==undefined)yearCheck(e.year);
+    validate({year:e.year??2,month:e.month,day:e.day}); // 2 AF = 1200 CE: leap year, permits recurring Feb 29.
+    if(e.type==='leap-festival'&&(e.month!==2||e.day!==29))throw Error('Leap festivals must be on 29 Frostveil.');
+    for(const key of ['birthYear','originYear'])if(e[key]!==undefined)yearCheck(e[key]);
+    return {...e,name:e.name.trim(),notes:typeof e.notes==='string'?e.notes.slice(0,2000):''};
+  });}
+  function active(e,y){return (e.year===undefined||e.year===y)&&(e.birthYear===undefined||y>=e.birthYear)&&(e.originYear===undefined||y>=e.originYear)&&(e.type!=='leap-festival'||leap(y));}
+  function eventsOn(d,events=C.events){validate(d);return events.filter(e=>e.month===d.month&&e.day===d.day&&active(e,d.year));}
+  function eventsInYear(y,events=C.events){yearCheck(y);return events.filter(e=>active(e,y)&&e.day<=daysInMonth(y,e.month)).sort((a,b)=>a.month-b.month||a.day-b.day||a.name.localeCompare(b.name));}
+  function ukReference(ms){const year=new Date(ms).getUTCFullYear(); // Modern GMT/BST only: do not imply medieval UK civil time.
+    if(year<1972)return new Date(ms).toISOString().slice(0,16).replace('T',' ')+' UTC (proleptic Earth reference; historical UK time not modelled)';
+    return new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZoneName:'short'}).format(ms);
+  }
+  const api={DAY,MINUTE,MAX_YEAR,leap,daysInMonth,validate,toStamp,fromStamp,shift,shiftMonth,weekday,watch,earthStamp,fromEarth,moon,season,validateEvents,eventsOn,eventsInYear,ukReference};
+  if(typeof module==='object')module.exports=api;else root.ArcanusEngine=api;
+})(globalThis);
+</script><script>/* Town adapter. Canonical dates are independent of legacy 30-day accounting buckets. */
+function migrateCalendar(){
+ const E=ArcanusEngine;
+ if(!world.calendar){
+  const year=793+Math.floor(world.month/12),month=world.month%12+1;
+  const day=Math.min(world.day,E.daysInMonth(year,month));
+  const minute=world.livingClock.minute;
+  const date={year,month,day,hour:Math.floor(minute/60),minute:minute%60};
+  world.calendar={schema:1,date,anchorDate:{...date,hour:0,minute:0},anchorDay:worldDay(),hemisphere:'north',offset:0,offsetConfirmed:false,
+   migration:{legacyMonth:world.month,legacyDay:world.day,clamped:day!==world.day}};
+ }
+ world.paused=true;
+ world.livingClock.minute=world.calendar.date.hour*60+world.calendar.date.minute;
+ world.version=12;
+}
+function validateCalendar(data){
+ const E=ArcanusEngine,c=data.calendar;
+ if(!c||c.schema!==1)throw Error('Missing calendar state.');
+ E.validate(c.date);E.validate(c.anchorDate);
+ if(!Number.isInteger(c.date.hour)||!Number.isInteger(c.date.minute)||c.anchorDate.hour!==0||c.anchorDate.minute!==0)throw Error('Incomplete calendar time.');
+ const day=data.month*30+data.day-1;
+ if(!Number.isSafeInteger(c.anchorDay)||c.anchorDay<0||c.anchorDay>day)throw Error('Invalid calendar anchor.');
+ const expected=E.shift(c.anchorDate,(day-c.anchorDay)*1440);
+ if(E.toStamp({...c.date,hour:0,minute:0})!==E.toStamp(expected))throw Error('Calendar and simulated days disagree.');
+ if(data.livingClock.minute!==c.date.hour*60+c.date.minute||data.paused!==true)throw Error('Calendar must use a consistent manual clock.');
+ if(!['north','south'].includes(c.hemisphere)||typeof c.offsetConfirmed!=='boolean')throw Error('Invalid calendar settings.');
+ E.earthStamp(c.date,c.offset);
+}
+function townDateAt(day,minute=0){
+ const c=world.calendar;
+ return ArcanusEngine.shift(c.anchorDate,(day-c.anchorDay)*1440+minute);
+}
+function calendarStamp(day,minute){
+ const c=world.calendar;
+ if(!c||day<c.anchorDay)return `Legacy accounting day ${day} · ${String(Math.floor(minute/60)).padStart(2,'0')}:${String(minute%60).padStart(2,'0')}`;
+ const d=townDateAt(day,minute);
+ return `${d.day} ${ArcanusCalendarData.months[d.month-1]} ${d.year} AF · ${String(d.hour).padStart(2,'0')}:${String(d.minute).padStart(2,'0')}`;
+}
+function advanceCalendarMinutes(minutes){
+ if(loadFailed)return;
+ if(!Number.isSafeInteger(minutes)||minutes<1||minutes>366*1440)throw Error('Advance between one minute and one year at a time.');
+ const E=ArcanusEngine,target=E.shift(world.calendar.date,minutes);
+ const before=JSON.stringify(world),oldMinute=world.livingClock.minute,days=Math.floor((oldMinute+minutes)/1440);
+ try{
+  if(days===0)livingRange(worldDay(),oldMinute,oldMinute+minutes);
+  // Existing routines are condensed for multi-day steps; each economy day runs once.
+  simulateDays(days,false);
+  world.calendar.date=target;world.livingClock.minute=target.hour*60+target.minute;
+  addEvent(`Manual calendar advance: ${minutes} minutes (${days} day boundaries).`);
+  validateSave(world);
+ }catch(err){world=JSON.parse(before);eventContext=null;throw err;}
+ populationRenderKey='';lastLedgerRenderKey=null;innRenderKey='';persist();render();
+}
+function advanceCalendarMonths(months){
+ if(loadFailed)return;
+ if(!Number.isInteger(months)||months<1||months>12)throw Error('Choose 1–12 calendar months.');
+ const E=ArcanusEngine,target=E.shiftMonth(world.calendar.date,months);
+ advanceCalendarMinutes((E.toStamp(target)-E.toStamp(world.calendar.date))/E.MINUTE);
+}
+function calendarAction(fn){try{fn()}catch(e){$('calendarError').textContent=e.message;}}
+function renderTownCalendar(){
+ const host=$('calendarSummary');if(!host||!world.calendar)return;
+ const E=ArcanusEngine,C=ArcanusCalendarData,c=world.calendar,d=c.date,w=E.watch(d),s=E.season(d,c.hemisphere,c.offset),m=E.moon(d,c.offset);
+ $('date').textContent=`${C.weekdays[E.weekday(d)]} · ${d.day} ${C.months[d.month-1]} ${d.year} AF`;
+ $('liveTime').textContent=`${String(d.hour).padStart(2,'0')}:${String(d.minute).padStart(2,'0')} · ${w.name}`;
+ $('clockStatus').textContent='Manual campaign time · Starhaven standard · no DST';
+ $('pauseButton').hidden=true;
+ $('nextDay').textContent='Time advances only through your controls. Closing or reopening the simulator advances nothing.';
+ host.replaceChildren();
+ const add=(text,cls)=>{const p=document.createElement('p');p.textContent=text;if(cls)p.className=cls;host.append(p)};
+ add(`${s.name} (${c.hemisphere==='north'?'northern':'southern'}) · Aeloria: ${m.name}, ${Math.round(m.illumination*100)}% illuminated`);
+ add(`${s.quality}. ${m.quality}.`,'muted');
+ const events=E.eventsOn(d);add(events.length?'On this day: '+events.map(e=>e.name+(e.type==='birthday'?' (birthday)':'')).join(' · '):'No registered observances or birthdays today.');
+ add('UK reference: '+E.ukReference(E.earthStamp(d,c.offset))+(c.offsetConfirmed?'':' · UTC+0 alignment provisional'),'muted');
+ if(c.migration?.clamped)add('Imported legacy date used a day absent from this month; calendar day was clamped to the last valid day. Original day is preserved in save metadata.','muted');
+ $('calendarHemisphere').value=c.hemisphere;$('calendarOffset').value=c.offset;
+ const query=new URLSearchParams({year:d.year,month:d.month,day:d.day,hour:d.hour,minute:d.minute,hemisphere:c.hemisphere,offset:c.offset,offsetConfirmed:String(c.offsetConfirmed)});
+ $('calendarBrowse').href=$('calendarBrowse').dataset.base+'?'+query;
+ try{$('calendarBackup').hidden=localStorage.getItem(KEY+'-before-calendar-v12')===null}catch{$('calendarBackup').hidden=true}
+ if(window.renderCanonYear)window.renderCanonYear(d.year);
+}
+function exportCalendarBackup(){
+ calendarAction(()=>{const raw=localStorage.getItem(KEY+'-before-calendar-v12');if(raw===null)throw Error('No pre-calendar backup is stored on this device.');const url=URL.createObjectURL(new Blob([raw],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='kaddinghall-before-calendar.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+}
+function updateCalendarSettings(){
+ if(loadFailed)return;
+ calendarAction(()=>{const hemisphere=$('calendarHemisphere').value,raw=$('calendarOffset').value;if(raw.trim()==='')throw Error('Enter a UTC offset in minutes.');const offset=Number(raw);ArcanusEngine.season(world.calendar.date,hemisphere,offset);world.calendar.hemisphere=hemisphere;world.calendar.offset=offset;world.calendar.offsetConfirmed=true;persist();render();});
+}
+</script><script>const BUILD_ID='v1.10.0 · Arcanus Calendar';
+const KEY='arcanus-kaddinghall-stage3';
+const DAY=86400000, DAYS_PER_MONTH=30;
+const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+const ukParts=()=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,Number(x.value)]));
+const ukDayNumber=()=>{const p=ukParts();return Math.floor(Date.UTC(p.year,p.month-1,p.day)/DAY)};
+const ukTime=()=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date());
+const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:true,calendar:{schema:1,date:{year:793,month:1,day:1,hour:0,minute:0},anchorDate:{year:793,month:1,day:1,hour:0,minute:0},anchorDay:0,hemisphere:'north',offset:0,offsetConfirmed:false},lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
+let world, loadFailed=false, saveTransaction=false, recoveryRaw=null;
+const $=id=>document.getElementById(id);
+function persist(){if(loadFailed||saveTransaction)return;try{localStorage.setItem(KEY,JSON.stringify(world));$('saveStatus').textContent='Autosaved on this device.'}catch(err){$('saveStatus').textContent='Autosave failed. Export your save to keep your progress.'}}
+function updateRecoveryControls(){document.querySelectorAll('[data-world-action]').forEach(button=>button.disabled=loadFailed)}
+function addEvent(message){
+ const at=eventContext||{day:worldDay(),minute:world.livingClock?.minute??clockMinute()};
+ world.events.unshift('['+stamp(at.day,at.minute)+'] '+message);world.events=world.events.slice(0,150);
+}
+
+// v1.9.3: provisional private inn accounts, never a second town resource charge.
+// Money is stored in copper pieces (100 cp = 1 gp), avoiding rounding drift.
+const INN_TERMS=Object.freeze({visitCp:15,suppliesCp:4,wageCp:30,overheadCp:20,visitsPerWorker:6});
+function innWorkers(){return world.population.residents.filter(r=>r.occupation==='Inn worker'&&r.workplace==='The town inn'&&r.ageMonths>=192&&r.ageMonths<780).sort((a,b)=>a.id-b.id).slice(0,INN_STAFF_LIMIT)}
+function syncInnRoster(){
+ if(!world.inn)return;
+ const workers=innWorkers();world.inn.staffIds=workers.map(r=>r.id);
+ if(!workers.some(r=>r.id===world.inn.ownerId&&r.ageMonths>=216))world.inn.ownerId=workers.find(r=>r.ageMonths>=216)?.id??null;
+}
+function innPeriod(day,cash){return {month:Math.floor(day/30)+1,firstDay:day+1,lastDay:day,days:0,demand:0,served:0,capacity:0,staffDays:0,revenueCp:0,suppliesCp:0,wagesCp:0,overheadCp:0,openingCashCp:cash,closingCashCp:cash}}
+function migrateInn(){
+ // Called after legacy catch-up, so the new business never backdates trading.
+ if(!world.inn){
+  const day=worldDay();
+  world.inn={model:1,name:'The town inn',openedDay:day,lastDay:day,ownerId:null,staffIds:[],cashCp:0,revenueCp:0,suppliesCp:0,wagesCp:0,overheadCp:0,demand:0,served:0,current:innPeriod(day,0),ledger:[]};
+ }
+ syncInnRoster();world.version=12;
+}
+function innDemand(day){
+ if(!world.pop)return 0;
+ const homes=world.population.households;
+ const wellbeing=homes.length?homes.reduce((sum,h)=>sum+(h.needs?.wellbeing??70),0)/homes.length:70;
+ const season=[.85,1,1.15,1][Math.floor(((day-1)%360)/90)];
+ const rest=(day-1)%7===6?1.2:1;
+ return Math.max(0,Math.round(world.pop*.012*season*rest*(.6+wellbeing/200)));
+}
+function simulateInnDay(day){
+ const inn=world.inn;if(!inn||day<=inn.lastDay)return;
+ if(day!==inn.lastDay+1)throw Error('Inn clock is out of step');
+ syncInnRoster();
+ const staff=inn.ownerId===null?0:inn.staffIds.length;
+ const demand=innDemand(day),capacity=staff*INN_TERMS.visitsPerWorker,served=Math.min(demand,capacity);
+ const revenueCp=served*INN_TERMS.visitCp,suppliesCp=served*INN_TERMS.suppliesCp,wagesCp=staff*INN_TERMS.wageCp,overheadCp=INN_TERMS.overheadCp;
+ const row=inn.current;
+ row.lastDay=day;row.days++;row.staffDays+=staff;row.capacity+=capacity;
+ for(const [key,value] of Object.entries({demand,served,revenueCp,suppliesCp,wagesCp,overheadCp})){inn[key]+=value;row[key]+=value}
+ inn.cashCp+=revenueCp-suppliesCp-wagesCp-overheadCp;row.closingCashCp=inn.cashCp;inn.lastDay=day;
+ if(day%30===0){
+  inn.ledger.unshift({...row});inn.ledger=inn.ledger.slice(0,24);
+  const result=row.revenueCp-row.suppliesCp-row.wagesCp-row.overheadCp;
+  addEvent(`The town inn (provisional), month ${row.month}: ${row.served} visits served, ${row.demand-row.served} turned away; operating result ${(result/100).toFixed(2)} gp; private cash ${(inn.cashCp/100).toFixed(2)} gp${inn.cashCp<0?' (debt)':''}.`);
+  inn.current=innPeriod(day,inn.cashCp);
+ }
+}
+function validateInn(data){
+ const inn=data.inn;if(!inn)throw Error('Missing inn accounts');
+ const count=n=>Number.isSafeInteger(n)&&n>=0,money=n=>Number.isSafeInteger(n);
+ const day=data.month*30+data.day-1,totals=['demand','served','revenueCp','suppliesCp','wagesCp','overheadCp'];
+ if(inn.model!==1||inn.name!=='The town inn'||!count(inn.openedDay)||inn.openedDay>day||inn.lastDay!==day||!money(inn.cashCp)||!totals.every(k=>count(inn[k]))||!Array.isArray(inn.ledger)||inn.ledger.length>24)throw Error('Invalid inn accounts');
+ const expected=data.population.residents.filter(r=>r.occupation==='Inn worker'&&r.workplace==='The town inn'&&r.ageMonths>=192&&r.ageMonths<780).sort((a,b)=>a.id-b.id).slice(0,INN_STAFF_LIMIT);
+ if(!Array.isArray(inn.staffIds)||JSON.stringify(inn.staffIds)!==JSON.stringify(expected.map(r=>r.id)))throw Error('Invalid inn staffing');
+ if(inn.ownerId===null?expected.some(r=>r.ageMonths>=216):!expected.some(r=>r.id===inn.ownerId&&r.ageMonths>=216))throw Error('Invalid inn proprietor');
+ const check=row=>{
+  if(!row||!['month','firstDay','lastDay','days','capacity','staffDays',...totals].every(k=>count(row[k]))||!money(row.openingCashCp)||!money(row.closingCashCp)||row.days>30||row.firstDay!==row.lastDay-row.days+1||row.month!==Math.floor((row.firstDay-1)/30)+1||row.lastDay>row.month*30||row.firstDay<=inn.openedDay||row.lastDay>day||row.served>row.demand||row.served>row.capacity||row.staffDays>row.days*INN_STAFF_LIMIT)throw Error('Invalid inn ledger period');
+  if(row.capacity!==row.staffDays*INN_TERMS.visitsPerWorker||row.revenueCp!==row.served*INN_TERMS.visitCp||row.suppliesCp!==row.served*INN_TERMS.suppliesCp||row.wagesCp!==row.staffDays*INN_TERMS.wageCp||row.overheadCp!==row.days*INN_TERMS.overheadCp||row.closingCashCp!==row.openingCashCp+row.revenueCp-row.suppliesCp-row.wagesCp-row.overheadCp)throw Error('Inconsistent inn ledger');
+ };
+ check(inn.current);
+ if(inn.current.lastDay!==day||inn.current.month!==Math.floor(day/30)+1||inn.current.closingCashCp!==inn.cashCp)throw Error('Invalid current inn period');
+ let next=inn.current;
+ for(const row of inn.ledger){check(row);if(row.days===0||row.lastDay!==row.month*30||row.lastDay+1!==next.firstDay||row.closingCashCp!==next.openingCashCp)throw Error('Broken inn ledger history');next=row}
+ const expectedRows=Math.min(24,Math.floor(day/30)-Math.floor(inn.openedDay/30));
+ if(inn.ledger.length!==expectedRows||inn.revenueCp!==inn.served*INN_TERMS.visitCp||inn.suppliesCp!==inn.served*INN_TERMS.suppliesCp||inn.overheadCp!==(day-inn.openedDay)*INN_TERMS.overheadCp||inn.served>inn.demand||inn.wagesCp%INN_TERMS.wageCp!==0||inn.wagesCp>(day-inn.openedDay)*INN_STAFF_LIMIT*INN_TERMS.wageCp||inn.cashCp!==inn.revenueCp-inn.suppliesCp-inn.wagesCp-inn.overheadCp)throw Error('Inconsistent inn totals');
+ for(const key of totals){const retained=inn.current[key]+inn.ledger.reduce((sum,r)=>sum+r[key],0);if(retained>inn[key]||(Math.floor(day/30)-Math.floor(inn.openedDay/30)<=24&&retained!==inn[key]))throw Error('Inconsistent retained inn accounts')}
+ if(Math.floor(day/30)-Math.floor(inn.openedDay/30)<=24&&(next.firstDay!==inn.openedDay+1||next.openingCashCp!==0))throw Error('Invalid inn opening balance');
+}
+let innRenderKey='';
+function renderInn(){
+ const inn=world.inn;if(!inn)return;
+ const key=JSON.stringify([inn.lastDay,inn.ownerId,inn.staffIds,world.population.revision]);if(key===innRenderKey)return;innRenderKey=key;
+ const residents=new Map(world.population.residents.map(r=>[r.id,r])),row=inn.current,gp=n=>(n/100).toFixed(2)+' gp';
+ $('innOwner').textContent=inn.ownerId===null?'No eligible proprietor - trading paused':residents.get(inn.ownerId).name+' - provisional owner-manager';
+ $('innStaff').textContent=inn.staffIds.length+' / '+INN_STAFF_LIMIT+' staff (owner included)';
+ $('innCash').textContent=gp(inn.cashCp)+(inn.cashCp<0?' debt':'');
+ $('innCapacity').textContent=(inn.ownerId===null?0:inn.staffIds.length*INN_TERMS.visitsPerWorker)+' visits per day';
+ $('innTrading').textContent=`Accounts began ${stamp(inn.openedDay,0).split(' · 00:00')[0]}. ${row.days} day${row.days===1?'':'s'} recorded in the current month. ${row.served} visits served; ${row.demand-row.served} turned away. Current operating result: ${gp(row.revenueCp-row.suppliesCp-row.wagesCp-row.overheadCp)}.`;
+ $('innRoster').textContent=inn.staffIds.length?inn.staffIds.map(id=>residents.get(id).name+(id===inn.ownerId?' (owner-manager)':'')).join(' · '):'No current inn workers. Residents are not invented or reassigned to fill vacancies.';
+ const root=$('innLedger'),opened=new Set(Array.from(root.querySelectorAll('details')).filter(d=>d.open).map(d=>d.dataset.month));root.replaceChildren();
+ const rows=[{...row,current:true},...inn.ledger];
+ for(const r of rows){
+  const details=document.createElement('details');details.className='ledger-entry';details.dataset.month=String(r.month);details.open=opened.has(String(r.month));
+  const summary=document.createElement('summary');summary.textContent=`Accounting period ${r.month} (30 days)${r.current?' - in progress':''}: ${r.served} visits, ${gp(r.revenueCp-r.suppliesCp-r.wagesCp-r.overheadCp)} operating result`;
+  const text=document.createElement('p');text.textContent=`${r.days} recorded days; demand ${r.demand}, capacity ${r.capacity}, served ${r.served}, turned away ${r.demand-r.served}. Revenue ${gp(r.revenueCp)}; trade supplies ${gp(r.suppliesCp)}; wages ${gp(r.wagesCp)}; upkeep ${gp(r.overheadCp)}. Opening cash ${gp(r.openingCashCp)}; closing cash ${gp(r.closingCashCp)}.`;
+  details.append(summary,text);root.append(details);
+ }
+}
+
+// Timber economy v1: simulation assumptions, not established campaign canon.
+// gp is the internal money unit; 1 gp = 10 sp = 100 cp.
+const round3=n=>Math.round(n*1000)/1000;
+function initialTimber(){
+ const business=(id,name,cash,capacity,ready,seasoning,fireAnnual,buildAnnual,workers,seasonal,horseCost,licence,nursery,yard,tools,haulAnnual)=>({
+  id,name,cash,capacity,ready,fireAnnual,buildAnnual,workers,seasonal,horseCost,licence,nursery,yard,tools,haulAnnual,
+  construction:0,rawLogs:0,kindling:0,soldFire:0,soldConstruction:0,revenue:0,expenses:0,
+  batches:[{tonnes:seasoning*.25,readyAt:90},{tonnes:seasoning*.3333333333,readyAt:180},{tonnes:seasoning*(1-.25-.3333333333),readyAt:360}]
+ });
+ return {elapsed:0,prices:{fire:1.5,construction:1.5},businesses:[
+  business('oak','Oak & Axe Timberworks',200,600,120,240,480,200,5,4,96,30,10,15,8,60),
+  business('green','The Greenwood Cutters',120,400,75,150,300,100,3,2,48,15,6,10,5,40)
+ ],mills:[{name:'Water-powered sawmill',cash:0,processed:0,revenue:0,expenses:0,rate:.332,capacity:5,workers:3,maintenance:20,tools:10,operatingDays:0},
+ {name:'Manual sawmill',cash:0,processed:0,revenue:0,expenses:0,rate:.658,capacity:2,workers:2,maintenance:10,tools:8,operatingDays:0}],
+ orders:[],nextOrderId:1,fulfilledOrders:0,unfilledTonnes:0,municipalReserve:30,notes:'Provisional rates and batch dates; generated outcomes are not canon.'};
+}
+// v1.6: finite, identifiable demand requests. Orders are simulated, not canon.
+function migrateOrders(){
+ if(!world.timber)return;
+ const t=world.timber;
+ if(!Array.isArray(t.orders))t.orders=[];
+ if(!Number.isFinite(t.nextOrderId))t.nextOrderId=1;
+ if(!Number.isFinite(t.fulfilledOrders))t.fulfilledOrders=0;
+ if(!Number.isFinite(t.unfilledTonnes))t.unfilledTonnes=0;
+}
+function orderDemand(day){
+ const t=world.timber;
+ const season=Math.floor(((day-1)%360)/90);
+ const fireFactors=[1.15,.75,.85,1.4]; // seasonal household heating demand
+ const constructionFactors=[.75,1.3,1.2,.65];
+ const orders=[];
+ for(const b of t.businesses){
+  const seed=b.id==='oak'?0:11;
+  // Repeatable daily variation; no dependence on device random state.
+  const variation=.8+((day*17+seed*7)%11)/25;
+  const fire=(b.fireAnnual/360)*fireFactors[season]*variation;
+  const construction=(b.buildAnnual/360)*constructionFactors[season]*(1.05-((day*7+seed)%7)/30);
+  orders.push({business:b.id,product:'fire',customer:season===3?'Household winter fuel':'Household and inn fuel',tonnes:fire});
+  orders.push({business:b.id,product:'construction',customer:'Builders and farm repairs',tonnes:construction});
+ }
+ for(const o of orders){
+  // Merge outstanding requests from the same category to avoid enormous saves.
+  const prior=t.orders.find(x=>x.business===o.business&&x.product===o.product&&x.customer===o.customer);
+  if(prior)prior.remaining+=o.tonnes;
+  else t.orders.push({id:t.nextOrderId++,placedDay:day,...o,remaining:o.tonnes});
+ }
+}
+function fulfillOrders(b){
+ const t=world.timber;
+ for(const order of t.orders.filter(o=>o.business===b.id).sort((a,z)=>a.placedDay-z.placedDay)){
+  const key=order.product==='fire'?'ready':'construction';
+  const sold=timberSell(b,key,order.remaining,t.prices[order.product]);
+  order.remaining=Math.max(0,order.remaining-sold);
+  if(order.product==='fire')b.soldFire+=sold;else b.soldConstruction+=sold;
+  if(order.remaining<1e-7){t.fulfilledOrders++;order.remaining=0;}
+ }
+ t.orders=t.orders.filter(o=>o.remaining>1e-7);
+ t.unfilledTonnes=t.orders.reduce((sum,o)=>sum+o.remaining,0);
+}
+function timberStock(b){return b.ready+b.construction+b.rawLogs+b.batches.reduce((a,x)=>a+x.tonnes,0)}
+function timberSpend(b,gp){b.cash-=gp;b.expenses+=gp}
+function timberSell(b,key,tonnes,price){const sold=Math.min(b[key],Math.max(0,tonnes));b[key]-=sold;b.cash+=sold*price;b.revenue+=sold*price;return sold}
+function millLogs(b,input,special=false){
+ const eligible=world.timber.mills.map((mill,index)=>({mill,index})).filter(x=>!special||x.index===1);
+ eligible.sort((a,c)=>a.mill.rate-c.mill.rate);
+ let remaining=input;
+ for(const {mill} of eligible){
+  const used=mill.todayProcessed||0,accepted=Math.min(remaining,Math.max(0,mill.capacity-used));
+  if(accepted<=0)continue;
+  const fee=accepted*mill.rate;
+  timberSpend(b,fee);mill.cash+=fee;mill.revenue+=fee;mill.processed+=accepted;
+  mill.todayProcessed=used+accepted;b.construction+=accepted*.9;remaining-=accepted;
+  if(remaining<1e-9)break;
+ }
+ return Math.max(0,remaining);
+}
+function simulateTimberDay(){
+ const t=world.timber;t.elapsed++;
+ if(!Array.isArray(t.ledger))t.ledger=[];
+ if(!t.monthStart)t.monthStart=timberSnapshot();
+ orderDemand(t.elapsed);
+ const day=t.elapsed, monthInYear=Math.floor((day-1)%360/30), seasonal=monthInYear>=4&&monthInYear<7;
+ for(const b of t.businesses){
+  // Paid staff: 312 permanent paid days/year and 72 seasonal days/year.
+  const weekday=(day-1)%7;const working=weekday<6;
+  if(working){
+   const permanentWage=b.id==='oak'?1.6:1.0;
+   timberSpend(b,permanentWage+(seasonal?b.seasonal*.3:0));
+   // Old saves do not distinguish ordinary and specialist raw logs. Use the
+   // manual mill conservatively: it can handle either type, at its actual fee.
+   if(b.rawLogs>0)b.rawLogs=millLogs(b,b.rawLogs,true);
+   // Targets are annual green-input requirements; newly produced firewood matures after 360 days.
+   const fireRaw=b.fireAnnual/.9/312, constructionRaw=b.buildAnnual/.9/312;
+   const fireFinished=fireRaw*.9, constructionFinished=constructionRaw*.9;
+   const free=Math.max(0,b.capacity-timberStock(b));
+   const cutFire=Math.min(fireFinished,free);
+   if(cutFire>0)b.batches.push({tonnes:cutFire,readyAt:day+360});
+   // Construction timber uses sawmills, with limited daily throughput and real fees.
+   const room=Math.max(0,b.capacity-timberStock(b));
+   // Reserve space for raw input too, including input the mills cannot accept.
+   const cutConstruction=Math.min(constructionFinished,room*.9);
+   if(cutConstruction>0){
+    const input=cutConstruction/.9;
+    // Provisional specialist-order share: 20% of construction logs require
+    // smaller custom cuts offered by the manual mill. Ordinary logs choose
+    // the lower-priced available mill. No artificial profit guarantee.
+    const portions=[{amount:input*.8,special:false},{amount:input*.2,special:true}];
+    for(const part of portions){
+     const remaining=millLogs(b,part.amount,part.special);
+     // Any excess remains unprocessed; it does not become saleable timber.
+     if(remaining>1e-8)b.rawLogs+=remaining;
+    }
+   }
+  }
+  // Batch maturity: wood never becomes saleable before its ready date.
+  let matured=0;b.batches=b.batches.filter(x=>{if(x.readyAt<=day){matured+=x.tonnes;return false}return true});b.ready+=matured;
+  // Only fulfill recorded customer requests, oldest first; unavailable wood stays backordered.
+  fulfillOrders(b);
+  // Transport budget and other fixed costs accrued daily; woodland licence is not a town Treasury transfer.
+  timberSpend(b,(b.horseCost+b.licence+b.nursery+b.yard+b.tools+b.haulAnnual)/360);
+  if(day%30===0){
+   if(matured>0)addEvent(`${b.name}: ${round3(matured)} t of firewood matured.`);
+   if(b.cash<0)addEvent(`${b.name} has negative cash (${round3(b.cash)} gp): urgent financing required.`);
+  }
+ }
+ // Order-driven sawmill staffing: paid days accrue only when processing.
+ for(const m of t.mills){
+  const requiredDays=m.processed/m.capacity;
+  const newlyRequired=Math.max(0,Math.ceil(requiredDays-1e-8)-m.operatingDays);
+  if(newlyRequired){m.operatingDays+=newlyRequired;const wage=newlyRequired*m.workers*.3;m.cash-=wage;m.expenses+=wage}
+  const fixed=(m.maintenance+m.tools)/360;m.cash-=fixed;m.expenses+=fixed;
+  m.todayProcessed=0;
+ }
+ if(day%30===0)recordTimberMonth();
+}
+function timberSnapshot(){
+ const t=world.timber;
+ return {businesses:t.businesses.map(b=>({revenue:b.revenue,expenses:b.expenses,soldFire:b.soldFire,soldConstruction:b.soldConstruction,ready:b.ready,seasoning:b.batches.reduce((a,x)=>a+x.tonnes,0)})),mills:t.mills.map(m=>({processed:m.processed,revenue:m.revenue,expenses:m.expenses,days:m.operatingDays}))};
+}
+function recordTimberMonth(){
+ const t=world.timber,start=t.monthStart||timberSnapshot(),end=timberSnapshot();
+ const month=Math.ceil(t.elapsed/30);
+ const businesses=t.businesses.map((b,i)=>{const a=start.businesses[i],z=end.businesses[i];return {name:b.name,fire:z.soldFire-a.soldFire,construction:z.soldConstruction-a.soldConstruction,income:z.revenue-a.revenue,cost:z.expenses-a.expenses,closingCash:b.cash,ready:b.ready,seasoning:z.seasoning};});
+ const mills=t.mills.map((m,i)=>{const a=start.mills[i],z=end.mills[i];return {name:m.name,logs:z.processed-a.processed,income:z.revenue-a.revenue,cost:z.expenses-a.expenses,days:z.days-a.days};});
+ const outstanding=t.orders.reduce((sum,o)=>sum+o.remaining,0);
+ t.ledger.unshift({month,businesses,mills,outstanding,openOrders:t.orders.length});t.ledger=t.ledger.slice(0,24);t.monthStart=end;
+ for(const b of businesses){
+  addEvent(`Timber month ${month}: ${b.name} sold ${b.fire.toFixed(1)} t firewood and ${b.construction.toFixed(1)} t construction; income ${b.income.toFixed(1)} gp, expenses ${b.cost.toFixed(1)} gp.`);
+  if(b.ready<1)addEvent(`${b.name}: seasoned firewood depleted; future orders may go unfilled.`);
+ }
+ addEvent(`Sawmills month ${month}: watermill ${mills[0].logs.toFixed(1)} t; manual mill ${mills[1].logs.toFixed(1)} t processed.`);
+}
+let lastLedgerRenderKey=null;
+function renderTimberLedger(){
+ const root=$('timberLedger');if(!root)return;
+ const entries=world.timber.ledger||[];
+ // Do not destroy the open/closed <details> controls on every clock tick.
+ // Only rebuild when the underlying monthly reports actually change.
+ const ledgerKey=JSON.stringify(entries.slice(0,6));
+ if(ledgerKey===lastLedgerRenderKey && root.childNodes.length)return;
+ const previousStates=new Map(Array.from(root.querySelectorAll('details[data-ledger-month]'))
+  .map(d=>[d.dataset.ledgerMonth,d.open]));
+ root.replaceChildren();
+ lastLedgerRenderKey=ledgerKey;
+ if(!entries.length){root.textContent='No completed timber month yet. Advance one month to see the first report.';return}
+ for(const entry of entries.slice(0,6)){
+  const details=document.createElement('details');details.className='ledger-entry';
+  details.dataset.ledgerMonth=String(entry.month);
+  details.open=previousStates.has(String(entry.month))?previousStates.get(String(entry.month)):entry===entries[0];
+  const summary=document.createElement('summary');summary.textContent=`Month ${entry.month} · business transactions`;details.append(summary);
+  for(const b of entry.businesses){const p=document.createElement('p');p.textContent=`${b.name}: ${b.fire.toFixed(1)} t firewood + ${b.construction.toFixed(1)} t construction sold; income ${b.income.toFixed(1)} gp; expenses ${b.cost.toFixed(1)} gp; net ${(b.income-b.cost).toFixed(1)} gp; cash ${b.closingCash.toFixed(1)} gp.`;details.append(p)}
+  for(const m of entry.mills){const p=document.createElement('p');p.textContent=`${m.name}: ${m.logs.toFixed(1)} t processed; fees ${m.income.toFixed(1)} gp; expenses ${m.cost.toFixed(1)} gp; ${m.days} paid days.`;details.append(p)}
+  if(Number.isFinite(entry.outstanding)){const p=document.createElement('p');p.textContent=`Outstanding customer requests: ${entry.outstanding.toFixed(1)} t across ${entry.openOrders} order groups.`;details.append(p)}
+  root.append(details);
+ }
+}
+function timberAdvanceDays(days){for(let i=0;i<days;i++)simulateTimberDay()}
+function renderTimber(){
+ const t=world.timber, gp=n=>`${n.toFixed(1)} gp`, ton=n=>`${n.toFixed(1)} t`;
+ const root=$('timberBusinesses');if(!root)return;
+ root.replaceChildren();
+ for(const b of t.businesses){
+  const article=document.createElement('article');article.className='timber-business';
+  const h=document.createElement('h4');h.textContent=b.name;article.append(h);
+  const stats=document.createElement('div');stats.className='stats';
+  const values=[['Cash',gp(b.cash)],['Seasoned firewood',ton(b.ready)],['Still seasoning',ton(b.batches.reduce((a,x)=>a+x.tonnes,0))],['Construction timber',ton(b.construction)],['Yard used',`${ton(timberStock(b))} / ${ton(b.capacity)}`],['Operating result',gp(b.revenue-b.expenses)],['Firewood sold',ton(b.soldFire)],['Construction sold',ton(b.soldConstruction)]];
+  for(const [name,value] of values){const cell=document.createElement('div');cell.append(document.createTextNode(name));const strong=document.createElement('strong');strong.textContent=value;cell.append(strong);stats.append(cell)}article.append(stats);root.append(article);
+ }
+ const mills=$('timberMills');mills.replaceChildren();
+ for(const m of t.mills){const li=document.createElement('li');li.textContent=`${m.name}: ${ton(m.processed)} processed · ${gp(m.revenue-m.expenses)} operating result · ${m.operatingDays} paid operating days`;mills.append(li)}
+ $('timberDays').textContent=t.elapsed.toLocaleString('en-GB');
+ $('timberReserve').textContent=ton(t.municipalReserve);
+ const orderStats=$('timberOrders');if(orderStats){orderStats.textContent=`${t.orders.length} outstanding order groups · ${t.unfilledTonnes.toFixed(1)} tonnes awaiting stock · ${t.fulfilledOrders} fulfilled order groups`; }
+ renderTimberLedger();
+}
+
+// Food economy v1.4: seasonal harvest and Treasury-funded emergency imports.
+// Units, farm yield and import prices are provisional; no NPC market yet.
+const FOOD_YIELD_PER_FARM=450; // annual units, spread across the growing year
+const FOOD_IMPORT_GP_PER_UNIT=.02;
+const FOOD_HARVEST_SHARES=[0,0,0,.03,.06,.09,.12,.15,.20,.30,.05,0];
+function foodEmergencyImport(reason){
+ const target=Math.ceil(world.pop*3); // rebuild to three months of supplies
+ const needed=Math.max(0,target-world.food);
+ const purchased=Math.min(needed,Math.floor(Math.max(0,world.gold)/FOOD_IMPORT_GP_PER_UNIT));
+ if(purchased>0){
+  const cost=Math.round(purchased*FOOD_IMPORT_GP_PER_UNIT*100)/100;
+  world.gold=Math.round((world.gold-cost)*100)/100;
+  world.food+=purchased;
+  addEvent(`Food emergency: imported ${purchased.toLocaleString('en-GB')} units for ${cost.toFixed(2)} gp (${reason}).`);
+ }
+ if(world.food<world.pop)addEvent('CRITICAL: insufficient food for the next month; Treasury cannot fully fund imports.');
+}
+function migrateFood(){
+ if(world.foodModel===1)return;
+ world.foodModel=1;
+ // Existing saves are not reset. A shortage triggers an explicit, paid import.
+ if(world.food<world.pop*2)foodEmergencyImport('food-system upgrade');
+ addEvent('Food system upgraded: seasonal farm yields, reserve warnings and paid emergency imports enabled.');
+}
+function simulateMonth(){
+ const m=world.month%12;
+ const harvest=Math.round(world.farms*FOOD_YIELD_PER_FARM*FOOD_HARVEST_SHARES[m]);
+ world.food+=harvest;
+ // Emergency procurement is visible in the Chronicle and deducted from Treasury.
+ if(world.food<world.pop*2)foodEmergencyImport('low reserves');
+ const shortage=Math.max(0,world.pop-world.food);
+ world.food=Math.max(0,world.food-world.pop);
+ const births=Math.round(world.pop*.03/12);
+ const deaths=Math.round(world.pop*.025/12)+Math.ceil(shortage/100);
+ world.pop=Math.max(0,world.pop+births-deaths);
+ world.gold+=Math.round(world.pop*.025-world.farms*.2);
+ world.month++;
+ populationMonth(births,deaths);
+ addEvent(`Accounting period ${world.month} (30 days): ${births} births, ${deaths} deaths; harvest ${harvest} units${shortage?`; food shortage ${shortage}`:''}.`);
+ if(world.food<world.pop*2)addEvent(`Food reserve warning: ${world.food.toLocaleString('en-GB')} units remain, under two months of demand.`);
+}
+function simulateDays(days,logNeeds=true){
+ if(!Number.isSafeInteger(days)||days<0)throw Error("Invalid simulated day count");
+ if(world.calendar)ArcanusEngine.shift(world.calendar.date,days*1440);
+ for(let i=0;i<days;i++){
+  eventContext={day:worldDay()+1,minute:0};
+  simulateTimberDay();simulateInnDay(worldDay()+1);world.day++;
+  if(world.day>DAYS_PER_MONTH){world.day=1;simulateMonth()}
+  if(world.calendar)world.calendar.date=ArcanusEngine.shift(world.calendar.date,1440);
+  assessHouseholds(logNeeds);
+  eventContext=null;
+ }
+}
+function catchUp(){ /* Manual calendar: no wall-clock catch-up, including on import. */ }
+function render(){
+ const build=$('buildStatus');if(build)build.textContent='Running '+BUILD_ID;
+ for(const id of ['pop','food','gold','farms'])$(id).textContent=world[id].toLocaleString('en-GB');
+ $('treasuryStatus').textContent=world.gold<0?'Treasury debt: '+Math.abs(world.gold).toLocaleString('en-GB')+' gp. Food imports and farm construction require available funds.':'Treasury funds available. Negative balances are retained as debt.';
+ $('log').replaceChildren(...world.events.slice(0,20).map(e=>{const li=document.createElement('li');li.textContent=e;return li}));
+ renderTimber();renderInn();
+ renderPopulation();
+ renderLayoutSummary();
+ renderTownCalendar();
+ const foodStatus=$('foodStatus');if(foodStatus)foodStatus.textContent=`Food available: ${Math.floor(world.food/Math.max(1,world.pop)*10)/10} months of demand · Annual farm yield estimate: ${(world.farms*FOOD_YIELD_PER_FARM).toLocaleString('en-GB')} units · Import price: 0.02 gp/unit.`;
+}
+// v1.7: saved identities; routines are derived, never a second economic engine.
+const GIVEN_NAMES=['Ada','Bren','Cora','Dain','Elin','Fenn','Gwen','Hale','Iris','Jory','Kara','Lorn','Mira','Nell','Orin','Perrin','Rhea','Seth','Tess','Ulric','Vera','Wren'];
+const FAMILY_NAMES=['Ash','Brook','Clay','Dale','Elm','Field','Grove','Hill','Ives','Keen','Lake','Moss','North','Oak','Pike','Reed','Stone','Thorn','Vale','Wood'];
+const FAMILY_ROOTS=['Alder','Amber','Apple','Ash','Aspen','Barley','Birch','Black','Bracken','Bramble','Briar','Bright','Cedar','Cherry','Clear','Copper','Crow','Dun','Elder','Ember','Fair','Fern','Flint','Fox','Glen','Gold','Green','Grey','Hawthorn','Hazel','Heather','Holly','Iron','Lark','Laurel','Maple','Mist','Moor','Oak','Pine','Raven','Red','River','Rowan','Silver','Sloe','Willow','Winter'];
+const FAMILY_ENDINGS=['bank','beck','bell','bourne','bridge','brook','by','cliff','combe','croft','dale','den','fall','fell','field','ford','gate','grove','hall','haven','hill','holt','hurst','ley','mere','mill','ridge','shaw','stead','stone','vale','wood'];
+function familySurname(id){
+ if(id<=FAMILY_NAMES.length)return FAMILY_NAMES[id-1];
+ let n=id-FAMILY_NAMES.length-1;const parts=[],size=FAMILY_ROOTS.length*FAMILY_ENDINGS.length;
+ do{const slot=((n%size)*137)%size;parts.push(FAMILY_ROOTS[Math.floor(slot/FAMILY_ENDINGS.length)]+FAMILY_ENDINGS[slot%FAMILY_ENDINGS.length]);n=Math.floor(n/size)-1}while(n>=0);
+ return parts.join('-');
+}
+function availableSurname(id,p){
+ const used=new Set(p.households.map(h=>h.surname));let candidate;
+ do{candidate=familySurname(id++)}while(used.has(candidate));return candidate;
+}
+function migrateHouseholdNames(p){
+ if(p.namingVersion===2)return;
+ const residentsByHome=new Map();
+ for(const r of p.residents){if(!residentsByHome.has(r.householdId))residentsByHome.set(r.householdId,[]);residentsByHome.get(r.householdId).push(r)}
+ for(const h of p.households){
+  const old=FAMILY_NAMES[(h.id-1)%FAMILY_NAMES.length];
+  // Correct only the repeated default labels, leaving custom names untouched.
+  if(h.id<=FAMILY_NAMES.length||h.surname!==old||h.name!==`${old} household ${h.id}`)continue;
+  h.surname=availableSurname(h.id,p);h.name=`${h.surname} household ${h.id}`;
+  for(const r of residentsByHome.get(h.id)||[])if(r.name.endsWith(' '+old))r.name=r.name.slice(0,-old.length)+h.surname;
+ }
+ p.namingVersion=2;p.revision++;
+}
+let eventContext=null, householdPage=0, householdFilter='all', populationRenderKey='';
+const worldDay=()=>world.month*30+world.day-1;
+function clockMinute(){const [h,m]=ukTime().split(':').map(Number);return h*60+m}
+function civilMinute(){return ukDayNumber()*1440+clockMinute()}
+function stamp(day,minute){return calendarStamp(day,minute)}
+function newHousehold(p){
+ const id=p.nextHouseholdId++, surname=availableSurname(id,p);
+ const h={id,name:`${surname} household ${id}`,surname,address:`${1+Math.floor((id-1)/4)} ${['Mill Lane','Market Street','Orchard Row','West Fields'][(id-1)%4]}`};
+ p.households.push(h);return h;
+}
+function makeResident(p,h,ageMonths){
+ const id=p.nextResidentId++;
+ const r={id,householdId:h.id,name:`${GIVEN_NAMES[(id*7)%GIVEN_NAMES.length]} ${h.surname}`,ageMonths,occupation:'',workplace:''};
+ if(p.familyModel===1)r.family=blankFamily(h.id);
+ assignOccupation(r,p);p.residents.push(r);return r;
+}
+const INN_STAFF_LIMIT=8; // Provisional staffing for the single generic town inn.
+function migrateOccupations(p){
+ if(p.occupationModel===2)return;
+ const inn=p.residents.filter(r=>r.occupation==='Inn worker'&&r.workplace==='The town inn').sort((a,b)=>a.id-b.id);
+ for(const r of inn.slice(INN_STAFF_LIMIT)){r.occupation='Labourer';r.workplace='Town works'}
+ p.occupationModel=2;p.revision++;
+}
+function assignOccupation(r,p){
+ const age=r.ageMonths/12;
+ if(age<6){r.occupation='Young child';r.workplace='Home';return}
+ if(age<16){r.occupation='Pupil';r.workplace='Town school';return}
+ if(age>=65){r.occupation='Retired';r.workplace='Home';return}
+ // Fill the established permanent timber posts before assigning other trades.
+ const posts=[['Woodcutter','Oak & Axe Timberworks',5],['Woodcutter','The Greenwood Cutters',3],['Sawmill worker','Water-powered sawmill',3],['Sawmill worker','Manual sawmill',2]];
+ for(const [job,place,count] of posts){if(p.residents.filter(x=>x.id!==r.id&&x.workplace===place).length<count){r.occupation=job;r.workplace=place;return}}
+ const jobs=[['Farmer','Town farms'],['Farmer','Town farms'],['Farmer','Town farms'],['Farmer','Town farms'],['Craftsperson','Workshop quarter'],['Trader','Market square'],['Labourer','Town works'],['Carer','Neighbourhood homes'],['Inn worker','The town inn'],['Farmer','Town farms']];
+ [r.occupation,r.workplace]=jobs[r.id%jobs.length];
+ if(r.occupation==='Inn worker'&&p.residents.filter(x=>x.id!==r.id&&x.occupation==='Inn worker'&&x.workplace==='The town inn').length>=INN_STAFF_LIMIT){r.occupation='Labourer';r.workplace='Town works'}
+}
+function migratePopulation(){
+ if(world.population){migrateHouseholdNames(world.population);migrateOccupations(world.population);return}
+ const p=world.population={schema:1,namingVersion:2,occupationModel:2,nextResidentId:1,nextHouseholdId:1,households:[],residents:[],revision:0};
+ // Seed once: existing population total is authoritative, including tiny/empty saves.
+ while(p.residents.length<world.pop){
+  const h=newHousehold(p), size=Math.min(3+(h.id%3),world.pop-p.residents.length);
+  for(let i=0;i<size;i++)makeResident(p,h,(i<2?24+(h.id*7+i*5)%39:i===4?68+(h.id%12):3+(h.id+i*3)%13)*12);
+ }
+ world.livingClock={cursor:civilMinute(),minute:world.calendar?world.calendar.date.hour*60+world.calendar.date.minute:clockMinute()};
+ addEvent(`Living population registered: ${p.residents.length.toLocaleString('en-GB')} residents in ${p.households.length.toLocaleString('en-GB')} households. Earlier lives are not reconstructed.`);
+}
+function populationMonth(births,deaths){
+ const p=world.population;if(!p)return;
+ for(const r of p.residents){const age=r.ageMonths++;if([71,191,779].includes(age))assignOccupation(r,p)}
+ // Deterministic mortality gives stable results across reloads and catch-up.
+ const removed=new Set([...p.residents].sort((a,b)=>b.ageMonths-a.ageMonths||a.id-b.id).slice(0,deaths).map(r=>r.id));
+ const bereaved=archiveFamilyDeaths(p.residents.filter(r=>removed.has(r.id))),born=[];
+ p.residents=p.residents.filter(r=>!removed.has(r.id));
+ // Preserve the existing economy's authoritative total, including severe shortages.
+ const needed=Math.max(0,world.pop-p.residents.length);
+ const families=p.households.filter(h=>p.residents.some(r=>r.householdId===h.id&&r.ageMonths>=192&&r.ageMonths<660));
+ for(let i=0;i<needed;i++){
+  const h=families.length?families[(world.month*13+i)%families.length]:newHousehold(p);
+  const child=makeResident(p,h,0);linkNewborn(child,h);born.push(child);
+ }
+ p.residents=p.residents.slice(0,world.pop);
+ finishFamilyMonth(born,bereaved);
+ const occupied=new Set(p.residents.map(r=>r.householdId));p.households=p.households.filter(h=>occupied.has(h.id));p.revision++;syncInnRoster();
+}
+function routine(r,minute,day=worldDay()){
+ const hour=minute/60, rest=(day%7===6);
+ if(hour<6||hour>=22)return {activity:'Sleeping',place:'Home'};
+ if(hour<7||hour>=18&&hour<19)return {activity:'Family meal',place:'Home'};
+ if(r.occupation==='Young child')return {activity:'Care and play',place:'Home'};
+ if(r.occupation==='Retired')return {activity:hour>=10&&hour<12?'Visiting neighbours':'Home and garden',place:hour>=10&&hour<12?'Neighbourhood':'Home'};
+ if(r.occupation==='Pupil')return !rest&&hour>=8&&hour<15?{activity:hour>=12&&hour<13?'Midday meal':'Learning',place:'Town school'}:{activity:'Family and play',place:'Home'};
+ if(hour>=12&&hour<13)return {activity:'Midday meal',place:'Near home or work'};
+ const essential=['Farmer','Carer','Inn worker'].includes(r.occupation);
+ if((!rest||essential)&&hour>=8&&hour<(rest?12:17))return {activity:rest?'Essential duties':'Working',place:r.workplace};
+ if(!rest&&hour>=7&&hour<8)return {activity:'Preparing for work',place:'Home'};
+ if(hour>=17&&hour<18)return {activity:'Errands and homecoming',place:'Neighbourhood'};
+ return {activity:'Rest and neighbours',place:'Home / neighbourhood'};
+}
+function activityCounts(minute,day){
+ const counts={};for(const r of world.population.residents){const a=routine(r,minute,day).activity;counts[a]=(counts[a]||0)+1}return counts;
+}
+function livingAt(day,minute){
+ if(!world.population.residents.length)return;
+ eventContext={day,minute};
+ const hour=Math.floor(minute/60);
+ if(minute%60===0&&hour>=6&&hour<=22){
+  const now=activityCounts(minute,day), previous=activityCounts(minute-1,day);
+  if(JSON.stringify(now)!==JSON.stringify(previous)){
+   const changes=Object.entries(now).filter(([key,n])=>n!==(previous[key]||0)).sort((a,b)=>b[1]-a[1]);
+   addEvent(`Town hour: ${changes.map(([key,n])=>`${n.toLocaleString('en-GB')} ${key.toLowerCase()}`).join('; ')}.`);
+  }
+ }
+ // Two selected scenes per day, with deterministic non-round minutes.
+ const sceneMinute=9*60+7+(day*11)%43, eveningMinute=19*60+3+(day*7)%47;
+ if(minute===sceneMinute||minute===eveningMinute){
+  const p=world.population,h=p.households[(day*17+(minute===sceneMinute?0:1))%p.households.length];
+  const members=p.residents.filter(r=>r.householdId===h.id);
+  if(minute===sceneMinute){
+   const r=members.find(x=>routine(x,minute,day).activity==='Working')||members[0];
+   const a=routine(r,minute,day);
+   addEvent(`${r.name} of ${h.name}, ${h.address}: ${a.activity.toLowerCase()} at ${a.place.toLowerCase()}.`);
+  }else addEvent(`${h.name}, ${h.address}: ${householdScene(h)}.`);
+ }
+ eventContext=null;
+}
+function livingRange(day,from,to){
+ // Visit only possible event minutes, not every minute/resident while away.
+ const minutes=[...Array.from({length:17},(_,i)=>(i+6)*60),547+(day*11)%43,1143+(day*7)%47].sort((a,b)=>a-b);
+ for(const minute of minutes)if(minute>from&&minute<=to)livingAt(day,minute);
+}
+function renderPopulation(){
+ const p=world.population, minute=world.livingClock.minute;
+ const key=`${p.revision}:${worldDay()}:${minute}:${householdPage}:${householdFilter}`;
+ if(key===populationRenderKey)return;populationRenderKey=key;
+ const counts=activityCounts(minute,worldDay());
+ $('populationSummary').textContent=`${p.residents.length.toLocaleString('en-GB')} residents · ${p.households.length.toLocaleString('en-GB')} households · ${Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([a,n])=>`${n.toLocaleString('en-GB')} ${a.toLowerCase()}`).join(' · ')}`;
+ const jobs={};for(const r of p.residents)jobs[r.occupation]=(jobs[r.occupation]||0)+1;
+ $('occupations').textContent=Object.entries(jobs).sort((a,b)=>b[1]-a[1]).map(([job,n])=>`${job}: ${n}`).join(' · ');
+ renderNeeds();
+ renderFamilySummary();
+ const relatives=familyIndex(),children=new Map();
+ for(const resident of relatives.values())for(const id of resident.family.parentIds){if(!children.has(id))children.set(id,[]);children.get(id).push(resident)}
+ const visible=p.households.filter(h=>householdFilter==='all'||h.needs.food>0||h.needs.warmth>0||h.needs.care>0||h.needs.wellbeing<65);
+ const pages=Math.max(1,Math.ceil(visible.length/10));householdPage=Math.min(householdPage,pages-1);
+ $('householdMatches').textContent=`${visible.length} matching households`;
+ $('householdPage').textContent=`Page ${householdPage+1} of ${pages}`;
+ $('previousHouseholds').disabled=householdPage===0;$('nextHouseholds').disabled=householdPage===pages-1;
+ const root=$('households');const opened=new Set(Array.from(root.querySelectorAll('details')).filter(d=>d.open).map(d=>d.dataset.household));root.replaceChildren();
+ if(!visible.length){const message=document.createElement('p');message.textContent=householdFilter==='all'?'No occupied households.':'No households currently need attention.';root.append(message)}
+ for(const h of visible.slice(householdPage*10,householdPage*10+10)){
+  const details=document.createElement('details');details.className='ledger-entry';details.dataset.household=String(h.id);details.open=opened.has(String(h.id));
+  const summary=document.createElement('summary');summary.textContent=`${h.name} · ${h.address} · ${wellbeingBand(h.needs.wellbeing)}`;details.append(summary);
+  const needs=document.createElement('p');needs.className='household-needs';needs.textContent=householdNeedsText(h);details.append(needs);
+  for(const r of p.residents.filter(x=>x.householdId===h.id)){
+   const a=routine(r,minute),line=document.createElement('p');
+   line.textContent=`${r.name} · resident ${r.id} · age ${Math.floor(r.ageMonths/12)} · ${r.occupation}${!['Young child','Pupil','Retired'].includes(r.occupation)?` (${r.workplace})`:''} · ${a.activity}, ${a.place}`;details.append(line);
+   const links=document.createElement('p');links.className='family-links';links.textContent=familyDescription(r,relatives,children);details.append(links);
+  }root.append(details);
+ }
+}
+function changeHouseholdPage(delta){householdPage=Math.max(0,householdPage+delta);renderPopulation()}
+function filterHouseholds(value){householdFilter=value==='attention'?'attention':'all';householdPage=0;renderPopulation()}
+
+// Household outlook uses existing town reserves. No second consumption/payroll model.
+const FOOD_OUTLOOK=['Secure','Low reserves','Shortage risk'];
+const WARMTH_OUTLOOK=['Adequate','Low fuel buffer','Cold risk'];
+const CARE_OUTLOOK=['Balanced','Stretched','Support needed'];
+const wellbeingBand=value=>value<35?'Struggling':value<65?'Under strain':'Settled';
+function needsSupplies(){
+ const t=world.timber,season=Math.floor((world.month%12)/3);
+ const dailyFuel=t.businesses.reduce((sum,b)=>sum+Math.max(0,b.fireAnnual),0)/360*[1.15,.75,.85,1.4][season];
+ const ready=t.businesses.reduce((sum,b)=>sum+Math.max(0,b.ready),0);
+ const outstanding=t.orders.filter(o=>o.product==='fire').reduce((sum,o)=>sum+Math.max(0,o.remaining),0);
+ return {foodMonths:world.pop?world.food/world.pop:0,fuelDays:dailyFuel>0?ready/dailyFuel:0,backlogDays:dailyFuel>0?outstanding/dailyFuel:0,coldSeason:season===0||season===3};
+}
+function householdOutlook(members,supplies){
+ const adults=members.filter(r=>r.ageMonths>=192&&r.ageMonths<900).length;
+ const careLoad=members.reduce((n,r)=>n+(r.ageMonths<72?2:r.ageMonths<192||r.ageMonths>=900?1:0),0);
+ const vulnerable=members.some(r=>r.ageMonths<72||r.ageMonths>=900);
+ const food=supplies.foodMonths<1?2:supplies.foodMonths<2?1:0;
+ // Market supply is a risk indicator, not a claim about fuel already in a home.
+ const warningBuffer=supplies.coldSeason?(vulnerable?14:7):3;
+ const warmth=supplies.coldSeason&&supplies.backlogDays>=3?2:supplies.backlogDays>0||supplies.fuelDays<warningBuffer?1:0;
+ const care=careLoad===0?0:adults===0?2:careLoad>adults*2?1:0;
+ // A reserve warning is not deprivation. The old flat penalties pushed every
+ // household below 'Settled' for a routine, just-under-two-month food buffer.
+ // Cold exposure matters more where young children or older residents live.
+ const foodPressure=[0,5,35][food];
+ const warmthPressure=warmth===2?(vulnerable?25:12):warmth===1?(vulnerable?5:2):0;
+ const target=Math.max(10,85-foodPressure-warmthPressure-care*12);
+ return {food,warmth,care,target};
+}
+function residentGroups(){
+ const map=new Map();for(const r of world.population.residents){if(!map.has(r.householdId))map.set(r.householdId,[]);map.get(r.householdId).push(r)}return map;
+}
+function migrateNeeds(){
+ const p=world.population;if(p.needsModel===1)return;
+ const supplies=needsSupplies(),groups=residentGroups();
+ for(const h of p.households){
+  const outlook=householdOutlook(groups.get(h.id)||[],supplies);
+  h.needs={food:outlook.food,warmth:outlook.warmth,care:outlook.care,wellbeing:70,lastDay:worldDay(),trend:0,hardshipDays:0};
+ }
+ p.needsModel=1;p.revision++;
+ // Baseline only: no invented historical hardship or retroactive life events.
+}
+function needsSummary(){
+ const households=world.population.households;
+ const result={households:households.length,food:0,warmth:0,care:0,struggling:0,settled:0,wellbeing:0};
+ for(const h of households){const n=h.needs;if(!n)continue;result.food+=n.food>0?1:0;result.warmth+=n.warmth>0?1:0;result.care+=n.care>0?1:0;result.struggling+=n.wellbeing<35?1:0;result.settled+=n.wellbeing>=65?1:0;result.wellbeing+=n.wellbeing}
+ result.wellbeing=households.length?Math.round(result.wellbeing/households.length):0;return result;
+}
+function assessHouseholds(logChanges=true){
+ const p=world.population;if(!p||p.needsModel!==1)return;
+ const day=worldDay(),groups=residentGroups(),supplies=needsSupplies();
+ let foodChanges=0,warmthChanges=0,careChanges=0,declined=0,recovered=0,touched=false;
+ for(const h of p.households){
+  const outlook=householdOutlook(groups.get(h.id)||[],supplies),before=h.needs;
+  if(!before){h.needs={food:outlook.food,warmth:outlook.warmth,care:outlook.care,wellbeing:70,lastDay:day,trend:0,hardshipDays:0};touched=true;continue}
+  if(before.lastDay>=day)continue;
+  touched=true;
+  const band=wellbeingBand(before.wellbeing),value=before.wellbeing;
+  // Slow recovery; a severe shortage weighs more than a low reserve warning.
+  const step=outlook.target<value?(outlook.food===2||outlook.warmth===2?3:2):1;
+  const wellbeing=value+Math.sign(outlook.target-value)*Math.min(step,Math.abs(outlook.target-value));
+  foodChanges+=before.food!==outlook.food?1:0;warmthChanges+=before.warmth!==outlook.warmth?1:0;careChanges+=before.care!==outlook.care?1:0;
+  const nextBand=wellbeingBand(wellbeing);
+  if(nextBand!==band){if(wellbeing<value)declined++;else recovered++}
+  h.needs={food:outlook.food,warmth:outlook.warmth,care:outlook.care,wellbeing,lastDay:day,trend:Math.sign(wellbeing-value),hardshipDays:nextBand==='Struggling'?before.hardshipDays+1:0};
+ }
+ if(!touched)return;
+ p.revision++;
+ // At most one extra bulletin per day, only for a status/band transition.
+ const changes=[];
+ if(foodChanges)changes.push('food outlook changed for '+foodChanges+' households ('+FOOD_OUTLOOK[supplies.foodMonths<1?2:supplies.foodMonths<2?1:0].toLowerCase()+')');
+ if(warmthChanges)changes.push('warmth outlook changed for '+warmthChanges+' households');
+ if(careChanges)changes.push('care needs changed in '+careChanges+' households');
+ if(declined)changes.push(declined+' households moved into a lower wellbeing band');
+ if(recovered)changes.push(recovered+' households moved into a higher wellbeing band');
+ if(logChanges&&changes.length)addEvent('Household outlook: '+changes.join('; ')+'.');
+}
+function householdScene(h){
+ const n=h.needs;if(!n)return 'the household settles into its evening';
+ if(n.food===2)return 'food reserves cover less than a month of town demand; the household faces shortage risk';
+ if(n.warmth===2)return 'unfilled town firewood orders raise concern about keeping the home warm';
+ if(n.care===2)return 'the household has no resident aged 16–74 to share its care needs';
+ if(n.trend>0&&n.wellbeing<65)return 'wellbeing is recovering as household conditions improve';
+ if(n.food===1)return 'the household is watching food reserves, now below two months of town demand';
+ if(n.warmth===1)return 'the household faces a low market fuel buffer'+(needsSupplies().coldSeason?' during the cold season':'');
+ if(n.care===1)return 'care responsibilities leave the household stretched';
+ return n.wellbeing>=65?'food and warmth outlooks are stable; the household is settled':'the household has a quiet evening while wellbeing recovers';
+}
+function renderNeeds(){
+ const s=needsSummary(),supplies=needsSupplies();
+ $('householdWellbeing').textContent=s.households?s.wellbeing+'/100':'—';
+ $('householdSettled').textContent=s.settled.toLocaleString('en-GB');
+ $('householdStruggling').textContent=s.struggling.toLocaleString('en-GB');
+ $('householdCare').textContent=s.care.toLocaleString('en-GB');
+ $('needsSummary').textContent=s.households?`${s.food} households watching food · ${s.warmth} watching fuel · ${s.care} with care pressure. Assessed each Arcanus day; wellbeing changes gradually.`:'No occupied households yet.';
+ $('needsBasis').textContent=s.households?`Town food reserve: ${supplies.foodMonths.toFixed(1)} months · Seasoned market firewood: ${supplies.fuelDays.toFixed(1)} days of estimated demand · Firewood backorders: ${supplies.backlogDays.toFixed(1)} demand days. ${supplies.coldSeason?'Cold-season':'Mild-season'} warmth thresholds apply. Municipal emergency wood is not counted as available household fuel.`:'Household outlook will begin when residents are present.';
+}
+function householdNeedsText(h){
+ const n=h.needs;
+ return `Food: ${FOOD_OUTLOOK[n.food]} · Warmth: ${WARMTH_OUTLOOK[n.warmth]} · Care: ${CARE_OUTLOOK[n.care]} · Wellbeing: ${n.wellbeing}/100 (${wellbeingBand(n.wellbeing).toLowerCase()}, ${n.trend>0?'improving':n.trend<0?'declining':'steady'})${n.hardshipDays?' · '+n.hardshipDays+' consecutive days struggling':''}`;
+}
+function validateNeeds(p,data){
+ if(p.needsModel===undefined)return;
+ if(p.needsModel!==1)throw Error('Unsupported household needs model');
+ const day=data.month*30+(Number.isInteger(data.day)?data.day:1)-1;
+ for(const h of p.households){const n=h.needs;
+  if(!n||!['food','warmth','care'].every(k=>Number.isInteger(n[k])&&n[k]>=0&&n[k]<=2)||!Number.isInteger(n.wellbeing)||n.wellbeing<0||n.wellbeing>100||!Number.isSafeInteger(n.lastDay)||n.lastDay<0||n.lastDay>day||![-1,0,1].includes(n.trend)||!Number.isSafeInteger(n.hardshipDays)||n.hardshipDays<0)throw Error('Invalid household needs');
+ }
+}
+
+// Family links are provisional simulation data, seeded once without invented dates.
+function blankFamily(householdId){return {parentIds:[],guardianIds:[],partnerId:null,formerPartnerIds:[],originHouseholdId:householdId,independent:false}}
+function migrateFamilies(){
+ const p=world.population;if(p.familyModel===1)return;
+ for(const r of p.residents)r.family=blankFamily(r.householdId);
+ const groups=residentGroups();
+ for(const members of groups.values()){
+  const adults=members.filter(r=>r.ageMonths>=216&&r.ageMonths<780);
+  const [a,b]=adults;
+  if(a&&b&&Math.abs(a.ageMonths-b.ageMonths)<=240){a.family.partnerId=b.id;b.family.partnerId=a.id}
+  for(const child of members.filter(r=>r.ageMonths<216)){
+   const eligible=adults.filter(r=>r.ageMonths-child.ageMonths>=216&&r.ageMonths-child.ageMonths<=600);
+   const parent=eligible[0];
+   if(parent){child.family.parentIds=[parent.id];if(eligible.some(r=>r.id===parent.family.partnerId))child.family.parentIds.push(parent.family.partnerId)}
+   else child.family.guardianIds=adults.slice(0,2).map(r=>r.id);
+  }
+ }
+ p.familyModel=1;p.familyArchive=[];p.revision++;
+}
+function familyIndex(){return new Map([...world.population.familyArchive,...world.population.residents].map(r=>[r.id,r]))}
+function ancestors(id,index,includeGuardians=false){
+ const links=id=>{const f=index.get(id)?.family;return f?[...f.parentIds,...(includeGuardians?f.guardianIds:[])]:[]};
+ const seen=new Set(),pending=links(id);
+ while(pending.length){const next=pending.pop();if(seen.has(next))continue;seen.add(next);pending.push(...links(next))}return seen;
+}
+function related(a,b,index){
+ if(a.id===b.id||a.householdId===b.householdId||a.family.originHouseholdId===b.family.originHouseholdId)return true;
+ const left=ancestors(a.id,index,true),right=ancestors(b.id,index,true);
+ return left.has(b.id)||right.has(a.id)||[...left].some(id=>right.has(id));
+}
+function archiveFamilyDeaths(deceased){
+ const p=world.population;if(p.familyModel!==1)return 0;
+ const ids=new Set(deceased.map(r=>r.id));let bereaved=0;
+ for(const r of p.residents)if(!ids.has(r.id)&&ids.has(r.family.partnerId)){
+  r.family.formerPartnerIds.push(r.family.partnerId);r.family.partnerId=null;bereaved++;
+ }
+ for(const r of deceased){
+  const f=JSON.parse(JSON.stringify(r.family));
+  if(f.partnerId!==null){f.formerPartnerIds.push(f.partnerId);f.partnerId=null}
+  p.familyArchive.push({id:r.id,name:r.name,ageMonths:r.ageMonths,deathDay:worldDay(),family:f});
+ }
+ return bereaved;
+}
+function linkNewborn(child,home){
+ const p=world.population;if(p.familyModel!==1)return;
+ child.family=blankFamily(home.id);
+ const adults=p.residents.filter(r=>r.id!==child.id&&r.householdId===home.id&&r.ageMonths>=216&&r.ageMonths<660);
+ const parent=adults.find(r=>r.family.partnerId!==null)||adults[0];
+ if(parent){child.family.parentIds=[parent.id];if(adults.some(r=>r.id===parent.family.partnerId))child.family.parentIds.push(parent.family.partnerId)}
+ else child.family.guardianIds=p.residents.filter(r=>r.householdId===home.id&&r.ageMonths>=216).slice(0,2).map(r=>r.id);
+}
+function arrangeGuardians(){
+ const p=world.population,live=new Map(p.residents.map(r=>[r.id,r]));let moved=0;
+ const adults=p.residents.filter(r=>r.ageMonths>=216&&r.ageMonths<900).sort((a,b)=>a.id-b.id);
+ const groups=residentGroups();
+ for(const child of p.residents.filter(r=>r.ageMonths<216)){
+  const f=child.family;
+  f.guardianIds=f.guardianIds.filter(id=>live.has(id));
+  const residentParent=f.parentIds.map(id=>live.get(id)).find(r=>r&&r.householdId===child.householdId);
+  if(residentParent)continue;
+  const known=[...f.parentIds,...f.guardianIds].map(id=>live.get(id)).find(r=>r&&r.ageMonths>=216);
+  const local=adults.find(r=>r.householdId===child.householdId);
+  const target=known||local||adults[child.id%Math.max(1,adults.length)];
+  if(!target){f.guardianIds=[];continue}
+  if(!f.parentIds.includes(target.id))f.guardianIds=[target.id];
+  if(child.householdId!==target.householdId){
+   const old=groups.get(child.householdId)||[];groups.set(child.householdId,old.filter(r=>r.id!==child.id));
+   child.householdId=target.householdId;moved++;
+  }
+ }
+ return moved;
+}
+function formHouseholds(){
+ const p=world.population,index=familyIndex(),groups=residentGroups();
+ const dependedOn=new Set(p.residents.filter(r=>r.ageMonths<216).flatMap(r=>[...r.family.parentIds,...r.family.guardianIds]));
+ const candidates=p.residents.filter(r=>r.ageMonths>=(20+r.id%5)*12&&r.ageMonths<=540&&r.family.parentIds.length&&!r.family.independent&&r.family.partnerId===null&&!dependedOn.has(r.id)).sort((a,b)=>b.ageMonths-a.ageMonths||a.id-b.id);
+ const canLeave=r=>{
+  const remaining=(groups.get(r.householdId)||[]).filter(x=>x.id!==r.id);
+  return remaining.length>0&&(!remaining.some(x=>x.ageMonths<216||x.ageMonths>=900)||remaining.some(x=>x.ageMonths>=216&&x.ageMonths<900));
+ };
+ const used=new Set(),formed=[];
+ for(const a of candidates){
+  if(formed.length>=2)break;
+  if(used.has(a.id)||!canLeave(a))continue;
+  const b=candidates.find(r=>!used.has(r.id)&&canLeave(r)&&Math.abs(a.ageMonths-r.ageMonths)<=120&&!related(a,r,index));
+  // A person can establish an independent home even without a suitable partner.
+  const movers=b?[a,b]:[a],sources=movers.map(r=>p.households.find(h=>h.id===r.householdId));
+  const h=newHousehold(p);h.surname=sources[0].surname;h.name=movers.map(r=>r.name).join(' & ')+' household '+h.id;
+  h.foundedDay=worldDay();h.founderIds=movers.map(r=>r.id);
+  const wellbeing=Math.round(sources.reduce((sum,home)=>sum+(home.needs?.wellbeing??70),0)/sources.length);
+  const outlook=householdOutlook(movers,needsSupplies());
+  h.needs={food:outlook.food,warmth:outlook.warmth,care:outlook.care,wellbeing,lastDay:worldDay(),trend:0,hardshipDays:0};
+  for(const r of movers){groups.set(r.householdId,(groups.get(r.householdId)||[]).filter(x=>x.id!==r.id));r.householdId=h.id;r.family.independent=true;used.add(r.id)}
+  groups.set(h.id,movers);
+  if(b){a.family.partnerId=b.id;b.family.partnerId=a.id}
+  formed.push(h);
+ }
+ return formed;
+}
+function pruneFamilyArchive(){
+ const p=world.population,index=familyIndex(),needed=new Set(),links=r=>r?[...r.family.parentIds,...r.family.guardianIds,...r.family.formerPartnerIds]:[],pending=p.residents.flatMap(links);
+ const living=new Set(p.residents.map(r=>r.id));
+ pending.push(...p.familyArchive.filter(r=>r.family.parentIds.some(id=>living.has(id))).map(r=>r.id));
+ while(pending.length){const id=pending.pop();if(needed.has(id))continue;needed.add(id);pending.push(...links(index.get(id)))}
+ p.familyArchive=p.familyArchive.filter(r=>needed.has(r.id));
+}
+function finishFamilyMonth(born,bereaved){
+ const p=world.population;if(p.familyModel!==1)return;
+ const caredFor=arrangeGuardians(),formed=formHouseholds();
+ pruneFamilyArchive();
+ const changes=[];
+ if(born.length)changes.push(born.length+' newborns added to family records');
+ if(bereaved)changes.push(bereaved+' surviving partners bereaved');
+ if(caredFor)changes.push(caredFor+' young residents moved into family or guardian care');
+ if(formed.length)changes.push(formed.length+' new households established: '+formed.map(h=>h.name+' at '+h.address).join('; '));
+ if(changes.length)addEvent('Family register: '+changes.join('; ')+'.');
+}
+function familyDescription(r,index,children){
+ const f=r.family,label=id=>{const person=index.get(id);return person?person.name+(Number.isFinite(person.deathDay)?' (deceased)':''):'Unrecorded'};
+ const details=[];
+ if(f.partnerId!==null)details.push('Partner: '+label(f.partnerId));
+ if(f.formerPartnerIds.length)details.push('Late partner: '+f.formerPartnerIds.map(label).join(', '));
+ if(f.parentIds.length)details.push('Parents: '+f.parentIds.map(label).join(', '));
+ if(f.guardianIds.length&&r.ageMonths<216)details.push('Guardian: '+f.guardianIds.map(label).join(', '));
+ if(children.has(r.id))details.push('Children: '+children.get(r.id).map(child=>child.name+(Number.isFinite(child.deathDay)?' (deceased)':child.householdId!==r.householdId?' (another household)':'')).join(', '));
+ return details.length?details.join(' · '):'No family links recorded';
+}
+function renderFamilySummary(){
+ const p=world.population;
+ $('familySummary').textContent=`${p.residents.filter(r=>r.family.partnerId!==null).length/2} partnerships · ${p.residents.filter(r=>r.family.parentIds.length).length} residents with recorded parents · ${p.households.filter(h=>Number.isInteger(h.foundedDay)).length} new households since family records began`;
+}
+function validateFamilies(p,data){
+ if(p.familyModel===undefined)return;
+ if(p.familyModel!==1||!Array.isArray(p.familyArchive))throw Error('Invalid family register');
+ const live=new Map(p.residents.map(r=>[r.id,r])),all=new Map([...p.familyArchive,...p.residents].map(r=>[r.id,r]));
+ if(all.size!==p.residents.length+p.familyArchive.length)throw Error('Duplicate family identity');
+ const ids=list=>Array.isArray(list)&&new Set(list).size===list.length&&list.every(id=>Number.isSafeInteger(id)&&all.has(id));
+ for(const r of all.values()){
+  const f=r.family;
+  if(!f||!ids(f.parentIds)||f.parentIds.length>2||!ids(f.guardianIds)||f.guardianIds.length>2||!ids(f.formerPartnerIds)||![true,false].includes(f.independent)||!Number.isSafeInteger(f.originHouseholdId)||f.originHouseholdId<1||f.originHouseholdId>=p.nextHouseholdId||[...f.parentIds,...f.guardianIds,...f.formerPartnerIds].includes(r.id))throw Error('Invalid family links');
+  if(f.partnerId!==null&&(!live.has(r.id)||!live.has(f.partnerId)||f.partnerId===r.id||live.get(f.partnerId).family?.partnerId!==r.id||r.ageMonths<216||live.get(f.partnerId).ageMonths<216))throw Error('Invalid partnership');
+  if(live.has(r.id)&&f.formerPartnerIds.some(id=>live.has(id)))throw Error('Invalid late partner');
+  if(live.has(r.id)&&r.ageMonths<216&&f.guardianIds.some(id=>!live.has(id)||live.get(id).ageMonths<216))throw Error('Invalid guardian');
+  if(f.parentIds.some(id=>all.get(id).ageMonths+(Number.isFinite(all.get(id).deathDay)?Math.floor((data.month*30+data.day-1-all.get(id).deathDay)/30):0)-r.ageMonths<216))throw Error('Invalid parent ages');
+ }
+ for(const r of p.familyArchive)if(!Number.isSafeInteger(r.id)||r.id<=0||r.id>=p.nextResidentId||typeof r.name!=='string'||!Number.isSafeInteger(r.ageMonths)||!Number.isSafeInteger(r.deathDay)||r.deathDay<0||r.deathDay>data.month*30+data.day-1)throw Error('Invalid family memorial');
+ // Parent cycles and close-relative partnerships cannot enter through imported saves.
+ for(const r of all.values())if(ancestors(r.id,all,true).has(r.id))throw Error('Cyclic family links');
+ for(const r of live.values())if(r.family.partnerId!==null){const partner=live.get(r.family.partnerId),a=ancestors(r.id,all,true),b=ancestors(partner.id,all,true);if(a.has(partner.id)||b.has(r.id)||[...a].some(id=>b.has(id)))throw Error('Related partners')}
+}
+
+
+function advance(n){calendarAction(()=>advanceCalendarMonths(n));}
+function buildFarm(){if(loadFailed)return;catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
+function togglePause(){ /* Retained for old UI callers; automatic time is disabled. */ }
+function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?(recoveryRaw??localStorage.getItem(KEY)??''):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=loadFailed?'kaddinghall-recovery.json':'kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function validateSave(data){
+ if(data?.version===12)validateCalendar(data);
+ if(!data||![1,2,3,4,5,6,7,8,9,10,11,12].includes(data.version)||!['month','pop','food','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Number.isFinite(data.gold)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(data.version>=8&&(!data.timber||!data.population||!Number.isSafeInteger(data.lastUKDay)||!Number.isFinite(data.lastUpdated)||typeof data.paused!=='boolean'||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Incomplete modern save or invalid clock');
+ if(data.version>=9&&(!data.population||data.population.needsModel!==1))throw Error('Missing household needs');
+ if(data.version>=10&&(data.population.familyModel!==1||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Missing family data or invalid date');
+ if(data.timber){
+  const t=data.timber, sample=initialTimber();
+  const check=(record,template)=>{if(!record)throw Error('Incomplete timber save');for(const [key,value] of Object.entries(template)){if(typeof value==='number'&&!Number.isFinite(record[key]))throw Error('Invalid timber '+key);if(typeof value==='string'&&typeof record[key]!=='string')throw Error('Invalid timber '+key)}};
+  if(!Array.isArray(t.businesses)||t.businesses.length!==2||!Array.isArray(t.mills)||t.mills.length!==2||!Number.isSafeInteger(t.elapsed)||t.elapsed<0||!Number.isFinite(t.municipalReserve)||!t.prices||!Number.isFinite(t.prices.fire)||!Number.isFinite(t.prices.construction))throw Error('Invalid timber data');
+  t.businesses.forEach((b,i)=>{check(b,sample.businesses[i]);if(b.id!==sample.businesses[i].id||!Array.isArray(b.batches)||!b.batches.every(x=>Number.isFinite(x.tonnes)&&Number.isFinite(x.readyAt)))throw Error('Invalid timber batches')});
+  t.mills.forEach((m,i)=>check(m,sample.mills[i]));
+  if(t.orders&&!t.orders.every(o=>['oak','green'].includes(o.business)&&['fire','construction'].includes(o.product)&&typeof o.customer==='string'&&Number.isFinite(o.remaining)&&Number.isFinite(o.placedDay)))throw Error('Invalid timber orders');
+  const rows=(list,fields,size)=>Array.isArray(list)&&(size===undefined||list.length===size)&&list.every(row=>row&&fields.every(k=>Number.isFinite(row[k])));
+  if(t.ledger&&(!Array.isArray(t.ledger)||!t.ledger.every(e=>e&&Number.isFinite(e.month)&&rows(e.businesses,['fire','construction','income','cost','closingCash'])&&rows(e.mills,['logs','income','cost','days'])&&e.businesses.concat(e.mills).every(row=>typeof row.name==='string'))))throw Error('Invalid timber ledger');
+  if(t.monthStart&&(!rows(t.monthStart.businesses,['revenue','expenses','soldFire','soldConstruction','ready','seasoning'],2)||!rows(t.monthStart.mills,['processed','revenue','expenses','days'],2)))throw Error('Invalid timber month snapshot');
+  const nonnegative=n=>Number.isFinite(n)&&n>=0;
+  const count=n=>Number.isSafeInteger(n)&&n>=0;
+  for(const b of t.businesses){
+   for(const [key,value] of Object.entries(sample.businesses[0]))if(typeof value==='number'&&key!=='cash'&&!nonnegative(b[key]))throw Error('Negative timber '+key);
+   if(!b.batches.every(x=>nonnegative(x.tonnes)&&count(x.readyAt)))throw Error('Invalid timber batch quantities');
+   if(!count(b.workers)||!count(b.seasonal))throw Error('Invalid timber staffing');
+  }
+  for(const m of t.mills){
+   for(const [key,value] of Object.entries(sample.mills[0]))if(typeof value==='number'&&key!=='cash'&&!nonnegative(m[key]))throw Error('Negative mill '+key);
+   if(m.capacity<=0||!count(m.workers)||!count(m.operatingDays)||(m.todayProcessed!==undefined&&(!nonnegative(m.todayProcessed)||m.todayProcessed>m.capacity+1e-8)))throw Error('Invalid mill capacity or operating days');
+  }
+  if(!nonnegative(t.prices.fire)||!nonnegative(t.prices.construction)||!nonnegative(t.municipalReserve))throw Error('Invalid timber prices or reserve');
+  if(data.version>=8&&(!Array.isArray(t.orders)||!Array.isArray(t.ledger)||!count(t.nextOrderId)||t.nextOrderId<1||!count(t.fulfilledOrders)||!nonnegative(t.unfilledTonnes)))throw Error('Incomplete timber accounting');
+  if(data.version>=8&&t.elapsed>0&&!t.monthStart)throw Error('Missing timber month snapshot');
+  if(t.orders){
+   if(!Array.isArray(t.orders)||new Set(t.orders.map(o=>o.id)).size!==t.orders.length||!t.orders.every(o=>count(o.id)&&o.id>0&&o.id<t.nextOrderId&&nonnegative(o.remaining)&&count(o.placedDay)&&o.placedDay<=t.elapsed&&nonnegative(o.tonnes)))throw Error('Invalid timber order quantities or identities');
+   const outstanding=t.orders.reduce((sum,o)=>sum+o.remaining,0);
+   if(Number.isFinite(t.unfilledTonnes)&&Math.abs(outstanding-t.unfilledTonnes)>1e-6*Math.max(1,outstanding))throw Error('Inconsistent timber orders');
+  }
+  if(t.ledger)for(const entry of t.ledger){
+   if(!count(entry.month)||entry.month<1||entry.month>Math.floor(t.elapsed/30)||!count(entry.openOrders)||!nonnegative(entry.outstanding)||entry.businesses.length!==2||entry.mills.length!==2)throw Error('Invalid timber ledger period');
+   if(!entry.businesses.every(row=>['fire','construction','income','cost','ready','seasoning'].every(k=>nonnegative(row[k])))||!entry.mills.every(row=>['logs','income','cost','days'].every(k=>nonnegative(row[k]))))throw Error('Invalid timber ledger quantities');
+  }
+  if(t.monthStart)for(const row of [...t.monthStart.businesses,...t.monthStart.mills])if(!Object.values(row).every(nonnegative))throw Error('Invalid timber snapshot quantities');
+ }
+ if(data.population){
+  const p=data.population,c=data.livingClock;
+  if(p.schema!==1||!Array.isArray(p.residents)||p.residents.length!==data.pop||!Array.isArray(p.households)||!Number.isSafeInteger(p.nextResidentId)||!Number.isSafeInteger(p.nextHouseholdId)||!Number.isSafeInteger(p.revision))throw Error('Invalid population');
+  const homes=new Set(p.households.map(h=>h.id)),ids=new Set(p.residents.map(r=>r.id));
+  if(homes.size!==p.households.length||ids.size!==p.residents.length||!p.households.every(h=>Number.isSafeInteger(h.id)&&h.id>0&&h.id<p.nextHouseholdId&&['name','surname','address'].every(k=>typeof h[k]==='string'))||!p.residents.every(r=>Number.isSafeInteger(r.id)&&r.id>0&&r.id<p.nextResidentId&&homes.has(r.householdId)&&Number.isSafeInteger(r.ageMonths)&&r.ageMonths>=0&&['name','occupation','workplace'].every(k=>typeof r[k]==='string')))throw Error('Invalid resident or household');
+  if(!c||!Number.isSafeInteger(c.cursor)||!Number.isInteger(c.minute)||c.minute<0||c.minute>=1440)throw Error('Invalid living clock');
+  validateNeeds(p,data);
+  validateFamilies(p,data);
+  if(data.version>=11||data.inn)validateInn(data);
+ }
+}
+function migrateWorld(){
+ if(world.version===1){world.day=1;world.paused=true;world.lastUpdated=Date.now()}
+ if(!world.timber)world.timber=initialTimber();
+ if(!Array.isArray(world.timber.ledger))world.timber.ledger=[];
+ migrateOrders();
+ if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();
+ if(!Number.isInteger(world.day)||world.day<1||world.day>30)world.day=1;
+ world.paused=true;
+ if(!Number.isFinite(world.lastUKDay)){
+  // Calendar upgrade deliberately skips all offline elapsed time.
+  world.lastUKDay=ukDayNumber();
+ }
+ migrateFood();migratePopulation();migrateNeeds();migrateFamilies();world.version=world.inn?11:10;
+ world.events=world.events.slice(0,150);
+ migrateCalendar();
+}
+function importWorld(data){
+ validateSave(data);
+ const previous=world,failed=loadFailed,raw=recoveryRaw;
+ saveTransaction=true;
+ try{world=JSON.parse(JSON.stringify(data));loadFailed=false;migrateWorld();catchUp();migrateInn();validateSave(world)}
+ catch(err){world=previous;loadFailed=failed;recoveryRaw=raw;eventContext=null;throw err}
+ finally{saveTransaction=false}
+ recoveryRaw=null;householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;innRenderKey='';updateRecoveryControls();persist();render();
+}
+$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{importWorld(JSON.parse(await f.text()))}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
+function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;recoveryRaw=null;world=initial();migrateWorld();migrateInn();householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;innRenderKey='';updateRecoveryControls();persist();render()}}
+// Offline file release: no service worker.
+function start(){
+ $('buildStatus').textContent='Running '+BUILD_ID;
+ saveTransaction=true;
+ try{recoveryRaw=localStorage.getItem(KEY);world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();validateSave(world);migrateWorld();catchUp();migrateInn();validateSave(world)}
+ catch(err){loadFailed=true;$('worldControls').open=true;$('saveStatus').textContent='Save could not be loaded: '+err.message+'. Time and building controls are disabled. Export save preserves the original data; import a backup or reset to recover.';}
+ finally{saveTransaction=false;updateRecoveryControls()}
+ if(!loadFailed){if(recoveryRaw!==null&&JSON.parse(recoveryRaw).version<12){try{const backupKey=KEY+'-before-calendar-v12';if(localStorage.getItem(backupKey)===null)localStorage.setItem(backupKey,recoveryRaw)}catch(e){loadFailed=true;$('saveStatus').textContent='Could not preserve the pre-calendar save. Export recovery before retrying.';updateRecoveryControls();return;}}recoveryRaw=null;persist();render()}
+ window.addEventListener('focus',()=>{if(!loadFailed){catchUp();render()}});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!loadFailed){catchUp();render()}});
+ // No real-time simulation timer: rendering follows deliberate actions.
+}
+start();
+
+
+// Navigation and summaries are presentation only; they never advance the simulation.
+function renderLayoutSummary(){
+ const needs=needsSummary();
+ $('overviewWellbeing').textContent=needs.households?needs.wellbeing+'/100':'—';
+ $('overviewNeeds').textContent=needs.households?`${needs.settled} settled households · ${needs.struggling} struggling · ${needs.care} with care pressure`:'No occupied households yet.';
+ $('recentEvents').replaceChildren(...world.events.slice(0,3).map(message=>{const li=document.createElement('li');li.textContent=message;return li}));
+ if(!world.events.length){const li=document.createElement('li');li.textContent='The town’s story will appear here.';$('recentEvents').append(li)}
+}
+function showView(name,scroll=true){
+ const names=['overview','population','businesses','chronicle'];
+ if(!names.includes(name))name='overview';
+ for(const item of names){
+  const active=item===name,tab=$('tab-'+item);
+  tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;
+  $('view-'+item).hidden=!active;
+ }
+ try{history.replaceState(null,'','#'+name)}catch{}
+ if(scroll)$('view-'+name).scrollIntoView({block:'start',behavior:'instant'});
+ if(document.activeElement?.closest('[role="tabpanel"]')?.hidden)$('view-'+name).focus({preventScroll:true});
+}
+function openWorldControls(){
+ const controls=$('worldControls');controls.open=true;
+ controls.scrollIntoView({block:'start',behavior:'instant'});
+ controls.querySelector('summary').focus({preventScroll:true});
+}
+function initLayout(){
+ const names=['overview','population','businesses','chronicle'];
+ for(const name of names){
+  const tab=$('tab-'+name);
+  tab.addEventListener('click',()=>showView(name));
+  tab.addEventListener('keydown',event=>{
+   const index=names.indexOf(name);
+   const next=event.key==='ArrowRight'?(index+1)%4:event.key==='ArrowLeft'?(index+3)%4:event.key==='Home'?0:event.key==='End'?3:null;
+   if(next===null)return;event.preventDefault();showView(names[next]);$('tab-'+names[next]).focus({preventScroll:true});
+  });
+ }
+ showView(location.hash.slice(1),false);
+ window.addEventListener('hashchange',()=>showView(location.hash.slice(1)));
+}
+initLayout();
+
+</script><script>/* Same-document adapter: exposes the existing town clock without an iframe handshake. */
+(()=>{
+ const subscribers=new Set();
+ function read(){return {channel:'arcanus-calendar',kind:'state',calendar:!loadFailed&&world?.calendar?JSON.parse(JSON.stringify(world.calendar)):null,error:loadFailed?($('saveStatus').textContent||'The saved simulation needs recovery. Open Kaddinghall for recovery controls.'):null};}
+ function notify(){const state=read();for(const listener of subscribers)listener(state);}
+ const previousRender=render;
+ render=function(){previousRender();notify();};
+ window.ArcanusWorldClock={read,subscribe(listener){subscribers.add(listener);return()=>subscribers.delete(listener)},advance(unit,amount){
+  if(loadFailed)throw Error('The saved simulation needs recovery before time can advance.');
+  if(unit==='minutes'&&[60,180,1440].includes(amount))advanceCalendarMinutes(amount);
+  else if(unit==='months'&&[1,12].includes(amount))advanceCalendarMonths(amount);
+  else throw Error('Unsupported calendar step.');
+ }};
+})();
+</script><script>/* World-screen presentation only. No separate clock, calendar arithmetic or event copies. */
+(()=>{
+ const E=ArcanusEngine,C=ArcanusCalendarData,$=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
+ const clock=window.ArcanusWorldClock;let calendar=null;
+ const send=message=>{try{if(message.kind==='read')receive(clock.read());else if(message.kind==='advance')clock.advance(message.unit,message.amount);}catch(e){text('world-error',e.message);}};
+ function text(id,value){$(id).textContent=value;}
+ function render(){
+  const d=calendar.date,moon=E.moon(d,calendar.offset),season=E.season(d,calendar.hemisphere,calendar.offset);
+  // Keep this display order identical to the five fields in index.html.
+  text('world-time',`${pad(d.hour)}:${pad(d.minute)}`);
+  text('world-watch',E.watch(d).name);
+  text('world-moon',moon.name);
+  text('world-weekday',C.weekdays[E.weekday(d)]);
+  text('world-date',`${d.day} ${C.months[d.month-1]}, ${d.year} AF`);
+  text('moon-detail',`${Math.round(moon.illumination*100)}% illuminated · ${moon.quality}`);
+  text('season',season.name);text('season-detail',`${calendar.hemisphere==='north'?'Northern':'Southern'} hemisphere · ${season.quality}`);
+  text('earth-reference',E.ukReference(E.earthStamp(d,calendar.offset))+(calendar.offsetConfirmed?'':' · provisional UTC+0 alignment'));
+  const today=E.eventsOn(d);$('today-events').replaceChildren();
+  if(!today.length)$('today-events').textContent='No registered observances or birthdays today.';
+  for(const event of today){const p=document.createElement('p');p.textContent=event.name+(event.type==='birthday'?' · Birthday':'');$('today-events').append(p);}
+  text('clock-status','Shared simulation time · advances only through your controls');
+  document.querySelectorAll('[data-step]').forEach(button=>button.disabled=false);
+  if(window.renderCanonYear)window.renderCanonYear(d.year);
+  renderRegister();
+ }
+ function renderRegister(){
+  if(!calendar)return;const q=$('event-search').value.toLowerCase().trim();
+  const events=E.eventsInYear(calendar.date.year).filter(e=>[e.name,e.realm,e.notes].filter(Boolean).join(' ').toLowerCase().includes(q));
+  $('event-rows').replaceChildren();
+  for(const event of events){const tr=document.createElement('tr');for(const value of [`${event.day} ${C.months[event.month-1]}`,event.name,event.type==='birthday'?'Birthday':event.type==='leap-festival'?'Leap festival':event.category,[event.realm,event.notes].filter(Boolean).join(' · ')]){const td=document.createElement('td');td.textContent=value;tr.append(td);}$('event-rows').append(tr);}
+  text('register-year',`${events.length} matching records occurring in ${calendar.date.year} AF. The complete register contains 50 annual observances, The Hidden Dawn and seven birthdays.`);
+ }
+ function receive(message){
+  if(message.error){text('world-error',message.error);text('clock-status','Simulation needs recovery — open Kaddinghall below.');return;}
+  if(!message.calendar){text('world-error','The saved simulation has no calendar. Open Kaddinghall for recovery controls.');return;}
+  try{E.validate(message.calendar.date);E.earthStamp(message.calendar.date,message.calendar.offset);calendar=message.calendar;text('world-error','');render();}catch(e){text('world-error',e.message);}
+ }
+ function selectView(name){
+  for(const id of ['world','town','register']){$('view-'+id).hidden=id!==name;$('nav-'+id).setAttribute('aria-pressed',String(id===name));}
+ }
+ for(const id of ['world','town','register'])$('nav-'+id).onclick=()=>selectView(id);
+ $('open-town').onclick=()=>selectView('town');
+ document.querySelectorAll('[data-step]').forEach(button=>button.onclick=()=>{if(!calendar)return;text('world-error','');send({kind:'advance',unit:button.dataset.unit,amount:Number(button.dataset.step)});});
+ $('event-search').addEventListener('input',renderRegister);
+ clock.subscribe(receive);
+ send({kind:'read'});
+
+})();
+</script><script>const registerLink=document.getElementById('calendarBrowse');registerLink.textContent='Open world calendar register';registerLink.onclick=event=>{event.preventDefault();document.getElementById('nav-register').click();};</script></body></html>
+
