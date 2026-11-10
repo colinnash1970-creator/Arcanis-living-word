@@ -30,7 +30,7 @@
 <div><dt>Aeloria · lunar phase</dt><dd id="world-moon">Loading…</dd></div>
 <div><dt>Weekday</dt><dd id="world-weekday">Loading…</dd></div>
 <div><dt>Arcanian date</dt><dd id="world-date">Loading…</dd></div>
-</dl><div class="step-controls" aria-label="Advance simulation time"><button disabled data-step="60" data-unit="minutes">+1 Hour</button><button disabled data-step="180" data-unit="minutes">+1 Watch</button><button disabled data-step="1440" data-unit="minutes">+1 Day</button><button disabled data-step="1" data-unit="months">+1 Month</button><button disabled data-step="12" data-unit="months">+1 Year</button></div><p id="clock-status">Connecting to the saved simulation calendar…</p></section>
+</dl><div class="step-controls" aria-label="Advance simulation time"><button id="world-pause" disabled>Pause</button><button disabled data-step="60" data-unit="minutes">+1 Hour</button><button disabled data-step="180" data-unit="minutes">+1 Watch</button><button disabled data-step="1440" data-unit="minutes">+1 Day</button><button disabled data-step="1" data-unit="months">+1 Month</button><button disabled data-step="12" data-unit="months">+1 Year</button></div><p id="clock-status">Connecting to the saved simulation calendar…</p></section>
 <p id="local-save-note" class="muted" role="status"></p><p id="world-error" role="alert">Starting the simulator. If this message remains, open the single-file edition in your normal web browser.</p>
 <nav class="main-nav" aria-label="World sections"><button id="nav-world" aria-pressed="true">World overview</button><button id="nav-town" aria-pressed="false">Kaddinghall</button><button id="nav-register" aria-pressed="false">Calendar register</button></nav>
 <section id="view-world"><div class="intro"><p class="eyebrow">THE WORLD OF ARCANUS</p><h1>One world. One shared calendar.</h1><p class="muted">The calendar above follows the simulation. Open a place below to explore its daily life.</p></div><div class="cards"><article class="card"><p class="eyebrow">PLACES</p><h2>Kaddinghall</h2><p>People, households, businesses and the town chronicle.</p><button id="open-town">Enter Kaddinghall →</button></article><article class="card"><p class="eyebrow">ON THIS DAY</p><h2>Observances & birthdays</h2><div id="today-events">Loading the current date…</div></article><article class="card"><p class="eyebrow">SKY & SEASON</p><h2 id="season">Loading…</h2><p id="season-detail" class="muted"></p><p id="moon-detail" class="muted"></p><p class="eyebrow">EARTH REFERENCE ONLY</p><p id="earth-reference" class="muted"></p></article></div><section class="card"><div id="canon-state"></div></section></section>
@@ -51,13 +51,13 @@
       <button role="tab" id="tab-chronicle" aria-controls="view-chronicle" aria-selected="false" tabindex="-1">Chronicle</button>
     </nav>
   </div>
-  <section class="panel" aria-labelledby="calendarHeading"><h2 id="calendarHeading">Arcanus calendar</h2><div id="calendarSummary" aria-live="polite"></div><p id="calendarError" role="alert"></p><button id="calendarBackup" hidden onclick="exportCalendarBackup()">Export pre-calendar backup</button><div class="button-row"><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(60))">+1 Hour</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(180))">+1 Watch</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(1440))">+1 Day</button><button data-world-action onclick="advance(1)">+1 Calendar month</button><button data-world-action onclick="advance(12)">+1 Calendar year</button></div><p><a id="calendarBrowse" data-base="Calendar/index.html" href="Calendar/index.html" target="_blank" rel="noopener">Browse calendar, convert dates and search all 58 records</a></p><p class="muted">Browsing other dates does not rewind the town or change its economy. Town time moves forward only through the controls above.</p><details><summary>Calendar alignment</summary><label>Hemisphere <select id="calendarHemisphere"><option value="north">Northern</option><option value="south">Southern</option></select></label> <label>Starhaven offset from UTC, minutes <input id="calendarOffset" type="number" min="-840" max="840" step="1" value="0"></label> <button data-world-action onclick="updateCalendarSettings()">Apply alignment</button><p>UTC+0 is provisional, not established geography. No DST applies to Starhaven.</p></details><p class="muted">Compatibility: town budgets, harvests, ageing and ledgers retain their existing 30-day accounting periods and provisional economic seasonal cycle. These are not canonical calendar months or astronomical seasons. Existing balances are not recalculated.</p></section><details id="worldControls" class="panel world-controls">
+  <section class="panel" aria-labelledby="calendarHeading"><h2 id="calendarHeading">Arcanus calendar</h2><div id="calendarSummary" aria-live="polite"></div><p id="calendarError" role="alert"></p><button id="calendarBackup" hidden onclick="exportCalendarBackup()">Export pre-calendar backup</button><div class="button-row"><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(60))">+1 Hour</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(180))">+1 Watch</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(1440))">+1 Day</button><button data-world-action onclick="advance(1)">+1 Calendar month</button><button data-world-action onclick="advance(12)">+1 Calendar year</button></div><p><a id="calendarBrowse" data-base="Calendar/index.html" href="Calendar/index.html" target="_blank" rel="noopener">Browse calendar, convert dates and search all 58 records</a></p><p class="muted">Browsing other dates does not rewind the town or change its economy. Town time runs continuously unless paused; the controls also allow manual forward steps.</p><details><summary>Calendar alignment</summary><label>Hemisphere <select id="calendarHemisphere"><option value="north">Northern</option><option value="south">Southern</option></select></label> <label>Starhaven offset from UTC, minutes <input id="calendarOffset" type="number" min="-840" max="840" step="1" value="0"></label> <button data-world-action onclick="updateCalendarSettings()">Apply alignment</button><p>UTC+0 is provisional, not established geography. No DST applies to Starhaven.</p></details><p class="muted">Compatibility: town budgets, harvests, ageing and ledgers retain their existing 30-day accounting periods and provisional economic seasonal cycle. These are not canonical calendar months or astronomical seasons. Existing balances are not recalculated.</p></section><details id="worldControls" class="panel world-controls">
     <summary>Time, building &amp; saves</summary>
     <div class="control-grid">
       <div><h3>Advance the world</h3><div class="button-row"><button data-world-action onclick="advance(1)">+1 Month</button><button data-world-action onclick="advance(12)">+1 Year</button></div><p class="muted help">Calendar steps advance the town only when you choose.</p><h3>Build</h3><button data-world-action onclick="buildFarm()">Farm · 150 coins</button></div>
       <div><h3>World save</h3><div class="button-row"><button class="secondary" onclick="exportSave()">Export save</button><button class="secondary" onclick="document.getElementById('file').click()">Import save</button></div><input hidden type="file" id="file" accept="application/json,.json"><p id="saveStatus" class="muted" role="status"></p><details class="reset-control"><summary>Start over</summary><p class="muted">Export your save first if you want to keep this town.</p><button class="secondary" onclick="resetWorld()">Reset world</button></details></div>
     </div>
-    <details class="help"><summary>How the clock works</summary><p id="nextDay" class="muted"></p><p class="muted">Campaign time is manual. The named Gregorian-length calendar is saved with the town. No elapsed real-world time is processed on opening, importing or returning. Daily economic steps still settle in legacy 30-day accounting periods.</p></details>
+    <details class="help"><summary>How the clock works</summary><p id="nextDay" class="muted"></p><p class="muted">The named Gregorian-length calendar runs at one real second per Arcanus second. It catches up on opening, importing or returning. Pause freezes time, including while closed. Daily economic steps still settle in legacy 30-day accounting periods.</p></details>
   </details>
 
   <section id="view-overview" class="view" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
@@ -96,7 +96,7 @@
   <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.10.0</footer>
 </div></div></section>
 <section id="view-register" class="card" hidden><h1>Calendar register</h1><p id="register-year"></p><label for="event-search">Find an observance or birthday</label><input id="event-search" type="search" placeholder="Name, realm or dedication"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Name</th><th>Category</th><th>Context</th></tr></thead><tbody id="event-rows"></tbody></table></div></section>
-<footer>Campaign time remains manual. Historical lunar projections and seasonal templates outside 828 AF are approximate. The existing economic accounting model remains unchanged.</footer>
+<footer>Time runs at real-time speed and catches up when reopened, unless paused. Historical lunar projections and seasonal templates outside 828 AF are approximate. The existing economic accounting model remains unchanged.</footer>
 </main><script>(()=>{try{localStorage.getItem('arcanus-kaddinghall-stage3')}catch(error){
 if(location.protocol!=='file:')throw error;
 const memory=new Map();Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>memory.get(k)??null,setItem:(k,v)=>memory.set(k,String(v)),removeItem:k=>memory.delete(k)}});
@@ -289,6 +289,42 @@ document.getElementById('canon-export')?.addEventListener('click',()=>{if(!curre
   if(typeof module==='object')module.exports=api;else root.ArcanusEngine=api;
 })(globalThis);
 </script><script>/* Town adapter. Canonical dates are independent of legacy 30-day accounting buckets. */
+
+function initRealtime(){
+ if(!world.realtime)world.realtime={enabled:true,lastWallMs:Date.now(),remainderMs:0};
+}
+function validateRealtime(data){
+ const r=data.realtime;if(r===undefined)return;
+ if(!r||typeof r.enabled!=='boolean'||!Number.isSafeInteger(r.lastWallMs)||r.lastWallMs<0||!Number.isFinite(r.remainderMs)||r.remainderMs<0||r.remainderMs>=60000)throw Error('Invalid real-time clock.');
+}
+function catchUpRealtime(){
+ if(loadFailed||!world?.realtime?.enabled)return;
+ const r=world.realtime,now=Date.now();
+ if(now<=r.lastWallMs)return;
+ const elapsed=r.remainderMs+now-r.lastWallMs,minutes=Math.floor(elapsed/60000);
+ if(minutes===0)return; // The fractional elapsed time remains anchored to lastWallMs.
+ ArcanusEngine.shift(world.calendar.date,minutes); // Validate the whole catch-up before mutation.
+ const before=JSON.stringify(world),previousTransaction=saveTransaction;
+ try{
+  saveTransaction=true;r.lastWallMs=now;r.remainderMs=elapsed%60000;
+  for(let remaining=minutes;remaining>0;){const step=Math.min(remaining,366*1440);advanceCalendarMinutes(step,true);remaining-=step;}
+ }catch(error){world=JSON.parse(before);eventContext=null;throw error;}finally{saveTransaction=previousTransaction;}
+persist();
+}
+function setRealtimePaused(){
+ if(loadFailed)return;
+ catchUpRealtime();
+ const r=world.realtime,now=Date.now();
+ if(r.enabled){r.remainderMs+=Math.max(0,now-r.lastWallMs);r.enabled=false;}else r.enabled=true;
+ r.lastWallMs=now;
+ persist();render();
+}
+function realtimeSnapshot(){
+ const r=world.realtime;if(!r)return null;
+ const elapsed=r.remainderMs+(r.enabled?Math.max(0,Date.now()-r.lastWallMs):0);
+ return {enabled:r.enabled,secondsToNextMinute:60-Math.floor((elapsed%60000)/1000)};
+}
+
 function migrateCalendar(){
  const E=ArcanusEngine;
  if(!world.calendar){
@@ -302,6 +338,7 @@ function migrateCalendar(){
  world.paused=true;
  world.livingClock.minute=world.calendar.date.hour*60+world.calendar.date.minute;
  world.version=12;
+ initRealtime();
 }
 function validateCalendar(data){
  const E=ArcanusEngine,c=data.calendar;
@@ -326,8 +363,9 @@ function calendarStamp(day,minute){
  const d=townDateAt(day,minute);
  return `${d.day} ${ArcanusCalendarData.months[d.month-1]} ${d.year} AF · ${String(d.hour).padStart(2,'0')}:${String(d.minute).padStart(2,'0')}`;
 }
-function advanceCalendarMinutes(minutes){
+function advanceCalendarMinutes(minutes,automatic=false){
  if(loadFailed)return;
+ if(!automatic)catchUpRealtime();
  if(!Number.isSafeInteger(minutes)||minutes<1||minutes>366*1440)throw Error('Advance between one minute and one year at a time.');
  const E=ArcanusEngine,target=E.shift(world.calendar.date,minutes);
  const before=JSON.stringify(world),oldMinute=world.livingClock.minute,days=Math.floor((oldMinute+minutes)/1440);
@@ -336,13 +374,14 @@ function advanceCalendarMinutes(minutes){
   // Existing routines are condensed for multi-day steps; each economy day runs once.
   simulateDays(days,false);
   world.calendar.date=target;world.livingClock.minute=target.hour*60+target.minute;
-  addEvent(`Manual calendar advance: ${minutes} minutes (${days} day boundaries).`);
+  if(!automatic||days>0)addEvent(`${automatic?'Real-time catch-up':'Manual calendar advance'}: ${minutes} minutes (${days} day boundaries).`);
   validateSave(world);
  }catch(err){world=JSON.parse(before);eventContext=null;throw err;}
  populationRenderKey='';lastLedgerRenderKey=null;innRenderKey='';persist();render();
 }
 function advanceCalendarMonths(months){
  if(loadFailed)return;
+ catchUpRealtime();
  if(!Number.isInteger(months)||months<1||months>12)throw Error('Choose 1–12 calendar months.');
  const E=ArcanusEngine,target=E.shiftMonth(world.calendar.date,months);
  advanceCalendarMinutes((E.toStamp(target)-E.toStamp(world.calendar.date))/E.MINUTE);
@@ -353,9 +392,9 @@ function renderTownCalendar(){
  const E=ArcanusEngine,C=ArcanusCalendarData,c=world.calendar,d=c.date,w=E.watch(d),s=E.season(d,c.hemisphere,c.offset),m=E.moon(d,c.offset);
  $('date').textContent=`${C.weekdays[E.weekday(d)]} · ${d.day} ${C.months[d.month-1]} ${d.year} AF`;
  $('liveTime').textContent=`${String(d.hour).padStart(2,'0')}:${String(d.minute).padStart(2,'0')} · ${w.name}`;
- $('clockStatus').textContent='Manual campaign time · Starhaven standard · no DST';
- $('pauseButton').hidden=true;
- $('nextDay').textContent='Time advances only through your controls. Closing or reopening the simulator advances nothing.';
+ $('clockStatus').textContent=world.realtime?.enabled?'Running · 1 real second = 1 Arcanus second':'Paused · time will not advance while away';
+ $('pauseButton').hidden=false;$('pauseButton').textContent=world.realtime?.enabled?'Pause world':'Resume world';
+ $('nextDay').textContent='When running, elapsed real time advances the simulation, including while closed. Pause freezes time until you resume. Starhaven has no DST.';
  host.replaceChildren();
  const add=(text,cls)=>{const p=document.createElement('p');p.textContent=text;if(cls)p.className=cls;host.append(p)};
  add(`${s.name} (${c.hemisphere==='north'?'northern':'southern'}) · Aeloria: ${m.name}, ${Math.round(m.illumination*100)}% illuminated`);
@@ -376,7 +415,7 @@ function updateCalendarSettings(){
  if(loadFailed)return;
  calendarAction(()=>{const hemisphere=$('calendarHemisphere').value,raw=$('calendarOffset').value;if(raw.trim()==='')throw Error('Enter a UTC offset in minutes.');const offset=Number(raw);ArcanusEngine.season(world.calendar.date,hemisphere,offset);world.calendar.hemisphere=hemisphere;world.calendar.offset=offset;world.calendar.offsetConfirmed=true;persist();render();});
 }
-</script><script>const BUILD_ID='v1.10.0 · Arcanus Calendar';
+</script><script>const BUILD_ID='v1.12.0 · Running World Clock';
 const KEY='arcanus-kaddinghall-stage3';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -728,7 +767,7 @@ function simulateDays(days,logNeeds=true){
   eventContext=null;
  }
 }
-function catchUp(){ /* Manual calendar: no wall-clock catch-up, including on import. */ }
+function catchUp(){catchUpRealtime()}
 function render(){
  const build=$('buildStatus');if(build)build.textContent='Running '+BUILD_ID;
  for(const id of ['pop','food','gold','farms'])$(id).textContent=world[id].toLocaleString('en-GB');
@@ -1175,9 +1214,10 @@ function validateFamilies(p,data){
 
 function advance(n){calendarAction(()=>advanceCalendarMonths(n));}
 function buildFarm(){if(loadFailed)return;catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
-function togglePause(){ /* Retained for old UI callers; automatic time is disabled. */ }
+function togglePause(){calendarAction(()=>setRealtimePaused())}
 function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?(recoveryRaw??localStorage.getItem(KEY)??''):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=loadFailed?'kaddinghall-recovery.json':'kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function validateSave(data){
+ validateRealtime(data);
  if(data?.version===12)validateCalendar(data);
  if(!data||![1,2,3,4,5,6,7,8,9,10,11,12].includes(data.version)||!['month','pop','food','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Number.isFinite(data.gold)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
  if(data.version>=8&&(!data.timber||!data.population||!Number.isSafeInteger(data.lastUKDay)||!Number.isFinite(data.lastUpdated)||typeof data.paused!=='boolean'||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Incomplete modern save or invalid clock');
@@ -1315,21 +1355,24 @@ initLayout();
 </script><script>/* Same-document adapter: exposes the existing town clock without an iframe handshake. */
 (()=>{
  const subscribers=new Set();
- function read(){return {channel:'arcanus-calendar',kind:'state',calendar:!loadFailed&&world?.calendar?JSON.parse(JSON.stringify(world.calendar)):null,error:loadFailed?($('saveStatus').textContent||'The saved simulation needs recovery. Open Kaddinghall for recovery controls.'):null};}
+ function read(){return {channel:'arcanus-calendar',kind:'state',calendar:!loadFailed&&world?.calendar?JSON.parse(JSON.stringify(world.calendar)):null,realtime:!loadFailed&&world?realtimeSnapshot():null,error:loadFailed?($('saveStatus').textContent||'The saved simulation needs recovery. Open Kaddinghall for recovery controls.'):null};}
  function notify(){const state=read();for(const listener of subscribers)listener(state);}
  const previousRender=render;
  render=function(){previousRender();notify();};
- window.ArcanusWorldClock={read,subscribe(listener){subscribers.add(listener);return()=>subscribers.delete(listener)},advance(unit,amount){
+ window.ArcanusWorldClock={read,togglePause:setRealtimePaused,subscribe(listener){subscribers.add(listener);return()=>subscribers.delete(listener)},advance(unit,amount){
   if(loadFailed)throw Error('The saved simulation needs recovery before time can advance.');
   if(unit==='minutes'&&[60,180,1440].includes(amount))advanceCalendarMinutes(amount);
   else if(unit==='months'&&[1,12].includes(amount))advanceCalendarMonths(amount);
   else throw Error('Unsupported calendar step.');
  }};
+ setInterval(()=>{if(loadFailed)return;try{catchUpRealtime();notify();}catch(error){world.realtime.enabled=false;persist();$('calendarError').textContent=error.message;notify();}},1000);
+ window.addEventListener('pagehide',()=>{if(!loadFailed){try{catchUpRealtime();persist();}catch{}}});
 })();
-</script><script>/* World-screen presentation only. No separate clock, calendar arithmetic or event copies. */
+</script><script>
+/* World-screen presentation only. No separate clock, calendar arithmetic or event copies. */
 (()=>{
  const E=ArcanusEngine,C=ArcanusCalendarData,$=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
- const clock=window.ArcanusWorldClock;let calendar=null;
+ const clock=window.ArcanusWorldClock;let calendar=null,realtime=null;
  const send=message=>{try{if(message.kind==='read')receive(clock.read());else if(message.kind==='advance')clock.advance(message.unit,message.amount);}catch(e){text('world-error',e.message);}};
  function text(id,value){$(id).textContent=value;}
  function render(){
@@ -1346,7 +1389,8 @@ initLayout();
   const today=E.eventsOn(d);$('today-events').replaceChildren();
   if(!today.length)$('today-events').textContent='No registered observances or birthdays today.';
   for(const event of today){const p=document.createElement('p');p.textContent=event.name+(event.type==='birthday'?' · Birthday':'');$('today-events').append(p);}
-  text('clock-status','Shared simulation time · advances only through your controls');
+  text('clock-status',realtime?.enabled?`Running · 1 real second = 1 Arcanus second · next minute in ${realtime.secondsToNextMinute}s`:'Paused · no time passes while away');
+  text('world-pause',realtime?.enabled?'Pause':'Resume');$('world-pause').disabled=false;
   document.querySelectorAll('[data-step]').forEach(button=>button.disabled=false);
   if(window.renderCanonYear)window.renderCanonYear(d.year);
   renderRegister();
@@ -1361,13 +1405,14 @@ initLayout();
  function receive(message){
   if(message.error){text('world-error',message.error);text('clock-status','Simulation needs recovery — open Kaddinghall below.');return;}
   if(!message.calendar){text('world-error','The saved simulation has no calendar. Open Kaddinghall for recovery controls.');return;}
-  try{E.validate(message.calendar.date);E.earthStamp(message.calendar.date,message.calendar.offset);calendar=message.calendar;text('world-error','');render();}catch(e){text('world-error',e.message);}
+  try{E.validate(message.calendar.date);E.earthStamp(message.calendar.date,message.calendar.offset);calendar=message.calendar;realtime=message.realtime;text('world-error','');render();}catch(e){text('world-error',e.message);}
  }
  function selectView(name){
   for(const id of ['world','town','register']){$('view-'+id).hidden=id!==name;$('nav-'+id).setAttribute('aria-pressed',String(id===name));}
  }
  for(const id of ['world','town','register'])$('nav-'+id).onclick=()=>selectView(id);
  $('open-town').onclick=()=>selectView('town');
+ $('world-pause').onclick=()=>{try{clock.togglePause()}catch(e){text('world-error',e.message)}};
  document.querySelectorAll('[data-step]').forEach(button=>button.onclick=()=>{if(!calendar)return;text('world-error','');send({kind:'advance',unit:button.dataset.unit,amount:Number(button.dataset.step)});});
  $('event-search').addEventListener('input',renderRegister);
  clock.subscribe(receive);
