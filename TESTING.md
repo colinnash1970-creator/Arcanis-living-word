@@ -1,3 +1,9 @@
+# Calendar integration verification
+
+See [CALENDAR-INTEGRATION.md](CALENDAR-INTEGRATION.md) and run `node --test Calendar/engine.test.js calendar-integration.test.cjs`. The cases below document the previous v1.9.3 release, not a fresh browser test of v1.10.0.
+
+---
+
 # v1.9.3 validation - 25 October 2026
 
 All 75 simulation/recovery cases and 13 browser cases passed. The accompanying JSON records each result; counts are cases, not individual assertions.

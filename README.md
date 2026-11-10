@@ -1,43 +1,48 @@
-# Kaddinghall v1.9.3 - The Town Inn
+# Calendar integration update
 
-The generic town inn now has a provisional owner-manager, its existing staff, customer demand, private cash and a monthly ledger. Prepared 25 October 2026 from v1.9.2 in a separate copy. No live site or real user save was changed.
+The connected Kaddinghall town now uses the shared ../Calendar module and schema-12 manual calendar saves. Upload Calendar, the root service worker/manifest, and the changed Stage 5 files together. See [the integration guide](../CALENDAR-INTEGRATION.md). Canon and source records are unchanged.
 
-## Use it
+The clock/save notes in the older release record below are superseded by that guide.
 
-Open Businesses to see The town inn and its ledger. The owner-manager is one of the existing inn workers, included within the eight-person cap. No person, name, occupation or extra employee is invented. The proprietor is provisional, not an established canon owner.
+---
 
-Accounts begin at zero when an older save is first opened in this version, after its ordinary elapsed-time catch-up. No earlier revenue or bills are reconstructed. Results accumulate with simulated days. The current month and latest 24 completed months are shown; the first month can be partial. The monthly Chronicle adds one inn summary.
+# Arcanus Stage 5 — Volume II canon expansion
 
-The clock, pause/resume and manual time controls also apply to the inn. A manual month advances the whole world, not just this business.
+Open index.html to explore the expanded database. World foundations explains the Keys, lattice and setting rules. Open questions keeps unresolved material visible. History now separates precise annual events from undated and approximate reference history. The searchable explorer has category and canon-status filters.
 
-## Provisional trading model
+## Upload to GitHub
 
-- Capacity: six visits per staff member per day, up to 48 with eight workers.
-- Revenue: 15 cp per served visit. Trade supplies: 4 cp per served visit.
-- Wages: 30 cp per working staff member each trading day, including the owner-manager. Upkeep: 20 cp per day, even when trading is paused for lack of a proprietor. 100 cp = 1 gp.
-- Demand: rounded population x 0.012 x seasonal factor x rest-day factor x wellbeing factor. Seasonal factors are 0.85, 1.00, 1.15 and 1.00; rest days use 1.20, other days 1.00; wellbeing factor is 0.60 + average household wellbeing / 200. Empty towns have zero demand.
-- Served visits are limited by demand and available staff capacity. Other visits are counted as turned away, not carried forward as orders.
-- Existing inn staff aged 16-64 are eligible for the roster; an owner-manager must be at least 18. The current eligible proprietor stays; if they retire or disappear, the lowest-ID eligible adult worker takes over provisionally. No ownership wealth or inheritance transfer is charged. If none qualifies, service and wages pause, but upkeep continues.
-- Cash stays in the private business and may become debt. The model adds no loans, interest, bankruptcy or personal profit withdrawals.
+Extract Arcanus-Stage-5.zip. On the repository's main upload page, upload the whole Arcanus-Stage-5 folder alongside Stage 4, keeping all files and subfolders together. Commit the upload. Once GitHub Pages publishes, open:
+https://colinnash1970-creator.github.io/Arcanis-living-word/Arcanus-Stage-5/
 
-These are simulation assumptions, not recovered historical rates. There are no lodging rooms or individual guest identities yet. Daily staffing allowances are not hourly timesheets; existing narrative routines remain unchanged.
+No upload has been made automatically. Earlier stages remain available.
 
-## No duplicate town charges
+## Source and preservation
 
-Visits represent drinks and hospitality, not extra household staple meals. Supply costs represent external trade consumables. The inn's private cash records its own revenue, supplies, wages and upkeep. The town Treasury, food stock and timber accounts receive no additional deduction or income from the inn. Existing residents' daily routines did not charge payroll, so the new inn wages are recorded once.
+Volume II, The Foundations of Creation, was inspected in the complete 103-page Grand Chronicle: combined PDF pages 11–21, corresponding to Volume II pages 1–11. Text was extracted and the substantive pages 13–20 were visually checked. This release expands the existing v0.2 extraction, not all twelve volumes.
 
-Customer wallets, supplier balances and employee personal cash are outside the present model. This is not yet a closed money-flow simulation. The six-year regression confirms the existing town economy remains unchanged while the inn accounts run alongside it.
+All 69 original records and their existing fields are retained. Eight receive additional, separately sourced reference notes. The original 29 relationships are retained, and the explicitly stated twin relationship between Kielinya and Danel adds one. Malcolm’s Brightblade birth name, later Darkbane name and royal succession distinctions are preserved.
 
-## Install and keep your backup
+The active database is ARCANUS_Canon_v0.3.json. The v0.2 JSON is retained as an unchanged baseline. VOLUME-II-AUDIT.json records additions, source pages, source hash and counts. VOLUME-II-REVIEW.html is the readable audit, also supplied as Markdown. Existing source copies and their manifest remain in the package.
 
-1. Export your v1.9.2 save and keep it separately for rollback.
-2. Replace app.js and index.html together in the same site folder.
-3. Keep existing service-worker, manifest and other assets. Do not clear browser storage to refresh the app.
-4. Reload the same address/profile and confirm Running v1.9.3. Open Businesses to inspect the inn.
-5. Confirm your existing people and town values, then export a new save.
+## Dates and open questions
 
-The save key remains arcanus-kaddinghall. Save schema is now 11 because inn accounts must be preserved. Versions through v1.9.2 reject schema 11; do not use a new save to roll back. Generated saves from every recovered version v1.7-v1.9.2 were tested; actual historical user exports were not available. Modern saves missing or inconsistent inn accounts are rejected instead of silently reset.
+No automatic world-state effects were added. The original precisely dated events already cover the source’s established 0 and 793 A.F. events. Newly added events are undated, approximate, planned or unresolved. Sula’s approximately 10,000 and 9,994 B.F. dates remain approximate. The seven-years-per-Arcanium-day relationship is a setting reference, not a replacement for the town clock.
 
-Offline caching remains unverified because the deployed manifest and service worker were not supplied. No live deployment was performed. The original recovery archives and v1.9.2 package remain unchanged.
+No direct contradiction requiring a change to an existing v0.2 field was found in the reviewed material. The main unresolved issue is the completion/play status of the 793–828 reconstruction sequence. Its stated facts are retained, but it is not counted as completed history. Other open items are deliberate source limits, not errors to fill with invented lore.
 
-See TESTING.md and the validation ZIP for evidence. All rates and identities remain provisional; existing Arcanus canon is not changed.
+The unresolved sequence is available as a reference; no completed-history effect is inferred. Arcanium time is not simulated by changing the town calendar. No new economic, battle, divine or lattice-damage mechanics are invented. Source assertions without dates remain all-time reference notes and are visibly labelled.
+
+## Town saves
+
+The town engine is unchanged from Stage 4. Stage 5 uses the same arcanus-kaddinghall-stage3 autosave key as Stages 3 and 4. On the same GitHub Pages origin these versions share one town save. Export a backup before switching, and avoid running multiple town versions simultaneously. The original root simulator's arcanus-kaddinghall save remains separate; use export/import to transfer it. Local-file storage varies by browser.
+
+## Tests
+
+- node tests.cjs: 11 baseline and town-economy checks.
+- node volume2-tests.cjs: 11 source-preservation, date-precision, reference and expansion checks.
+- node browser-tests.cjs: 16 browser checks. Requires Playwright and Edge; set PLAYWRIGHT_MODULE and EDGE_PATH for other installations.
+
+All 38 passed. Results are in TEST-RESULTS.json, VOLUME-II-TEST-RESULTS.json and BROWSER-TEST-RESULTS.json. Screenshots document the mobile overview, foundations and review sections. Browser boundary tests isolate calendar rendering; they are not multi-decade economic endurance tests.
+
+Stage 5 currently covers the Volume II increment. Volumes III–XII are not yet extracted.

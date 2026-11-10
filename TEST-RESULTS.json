@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Recovered database equals original embedded JSON",
+    "status": "PASS"
+  },
+  {
+    "name": "Sternia 792 / 793 / 794 boundaries preserve unknown baseline",
+    "status": "PASS"
+  },
+  {
+    "name": "Council 817 / 818 changes and iron rule",
+    "status": "PASS"
+  },
+  {
+    "name": "Planned 828 battle never executes, including after 828",
+    "status": "PASS"
+  },
+  {
+    "name": "Rewind, repeated projection and source immutability",
+    "status": "PASS"
+  },
+  {
+    "name": "Succession uses half-open reign intervals, no invented parentage",
+    "status": "PASS"
+  },
+  {
+    "name": "Physical death and soul sacrifice stay distinct",
+    "status": "PASS"
+  },
+  {
+    "name": "Invalid years rejected",
+    "status": "PASS"
+  },
+  {
+    "name": "Unresolved or undated events cannot change state",
+    "status": "PASS"
+  },
+  {
+    "name": "Broken references and duplicate IDs rejected",
+    "status": "PASS"
+  },
+  {
+    "name": "Town economy parity across twelve 30-day accounting periods",
+    "status": "PASS"
+  }
+]

@@ -1,11 +1,11 @@
-const BUILD_ID='v1.9.3 · The Town Inn';
-const KEY='arcanus-kaddinghall';
+const BUILD_ID='v1.10.0 · Arcanus Calendar';
+const KEY='arcanus-kaddinghall-stage3';
 const DAY=86400000, DAYS_PER_MONTH=30;
 const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const ukParts=()=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,Number(x.value)]));
 const ukDayNumber=()=>{const p=ukParts();return Math.floor(Date.UTC(p.year,p.month-1,p.day)/DAY)};
 const ukTime=()=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date());
-const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:false,lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
+const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:true,calendar:{schema:1,date:{year:793,month:1,day:1,hour:0,minute:0},anchorDate:{year:793,month:1,day:1,hour:0,minute:0},anchorDay:0,hemisphere:'north',offset:0,offsetConfirmed:false},lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
 let world, loadFailed=false, saveTransaction=false, recoveryRaw=null;
 const $=id=>document.getElementById(id);
 function persist(){if(loadFailed||saveTransaction)return;try{localStorage.setItem(KEY,JSON.stringify(world));$('saveStatus').textContent='Autosaved on this device.'}catch(err){$('saveStatus').textContent='Autosave failed. Export your save to keep your progress.'}}
@@ -31,7 +31,7 @@ function migrateInn(){
   const day=worldDay();
   world.inn={model:1,name:'The town inn',openedDay:day,lastDay:day,ownerId:null,staffIds:[],cashCp:0,revenueCp:0,suppliesCp:0,wagesCp:0,overheadCp:0,demand:0,served:0,current:innPeriod(day,0),ledger:[]};
  }
- syncInnRoster();world.version=11;
+ syncInnRoster();world.version=12;
 }
 function innDemand(day){
  if(!world.pop)return 0;
@@ -95,7 +95,7 @@ function renderInn(){
  const rows=[{...row,current:true},...inn.ledger];
  for(const r of rows){
   const details=document.createElement('details');details.className='ledger-entry';details.dataset.month=String(r.month);details.open=opened.has(String(r.month));
-  const summary=document.createElement('summary');summary.textContent=`${793+Math.floor((r.month-1)/12)} A.F. month ${(r.month-1)%12+1}${r.current?' - in progress':''}: ${r.served} visits, ${gp(r.revenueCp-r.suppliesCp-r.wagesCp-r.overheadCp)} operating result`;
+  const summary=document.createElement('summary');summary.textContent=`Accounting period ${r.month} (30 days)${r.current?' - in progress':''}: ${r.served} visits, ${gp(r.revenueCp-r.suppliesCp-r.wagesCp-r.overheadCp)} operating result`;
   const text=document.createElement('p');text.textContent=`${r.days} recorded days; demand ${r.demand}, capacity ${r.capacity}, served ${r.served}, turned away ${r.demand-r.served}. Revenue ${gp(r.revenueCp)}; trade supplies ${gp(r.suppliesCp)}; wages ${gp(r.wagesCp)}; upkeep ${gp(r.overheadCp)}. Opening cash ${gp(r.openingCashCp)}; closing cash ${gp(r.closingCashCp)}.`;
   details.append(summary,text);root.append(details);
  }
@@ -335,54 +335,31 @@ function simulateMonth(){
  world.gold+=Math.round(world.pop*.025-world.farms*.2);
  world.month++;
  populationMonth(births,deaths);
- addEvent(`${793+Math.floor((world.month-1)/12)} A.F. month ${(world.month-1)%12+1}: ${births} births, ${deaths} deaths; harvest ${harvest} units${shortage?`; food shortage ${shortage}`:''}.`);
+ addEvent(`Accounting period ${world.month} (30 days): ${births} births, ${deaths} deaths; harvest ${harvest} units${shortage?`; food shortage ${shortage}`:''}.`);
  if(world.food<world.pop*2)addEvent(`Food reserve warning: ${world.food.toLocaleString('en-GB')} units remain, under two months of demand.`);
 }
 function simulateDays(days,logNeeds=true){
+ if(!Number.isSafeInteger(days)||days<0)throw Error("Invalid simulated day count");
+ if(world.calendar)ArcanusEngine.shift(world.calendar.date,days*1440);
  for(let i=0;i<days;i++){
   eventContext={day:worldDay()+1,minute:0};
   simulateTimberDay();simulateInnDay(worldDay()+1);world.day++;
   if(world.day>DAYS_PER_MONTH){world.day=1;simulateMonth()}
+  if(world.calendar)world.calendar.date=ArcanusEngine.shift(world.calendar.date,1440);
   assessHouseholds(logNeeds);
   eventContext=null;
  }
 }
-function catchUp(){
- if(loadFailed)return;
- const today=ukDayNumber(), minute=clockMinute(), current=today*1440+minute, c=world.livingClock;
- if(world.paused){
-  const changed=c.cursor!==current||world.lastUKDay!==today;
-  c.cursor=current;world.lastUKDay=today;world.lastUpdated=Date.now();
-  if(changed)persist();return;
- }
- // UK civil-minute high water prevents duplicate hours at the autumn DST change.
- // A backward device date likewise must not run the same economy day twice.
- if(today<world.lastUKDay){c.minute=minute;return}
- const days=today-world.lastUKDay, previous=c.cursor;
- for(let i=0;i<days;i++){
-  const civilDay=world.lastUKDay+i;
-  if(civilDay>=today-1)livingRange(worldDay(),Math.max(-1,previous-civilDay*1440),1439);
-  simulateDays(1,civilDay>=today-2);
- }
- world.lastUKDay=today;c.minute=minute;
- if(current>previous){livingRange(worldDay(),Math.max(-1,previous-today*1440),minute);c.cursor=current}
- if(days>0)addEvent('Real-time catch-up: '+days.toLocaleString('en-GB')+' day'+(days===1?'':'s')+' passed. '+(days>1?'Older daily routines condensed; economy and population fully advanced.':''));
- world.lastUpdated=Date.now();
- if(days>0||current>previous)persist();
-}
+function catchUp(){ /* Manual calendar: no wall-clock catch-up, including on import. */ }
 function render(){
  const build=$('buildStatus');if(build)build.textContent='Running '+BUILD_ID;
- $('liveTime').textContent=world.paused?String(Math.floor(world.livingClock.minute/60)).padStart(2,'0')+':'+String(world.livingClock.minute%60).padStart(2,'0')+' · paused':ukTime();
- $('date').textContent=`${793+Math.floor(world.month/12)} A.F. · Month ${world.month%12+1} · Day ${world.day}`;
  for(const id of ['pop','food','gold','farms'])$(id).textContent=world[id].toLocaleString('en-GB');
  $('treasuryStatus').textContent=world.gold<0?'Treasury debt: '+Math.abs(world.gold).toLocaleString('en-GB')+' gp. Food imports and farm construction require available funds.':'Treasury funds available. Negative balances are retained as debt.';
  $('log').replaceChildren(...world.events.slice(0,20).map(e=>{const li=document.createElement('li');li.textContent=e;return li}));
- $('clockStatus').textContent=world.paused?'Paused — no time passes while away':'Running · 1 real day = 1 Arcanus day';
- $('pauseButton').textContent=world.paused?'Resume world':'Pause world';
- $('nextDay').textContent=world.paused?'Clock paused':`Next Arcanus day at midnight UK time`;
  renderTimber();renderInn();
  renderPopulation();
  renderLayoutSummary();
+ renderTownCalendar();
  const foodStatus=$('foodStatus');if(foodStatus)foodStatus.textContent=`Food available: ${Math.floor(world.food/Math.max(1,world.pop)*10)/10} months of demand · Annual farm yield estimate: ${(world.farms*FOOD_YIELD_PER_FARM).toLocaleString('en-GB')} units · Import price: 0.02 gp/unit.`;
 }
 // v1.7: saved identities; routines are derived, never a second economic engine.
@@ -417,7 +394,7 @@ let eventContext=null, householdPage=0, householdFilter='all', populationRenderK
 const worldDay=()=>world.month*30+world.day-1;
 function clockMinute(){const [h,m]=ukTime().split(':').map(Number);return h*60+m}
 function civilMinute(){return ukDayNumber()*1440+clockMinute()}
-function stamp(day,minute){return `${793+Math.floor(day/360)} A.F. · M${Math.floor(day%360/30)+1} D${day%30+1} · ${String(Math.floor(minute/60)).padStart(2,'0')}:${String(minute%60).padStart(2,'0')}`}
+function stamp(day,minute){return calendarStamp(day,minute)}
 function newHousehold(p){
  const id=p.nextHouseholdId++, surname=availableSurname(id,p);
  const h={id,name:`${surname} household ${id}`,surname,address:`${1+Math.floor((id-1)/4)} ${['Mill Lane','Market Street','Orchard Row','West Fields'][(id-1)%4]}`};
@@ -456,7 +433,7 @@ function migratePopulation(){
   const h=newHousehold(p), size=Math.min(3+(h.id%3),world.pop-p.residents.length);
   for(let i=0;i<size;i++)makeResident(p,h,(i<2?24+(h.id*7+i*5)%39:i===4?68+(h.id%12):3+(h.id+i*3)%13)*12);
  }
- world.livingClock={cursor:civilMinute(),minute:clockMinute()};
+ world.livingClock={cursor:civilMinute(),minute:world.calendar?world.calendar.date.hour*60+world.calendar.date.minute:clockMinute()};
  addEvent(`Living population registered: ${p.residents.length.toLocaleString('en-GB')} residents in ${p.households.length.toLocaleString('en-GB')} households. Earlier lives are not reconstructed.`);
 }
 function populationMonth(births,deaths){
@@ -818,24 +795,13 @@ function validateFamilies(p,data){
 }
 
 
-function advance(n){
- if(loadFailed)return;
- if(!Number.isInteger(n)||n<1||n>12)return;
- catchUp();simulateDays(n*DAYS_PER_MONTH,false);
- const outlook=needsSummary();
- addEvent('Manual advance: '+n+' month'+(n===1?'':'s')+'. Daily routines condensed; economy and population fully advanced. Household wellbeing: '+outlook.wellbeing+'/100 average; '+outlook.struggling+' struggling.');
- populationRenderKey='';world.lastUpdated=Date.now();persist();render();
-}
+function advance(n){calendarAction(()=>advanceCalendarMonths(n));}
 function buildFarm(){if(loadFailed)return;catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
-function togglePause(){
- if(loadFailed)return;
- catchUp();world.paused=!world.paused;world.lastUpdated=Date.now();world.lastUKDay=ukDayNumber();world.livingClock.cursor=civilMinute();
- if(!world.paused)world.livingClock.minute=clockMinute();
- addEvent(world.paused?'World paused.':'World resumed; paused time skipped.');persist();render();
-}
+function togglePause(){ /* Retained for old UI callers; automatic time is disabled. */ }
 function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?(recoveryRaw??localStorage.getItem(KEY)??''):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=loadFailed?'kaddinghall-recovery.json':'kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function validateSave(data){
- if(!data||![1,2,3,4,5,6,7,8,9,10,11].includes(data.version)||!['month','pop','food','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Number.isFinite(data.gold)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
+ if(data?.version===12)validateCalendar(data);
+ if(!data||![1,2,3,4,5,6,7,8,9,10,11,12].includes(data.version)||!['month','pop','food','farms'].every(k=>Number.isFinite(data[k])&&data[k]>=0)||!Number.isFinite(data.gold)||!['month','pop','farms'].every(k=>Number.isSafeInteger(data[k]))||!Array.isArray(data.events)||!data.events.every(e=>typeof e==='string'))throw Error('Invalid world data');
  if(data.version>=8&&(!data.timber||!data.population||!Number.isSafeInteger(data.lastUKDay)||!Number.isFinite(data.lastUpdated)||typeof data.paused!=='boolean'||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Incomplete modern save or invalid clock');
  if(data.version>=9&&(!data.population||data.population.needsModel!==1))throw Error('Missing household needs');
  if(data.version>=10&&(data.population.familyModel!==1||!Number.isInteger(data.day)||data.day<1||data.day>30))throw Error('Missing family data or invalid date');
@@ -882,23 +848,24 @@ function validateSave(data){
   if(!c||!Number.isSafeInteger(c.cursor)||!Number.isInteger(c.minute)||c.minute<0||c.minute>=1440)throw Error('Invalid living clock');
   validateNeeds(p,data);
   validateFamilies(p,data);
-  if(data.version===11||data.inn)validateInn(data);
+  if(data.version>=11||data.inn)validateInn(data);
  }
 }
 function migrateWorld(){
- if(world.version===1){world.day=1;world.paused=false;world.lastUpdated=Date.now()}
+ if(world.version===1){world.day=1;world.paused=true;world.lastUpdated=Date.now()}
  if(!world.timber)world.timber=initialTimber();
  if(!Array.isArray(world.timber.ledger))world.timber.ledger=[];
  migrateOrders();
  if(!Number.isFinite(world.lastUpdated))world.lastUpdated=Date.now();
  if(!Number.isInteger(world.day)||world.day<1||world.day>30)world.day=1;
- world.paused=!!world.paused;
+ world.paused=true;
  if(!Number.isFinite(world.lastUKDay)){
-  if(!world.paused)simulateDays(Math.floor(Math.max(0,Date.now()-world.lastUpdated)/DAY));
+  // Calendar upgrade deliberately skips all offline elapsed time.
   world.lastUKDay=ukDayNumber();
  }
  migrateFood();migratePopulation();migrateNeeds();migrateFamilies();world.version=world.inn?11:10;
  world.events=world.events.slice(0,150);
+ migrateCalendar();
 }
 function importWorld(data){
  validateSave(data);
@@ -911,17 +878,17 @@ function importWorld(data){
 }
 $('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{importWorld(JSON.parse(await f.text()))}catch(err){alert('Cannot import this save: '+err.message)}e.target.value=''});
 function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if needed.')){loadFailed=false;recoveryRaw=null;world=initial();migrateWorld();migrateInn();householdPage=0;householdFilter='all';$('householdFilter').value='all';populationRenderKey='';lastLedgerRenderKey=null;innRenderKey='';updateRecoveryControls();persist();render()}}
-if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+// Offline file release: no service worker.
 function start(){
  $('buildStatus').textContent='Running '+BUILD_ID;
  saveTransaction=true;
  try{recoveryRaw=localStorage.getItem(KEY);world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();validateSave(world);migrateWorld();catchUp();migrateInn();validateSave(world)}
  catch(err){loadFailed=true;$('worldControls').open=true;$('saveStatus').textContent='Save could not be loaded: '+err.message+'. Time and building controls are disabled. Export save preserves the original data; import a backup or reset to recover.';}
  finally{saveTransaction=false;updateRecoveryControls()}
- if(!loadFailed){recoveryRaw=null;persist();render()}
+ if(!loadFailed){if(recoveryRaw!==null&&JSON.parse(recoveryRaw).version<12){try{const backupKey=KEY+'-before-calendar-v12';if(localStorage.getItem(backupKey)===null)localStorage.setItem(backupKey,recoveryRaw)}catch(e){loadFailed=true;$('saveStatus').textContent='Could not preserve the pre-calendar save. Export recovery before retrying.';updateRecoveryControls();return;}}recoveryRaw=null;persist();render()}
  window.addEventListener('focus',()=>{if(!loadFailed){catchUp();render()}});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!loadFailed){catchUp();render()}});
- setInterval(()=>{if(!document.hidden&&!loadFailed){catchUp();render()}},1000);
+ // No real-time simulation timer: rendering follows deliberate actions.
 }
 start();
 

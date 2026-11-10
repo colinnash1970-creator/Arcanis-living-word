@@ -1,0 +1,7 @@
+#liveTime{white-space:normal;overflow-wrap:anywhere;max-width:100%}
+.clock-details{min-width:0}.clock-details>div{min-width:0}
+#calendarHeading{margin-top:0}#calendarError:not(:empty){color:#ffb6a4}
+#calendarSummary p{overflow-wrap:anywhere}
+#calendarOffset{max-width:100%;width:110px;padding:8px}
+#calendarHemisphere{max-width:100%;padding:8px}
+@media(max-width:520px){.clock-details{flex-direction:column;align-items:flex-start}#liveTime{font-size:1.05rem}.clockbar .clock-actions{width:auto}#calendarBrowse{overflow-wrap:anywhere}}

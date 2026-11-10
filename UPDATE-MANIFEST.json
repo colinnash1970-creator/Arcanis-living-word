@@ -1,0 +1,40 @@
+{
+  "baseRepository": "https://github.com/colinnash1970-creator/Arcanis-living-word",
+  "baseRevision": "34fdb6e448448df6c6dd9af5e09676ee62e2488b",
+  "version": "1.10.0",
+  "saveSchema": 12,
+  "files": [
+    "Arcanus-Stage-5/Kaddinghall/app.js",
+    "Arcanus-Stage-5/Kaddinghall/index.html",
+    "Arcanus-Stage-5/README.md",
+    "Arcanus-Stage-5/TEST-RESULTS.json",
+    "Arcanus-Stage-5/browser-tests.cjs",
+    "Arcanus-Stage-5/index.html",
+    "Arcanus-Stage-5/tests.cjs",
+    "Arcanus-Stage-5/volume2-tests.cjs",
+    "CALENDAR-INTEGRATION.md",
+    "CALENDAR-TEST-RESULTS.md",
+    "Calendar/app.js",
+    "Calendar/astronomy.js",
+    "Calendar/canon.js",
+    "Calendar/engine.js",
+    "Calendar/engine.test.js",
+    "Calendar/index.html",
+    "Calendar/style.css",
+    "Calendar/town-calendar.css",
+    "Calendar/town-calendar.js",
+    "README.md",
+    "TESTING.md",
+    "app.js",
+    "calendar-integration.test.cjs",
+    "index.html",
+    "manifest.webmanifest",
+    "sw.js"
+  ],
+  "tests": {
+    "passed": 59,
+    "failed": 0,
+    "browser": "unverified"
+  },
+  "deployed": false
+}
