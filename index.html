@@ -297,8 +297,43 @@ function validateRealtime(data){
  const r=data.realtime;if(r===undefined)return;
  if(!r||typeof r.enabled!=='boolean'||!Number.isSafeInteger(r.lastWallMs)||r.lastWallMs<0||!Number.isFinite(r.remainderMs)||r.remainderMs<0||r.remainderMs>=60000)throw Error('Invalid real-time clock.');
 }
+// The UK civil clock is authoritative for the displayed time of day.
+// The Arcanus calendar date remains independent of the Gregorian date.
+// UK civil time controls the displayed clock; Arcanus date advances at UK midnight.
+function ukClockParts(now=Date.now()){
+ const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(now));
+ const number=type=>Number(parts.find(part=>part.type===type).value);
+ const year=number('year'),month=number('month'),day=number('day');
+ return {hour:number('hour'),minute:number('minute'),civilDay:Math.floor(Date.UTC(year,month-1,day)/86400000)};
+}
+function syncUKTimeOfDay(){
+ if(loadFailed||!world?.calendar||!world?.realtime?.enabled)return false;
+ const uk=ukClockParts(),c=world.calendar,previous=c.date;
+ const previousDay=Number.isSafeInteger(c.ukCivilDay)?c.ukCivilDay:uk.civilDay;
+ const elapsedDays=Math.max(0,uk.civilDay-previousDay);
+ if(previous.hour===uk.hour&&previous.minute===uk.minute&&elapsedDays===0)return false;
+ const snapshot=JSON.stringify(world);
+ try{
+  // Simulate each missed UK civil day once, including while the browser was closed.
+  if(elapsedDays>0)simulateDays(elapsedDays,false);
+  c.date={...c.date,hour:uk.hour,minute:uk.minute};
+  c.ukCivilDay=uk.civilDay;
+  c.anchorDay=worldDay();
+  c.anchorDate={...c.date,hour:0,minute:0};
+  world.livingClock.minute=uk.hour*60+uk.minute;
+  world.realtime.lastWallMs=Date.now();
+  world.realtime.remainderMs=0;
+  validateSave(world);
+ }catch(error){world=JSON.parse(snapshot);eventContext=null;throw error;}
+ persist();render();
+ return true;
+}
 function catchUpRealtime(){
  if(loadFailed||!world?.realtime?.enabled)return;
+ if(world.calendar?.ukClockSync===true){
+  syncUKTimeOfDay();
+  return;
+ }
  const r=world.realtime,now=Date.now();
  if(now<=r.lastWallMs)return;
  const elapsed=r.remainderMs+now-r.lastWallMs,minutes=Math.floor(elapsed/60000);
@@ -317,6 +352,7 @@ function setRealtimePaused(){
  const r=world.realtime,now=Date.now();
  if(r.enabled){r.remainderMs+=Math.max(0,now-r.lastWallMs);r.enabled=false;}else r.enabled=true;
  r.lastWallMs=now;
+ if(r.enabled&&world.calendar?.ukClockSync){world.calendar.ukCivilDay=ukClockParts().civilDay;syncUKTimeOfDay();}
  persist();render();
 }
 function realtimeSnapshot(){
@@ -345,6 +381,16 @@ function migrateCalendar(){
   c.anchorDate={...c.date,hour:0,minute:0};
   c.alignmentVersion=2026;
   c.previousAlignmentDate=previous;
+  if(world.realtime){world.realtime.lastWallMs=Date.now();world.realtime.remainderMs=0;}
+ }
+ // Enable UK time synchronisation once, without changing the Arcanus calendar date.
+ if(world.calendar.ukClockSync!==true){
+  world.calendar.ukClockSync=true;
+  const uk=ukClockParts();
+  world.calendar.ukCivilDay=uk.civilDay;
+  world.calendar.date={...world.calendar.date,hour:uk.hour,minute:uk.minute};
+  world.calendar.anchorDay=worldDay();
+  world.calendar.anchorDate={...world.calendar.date,hour:0,minute:0};
   if(world.realtime){world.realtime.lastWallMs=Date.now();world.realtime.remainderMs=0;}
  }
  world.paused=true;
@@ -404,9 +450,9 @@ function renderTownCalendar(){
  const E=ArcanusEngine,C=ArcanusCalendarData,c=world.calendar,d=c.date,w=E.watch(d),s=E.season(d,c.hemisphere,c.offset),m=E.moon(d,c.offset);
  $('date').textContent=`${C.weekdays[E.weekday(d)]} · ${d.day} ${C.months[d.month-1]} ${d.year} AF`;
  $('liveTime').textContent=`${String(d.hour).padStart(2,'0')}:${String(d.minute).padStart(2,'0')} · ${w.name}`;
- $('clockStatus').textContent=world.realtime?.enabled?'Running · 1 real second = 1 Arcanus second':'Paused · time will not advance while away';
+ $('clockStatus').textContent=world.realtime?.enabled?'Running · synchronised to UK local time (GMT/BST)':'Paused · time will not advance while away';
  $('pauseButton').hidden=false;$('pauseButton').textContent=world.realtime?.enabled?'Pause world':'Resume world';
- $('nextDay').textContent='When running, elapsed real time advances the simulation, including while closed. Pause freezes time until you resume. Starhaven has no DST.';
+ $('nextDay').textContent='When running, the clock follows UK local time, including GMT/BST. The Arcanus date remains independent. Pause freezes the displayed time.';
  host.replaceChildren();
  const add=(text,cls)=>{const p=document.createElement('p');p.textContent=text;if(cls)p.className=cls;host.append(p)};
  add(`${s.name} (${c.hemisphere==='north'?'northern':'southern'}) · Aeloria: ${m.name}, ${Math.round(m.illumination*100)}% illuminated`);
@@ -1316,8 +1362,8 @@ function start(){
   recoveryRaw=localStorage.getItem(KEY);
   world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();
   validateSave(world);
-  if(recoveryRaw!==null&&world.calendar?.alignmentVersion!==2026){
-   const backupKey=KEY+'-before-2026-794-alignment';
+  if(recoveryRaw!==null&&(world.calendar?.alignmentVersion!==2026||world.calendar?.ukClockSync!==true)){
+   const backupKey=KEY+'-before-uk-clock-sync';
    if(localStorage.getItem(backupKey)===null)localStorage.setItem(backupKey,recoveryRaw);
   }
   migrateWorld();catchUp();migrateInn();validateSave(world)
