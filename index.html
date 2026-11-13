@@ -42,7 +42,7 @@
   <div class="sticky-shell">
     <div class="clockbar">
       <div class="clock-details"><p id="liveTime" aria-live="off">--:--:--</p><div><p id="date"></p><p id="clockStatus"></p></div></div>
-      <div class="clock-actions"><button id="pauseButton" class="secondary" data-world-action onclick="togglePause()">Pause world</button><button class="secondary" onclick="openWorldControls()" aria-controls="worldControls">Controls</button></div>
+      <div class="clock-actions"><button id="pauseButton" class="secondary" data-world-action onclick="togglePause()">Pause world</button><button id="exploreButton" class="secondary" data-world-action onclick="enterExploreFuture()">Explore Future</button><button id="returnPresentButton" class="secondary" hidden onclick="returnToPresent()">Return to Present</button><button class="secondary" onclick="openWorldControls()" aria-controls="worldControls">Controls</button></div>
     </div>
     <nav class="tabs" role="tablist" aria-label="Town sections">
       <button role="tab" id="tab-overview" aria-controls="view-overview" aria-selected="true">Overview</button>
@@ -51,7 +51,7 @@
       <button role="tab" id="tab-chronicle" aria-controls="view-chronicle" aria-selected="false" tabindex="-1">Chronicle</button>
     </nav>
   </div>
-  <section class="panel" aria-labelledby="calendarHeading"><h2 id="calendarHeading">Arcanus calendar</h2><div id="calendarSummary" aria-live="polite"></div><p id="calendarError" role="alert"></p><button id="calendarBackup" hidden onclick="exportCalendarBackup()">Export pre-calendar backup</button><div class="button-row"><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(60))">+1 Hour</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(180))">+1 Watch</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(1440))">+1 Day</button><button data-world-action onclick="advance(1)">+1 Calendar month</button><button data-world-action onclick="advance(12)">+1 Calendar year</button></div><p><a id="calendarBrowse" data-base="Calendar/index.html" href="Calendar/index.html" target="_blank" rel="noopener">Browse calendar, convert dates and search all 58 records</a></p><p class="muted">Browsing other dates does not rewind the town or change its economy. Town time runs continuously unless paused; the controls also allow manual forward steps.</p><details><summary>Calendar alignment</summary><label>Hemisphere <select id="calendarHemisphere"><option value="north">Northern</option><option value="south">Southern</option></select></label> <label>Starhaven offset from UTC, minutes <input id="calendarOffset" type="number" min="-840" max="840" step="1" value="0"></label> <button data-world-action onclick="updateCalendarSettings()">Apply alignment</button><p>UTC+0 is provisional, not established geography. No DST applies to Starhaven.</p></details><p class="muted">Compatibility: town budgets, harvests, ageing and ledgers retain their existing 30-day accounting periods and provisional economic seasonal cycle. These are not canonical calendar months or astronomical seasons. Existing balances are not recalculated.</p></section><details id="worldControls" class="panel world-controls">
+  <section class="panel" aria-labelledby="calendarHeading"><h2 id="calendarHeading">Arcanus calendar</h2><div id="calendarSummary" aria-live="polite"></div><p id="calendarError" role="alert"></p><button id="calendarBackup" hidden onclick="exportCalendarBackup()">Export pre-calendar backup</button><div class="button-row"><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(60))">+1 Hour</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(180))">+1 Watch</button><button data-world-action onclick="calendarAction(()=>advanceCalendarMinutes(1440))">+1 Day</button><button data-world-action onclick="advance(1)">+1 Calendar month</button><button data-world-action onclick="advance(12)">+1 Calendar year</button></div><p><a id="calendarBrowse" data-base="Calendar/index.html" href="Calendar/index.html" target="_blank" rel="noopener">Browse calendar, convert dates and search all 58 records</a></p><p class="muted">Browsing other dates does not rewind the town or change its economy. Manual calendar advances enter a temporary Explore Future sandbox; Return to Present restores your live town.</p><details><summary>Calendar alignment</summary><label>Hemisphere <select id="calendarHemisphere"><option value="north">Northern</option><option value="south">Southern</option></select></label> <label>Starhaven offset from UTC, minutes <input id="calendarOffset" type="number" min="-840" max="840" step="1" value="0"></label> <button data-world-action onclick="updateCalendarSettings()">Apply alignment</button><p>UTC+0 is provisional, not established geography. No DST applies to Starhaven.</p></details><p class="muted">Compatibility: town budgets, harvests, ageing and ledgers retain their existing 30-day accounting periods and provisional economic seasonal cycle. These are not canonical calendar months or astronomical seasons. Existing balances are not recalculated.</p></section><details id="worldControls" class="panel world-controls">
     <summary>Time, building &amp; saves</summary>
     <div class="control-grid">
       <div><h3>Advance the world</h3><div class="button-row"><button data-world-action onclick="advance(1)">+1 Month</button><button data-world-action onclick="advance(12)">+1 Year</button></div><p class="muted help">Calendar steps advance the town only when you choose.</p><h3>Build</h3><button data-world-action onclick="buildFarm()">Farm · 150 coins</button></div>
@@ -308,6 +308,7 @@ function ukClockParts(now=Date.now()){
 }
 // Match the complete Arcanian civil date to the UK date, with year offset 1232.
 function syncUKTimeOfDay(){
+ if(exploreSnapshot!==null)return false;
  if(loadFailed||!world?.calendar||!world?.realtime?.enabled)return false;
  const uk=ukClockParts(),c=world.calendar,previous=c.date;
  const target={year:uk.year-1232,month:uk.month,day:uk.day,hour:uk.hour,minute:uk.minute};
@@ -331,6 +332,7 @@ function syncUKTimeOfDay(){
  return true;
 }
 function catchUpRealtime(){
+ if(exploreSnapshot!==null)return;
  if(loadFailed||!world?.realtime?.enabled)return;
  if(world.calendar?.ukClockSync===true){
   syncUKTimeOfDay();
@@ -437,7 +439,7 @@ function calendarStamp(day,minute){
 }
 function advanceCalendarMinutes(minutes,automatic=false){
  if(loadFailed)return;
- if(!automatic)catchUpRealtime();
+ if(!automatic){if(exploreSnapshot===null)enterExploreFuture();}
  if(!Number.isSafeInteger(minutes)||minutes<1||minutes>366*1440)throw Error('Advance between one minute and one year at a time.');
  const E=ArcanusEngine,target=E.shift(world.calendar.date,minutes);
  const before=JSON.stringify(world),oldMinute=world.livingClock.minute,days=Math.floor((oldMinute+minutes)/1440);
@@ -464,7 +466,9 @@ function renderTownCalendar(){
  const E=ArcanusEngine,C=ArcanusCalendarData,c=world.calendar,d=c.date,w=E.watch(d),s=E.season(d,c.hemisphere,c.offset),m=E.moon(d,c.offset);
  $('date').textContent=`${C.weekdays[E.weekday(d)]} · ${d.day} ${C.months[d.month-1]} ${d.year} AF`;
  $('liveTime').textContent=`${String(d.hour).padStart(2,'0')}:${String(d.minute).padStart(2,'0')} · ${w.name}`;
- $('clockStatus').textContent=world.realtime?.enabled?'Running · synchronised to UK date and time (GMT/BST)':'Paused · time will not advance while away';
+ $('clockStatus').textContent=exploreSnapshot!==null?'Explore Future · temporary changes only':world.realtime?.enabled?'Running · synchronised to UK date and time (GMT/BST)':'Paused · time will not advance while away';
+ $('exploreButton').hidden=exploreSnapshot!==null;
+ $('returnPresentButton').hidden=exploreSnapshot===null;
  $('pauseButton').hidden=false;$('pauseButton').textContent=world.realtime?.enabled?'Pause world':'Resume world';
  $('nextDay').textContent='When running, the Arcanus date and clock follow the UK calendar and local time (GMT/BST). Pause freezes the simulation.';
  host.replaceChildren();
@@ -496,8 +500,10 @@ const ukDayNumber=()=>{const p=ukParts();return Math.floor(Date.UTC(p.year,p.mon
 const ukTime=()=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date());
 const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:true,calendar:{schema:1,date:{year:794,month:1,day:1,hour:0,minute:0},anchorDate:{year:794,month:1,day:1,hour:0,minute:0},anchorDay:0,hemisphere:'north',offset:0,offsetConfirmed:false},lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
 let world, loadFailed=false, saveTransaction=false, recoveryRaw=null;
+// Exploration is held only in memory. Never write its changes to the permanent save.
+let exploreSnapshot=null;
 const $=id=>document.getElementById(id);
-function persist(){if(loadFailed||saveTransaction)return;try{localStorage.setItem(KEY,JSON.stringify(world));$('saveStatus').textContent='Autosaved on this device.'}catch(err){$('saveStatus').textContent='Autosave failed. Export your save to keep your progress.'}}
+function persist(){if(loadFailed||saveTransaction||exploreSnapshot!==null)return;try{localStorage.setItem(KEY,JSON.stringify(world));$('saveStatus').textContent='Autosaved on this device.'}catch(err){$('saveStatus').textContent='Autosave failed. Export your save to keep your progress.'}}
 function updateRecoveryControls(){document.querySelectorAll('[data-world-action]').forEach(button=>button.disabled=loadFailed)}
 function addEvent(message){
  const at=eventContext||{day:worldDay(),minute:world.livingClock?.minute??clockMinute()};
@@ -1284,10 +1290,25 @@ function validateFamilies(p,data){
 }
 
 
+function enterExploreFuture(){
+ if(loadFailed||exploreSnapshot!==null)return;
+ catchUpRealtime();
+ exploreSnapshot=JSON.stringify(world);
+ world.realtime.enabled=false;
+ render();
+}
+function returnToPresent(){
+ if(loadFailed)return;
+ if(exploreSnapshot!==null){world=JSON.parse(exploreSnapshot);exploreSnapshot=null;}
+ // Returning always restores the live clock, without retaining any sandbox changes.
+ world.realtime.enabled=true;
+ syncUKTimeOfDay();
+ persist();render();
+}
 function advance(n){calendarAction(()=>advanceCalendarMonths(n));}
 function buildFarm(){if(loadFailed)return;catchUp();if(world.gold<150)return;world.gold-=150;world.farms++;addEvent('A new farm was constructed (simulation event).');persist();render()}
 function togglePause(){calendarAction(()=>setRealtimePaused())}
-function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?(recoveryRaw??localStorage.getItem(KEY)??''):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=loadFailed?'kaddinghall-recovery.json':'kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function exportSave(){if(!loadFailed)catchUp();const blob=new Blob([loadFailed?(recoveryRaw??localStorage.getItem(KEY)??''):JSON.stringify(world,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=loadFailed?'kaddinghall-recovery.json':exploreSnapshot!==null?'kaddinghall-exploration.json':'kaddinghall-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function validateSave(data){
  validateRealtime(data);
  if(data?.version===12)validateCalendar(data);
@@ -1384,7 +1405,7 @@ function start(){
  }
  catch(err){loadFailed=true;$('worldControls').open=true;$('saveStatus').textContent='Save could not be loaded: '+err.message+'. Time and building controls are disabled. Export save preserves the original data; import a backup or reset to recover.';}
  finally{saveTransaction=false;updateRecoveryControls()}
- if(!loadFailed){if(recoveryRaw!==null&&JSON.parse(recoveryRaw).version<12){try{const backupKey=KEY+'-before-calendar-v12';if(localStorage.getItem(backupKey)===null)localStorage.setItem(backupKey,recoveryRaw)}catch(e){loadFailed=true;$('saveStatus').textContent='Could not preserve the pre-calendar save. Export recovery before retrying.';updateRecoveryControls();return;}}recoveryRaw=null;persist();render()}
+ if(!loadFailed){if(recoveryRaw!==null&&JSON.parse(recoveryRaw).version<12){try{const backupKey=KEY+'-before-calendar-v12';if(localStorage.getItem(backupKey)===null)localStorage.setItem(backupKey,recoveryRaw)}catch(e){loadFailed=true;$('saveStatus').textContent='Could not preserve the pre-calendar save. Export recovery before retrying.';updateRecoveryControls();return;}}recoveryRaw=null;world.realtime.enabled=true;syncUKTimeOfDay();persist();render()}
  window.addEventListener('focus',()=>{if(!loadFailed){catchUp();render()}});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!loadFailed){catchUp();render()}});
  // No real-time simulation timer: rendering follows deliberate actions.
