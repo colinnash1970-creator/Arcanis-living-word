@@ -96,7 +96,7 @@
   <footer>Provisional population and economics. Simulation events are not canon. Autosaves on this device; Export/Import moves saves between devices. · v1.10.0</footer>
 </div></div></section>
 <section id="view-register" class="card" hidden><h1>Calendar register</h1><p id="register-year"></p><label for="event-search">Find an observance or birthday</label><input id="event-search" type="search" placeholder="Name, realm or dedication"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Name</th><th>Category</th><th>Context</th></tr></thead><tbody id="event-rows"></tbody></table></div></section>
-<footer>Time runs at real-time speed and catches up when reopened, unless paused. Historical lunar projections and seasonal templates outside 828 AF are approximate. The existing economic accounting model remains unchanged.</footer>
+<footer>Time runs at real-time speed and catches up when reopened, unless paused. Historical lunar projections and seasonal templates outside 794 AF are approximate. The existing economic accounting model remains unchanged.</footer>
 </main><script>(()=>{try{localStorage.getItem('arcanus-kaddinghall-stage3')}catch(error){
 if(location.protocol!=='file:')throw error;
 const memory=new Map();Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>memory.get(k)??null,setItem:(k,v)=>memory.set(k,String(v)),removeItem:k=>memory.delete(k)}});
@@ -192,7 +192,7 @@ document.getElementById('canon-export')?.addEventListener('click',()=>{if(!curre
     weekdays: ['Lunareth','Daneth','Stoneward','Stormwake','Kielday','Starwatch','Dawnrest'],
     watches: ['Deepwatch','First Stirring','Dawnwake','Rising Light','Highsun','Waning Light','Duskfall','Nightwatch'],
     seasons: ['Verdantia','Solara','Aurumn','Nivara'],
-    yearOffset:1198, lunarPeriodDays:29.53059,
+    yearOffset:1232, lunarPeriodDays:29.53059,
     eventStatus:'Canonical register supplied by the user: 50 annual observances, The Hidden Dawn, seven birthdays.',
     // UTC offset is deliberately unset. Calendar arithmetic uses a neutral civil timeline.
     starhavenUtcOffsetMinutes:null,
@@ -261,12 +261,12 @@ document.getElementById('canon-export')?.addEventListener('click',()=>{if(!curre
   function fromEarth(iso,offset=0){offsetCheck(offset);if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?Z$/.test(iso))throw Error('Use an explicit UTC date and time.');const ms=Date.parse(iso);if(!Number.isFinite(ms))throw Error('Invalid Earth date.');const normalized=new Date(ms).toISOString().slice(0,16);if(normalized!==iso.slice(0,16))throw Error('Invalid Earth date.');return fromStamp(ms+offset*MINUTE);}
   function moon(d,offset=0){const t=earthStamp(d,offset),period=C.lunarPeriodDays*DAY,age=mod(t-Date.parse(A.lunarEpoch),period)/DAY, fraction=age/C.lunarPeriodDays;
     const names=['New moon','Waxing crescent','First quarter','Waxing gibbous','Full moon','Waning gibbous','Last quarter','Waning crescent'];
-    return {age,fraction,illumination:(1-Math.cos(2*Math.PI*fraction))/2,name:names[Math.round(fraction*8)%8],nextNew:t+(C.lunarPeriodDays-age)*DAY,quality:d.year<828?'Approximate historical back-projection':d.year===828?'Mean-cycle estimate, anchored to the 2026 new moon':'Approximate forward projection'};
+    return {age,fraction,illumination:(1-Math.cos(2*Math.PI*fraction))/2,name:names[Math.round(fraction*8)%8],nextNew:t+(C.lunarPeriodDays-age)*DAY,quality:d.year<794?'Approximate historical back-projection':d.year===794?'Mean-cycle estimate, anchored to the 2026 new moon':'Approximate forward projection'};
   }
   function season(d,hemisphere='north',offset=0){if(!['north','south'].includes(hemisphere))throw Error('Choose north or south.');const t=earthStamp(d,offset),ce=d.year+C.yearOffset;let index=3;
     A.seasonTurns.forEach((s,i)=>{if(t>=Date.UTC(ce,s.month-1,s.day,s.hour,s.minute))index=i;});
     if(hemisphere==='south')index=(index+2)%4;
-    return {name:C.seasons[index],index,quality:d.year===828?'2026 astronomical turning points':'Approximate: repeated 2026 seasonal template'};
+    return {name:C.seasons[index],index,quality:d.year===794?'2026 astronomical turning points':'Approximate: repeated 2026 seasonal template'};
   }
   function validateEvents(events){if(!Array.isArray(events)||events.length>5000)throw Error('Events must be an array of at most 5,000 entries.');const ids=new Set();return events.map(e=>{
     if(!e||typeof e.id!=='string'||!e.id.trim()||ids.has(e.id))throw Error('Each event needs a unique text id.');ids.add(e.id);
@@ -328,12 +328,24 @@ function realtimeSnapshot(){
 function migrateCalendar(){
  const E=ArcanusEngine;
  if(!world.calendar){
-  const year=793+Math.floor(world.month/12),month=world.month%12+1;
+  const year=794+Math.floor(world.month/12),month=world.month%12+1;
   const day=Math.min(world.day,E.daysInMonth(year,month));
   const minute=world.livingClock.minute;
   const date={year,month,day,hour:Math.floor(minute/60),minute:minute%60};
   world.calendar={schema:1,date,anchorDate:{...date,hour:0,minute:0},anchorDay:worldDay(),hemisphere:'north',offset:0,offsetConfirmed:false,
    migration:{legacyMonth:world.month,legacyDay:world.day,clamped:day!==world.day}};
+ }
+ // Rebase the active simulation clock once, without replaying or resetting town economics.
+ // The original save is backed up before this migration in start().
+ if(world.calendar.alignmentVersion!==2026){
+  const c=world.calendar,previous={...c.date};
+  const day=Math.min(previous.day,E.daysInMonth(794,previous.month));
+  c.date={...previous,year:794,day};
+  c.anchorDay=worldDay();
+  c.anchorDate={...c.date,hour:0,minute:0};
+  c.alignmentVersion=2026;
+  c.previousAlignmentDate=previous;
+  if(world.realtime){world.realtime.lastWallMs=Date.now();world.realtime.remainderMs=0;}
  }
  world.paused=true;
  world.livingClock.minute=world.calendar.date.hour*60+world.calendar.date.minute;
@@ -422,7 +434,7 @@ const ukDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:
 const ukParts=()=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,Number(x.value)]));
 const ukDayNumber=()=>{const p=ukParts();return Math.floor(Date.UTC(p.year,p.month-1,p.day)/DAY)};
 const ukTime=()=>new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date());
-const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:true,calendar:{schema:1,date:{year:793,month:1,day:1,hour:0,minute:0},anchorDate:{year:793,month:1,day:1,hour:0,minute:0},anchorDay:0,hemisphere:'north',offset:0,offsetConfirmed:false},lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
+const initial=()=>({version:7,foodModel:1,month:0,day:1,pop:3000,food:12000,gold:5000,farms:80,events:[],paused:true,calendar:{schema:1,date:{year:794,month:1,day:1,hour:0,minute:0},anchorDate:{year:794,month:1,day:1,hour:0,minute:0},anchorDay:0,hemisphere:'north',offset:0,offsetConfirmed:false},lastUpdated:Date.now(),lastUKDay:ukDayNumber()});
 let world, loadFailed=false, saveTransaction=false, recoveryRaw=null;
 const $=id=>document.getElementById(id);
 function persist(){if(loadFailed||saveTransaction)return;try{localStorage.setItem(KEY,JSON.stringify(world));$('saveStatus').textContent='Autosaved on this device.'}catch(err){$('saveStatus').textContent='Autosave failed. Export your save to keep your progress.'}}
@@ -1300,7 +1312,16 @@ function resetWorld(){if(confirm('Reset Kaddinghall? Export your save first if n
 function start(){
  $('buildStatus').textContent='Running '+BUILD_ID;
  saveTransaction=true;
- try{recoveryRaw=localStorage.getItem(KEY);world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();validateSave(world);migrateWorld();catchUp();migrateInn();validateSave(world)}
+ try{
+  recoveryRaw=localStorage.getItem(KEY);
+  world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();
+  validateSave(world);
+  if(recoveryRaw!==null&&world.calendar?.alignmentVersion!==2026){
+   const backupKey=KEY+'-before-2026-794-alignment';
+   if(localStorage.getItem(backupKey)===null)localStorage.setItem(backupKey,recoveryRaw);
+  }
+  migrateWorld();catchUp();migrateInn();validateSave(world)
+ }
  catch(err){loadFailed=true;$('worldControls').open=true;$('saveStatus').textContent='Save could not be loaded: '+err.message+'. Time and building controls are disabled. Export save preserves the original data; import a backup or reset to recover.';}
  finally{saveTransaction=false;updateRecoveryControls()}
  if(!loadFailed){if(recoveryRaw!==null&&JSON.parse(recoveryRaw).version<12){try{const backupKey=KEY+'-before-calendar-v12';if(localStorage.getItem(backupKey)===null)localStorage.setItem(backupKey,recoveryRaw)}catch(e){loadFailed=true;$('saveStatus').textContent='Could not preserve the pre-calendar save. Export recovery before retrying.';updateRecoveryControls();return;}}recoveryRaw=null;persist();render()}
