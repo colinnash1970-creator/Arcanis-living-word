@@ -299,26 +299,33 @@ function validateRealtime(data){
 }
 // The UK civil clock is authoritative for the displayed time of day.
 // The Arcanus calendar date remains independent of the Gregorian date.
+// UK civil time controls the displayed clock; Arcanus date advances at UK midnight.
 function ukClockParts(now=Date.now()){
- const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(now));
+ const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(now));
  const number=type=>Number(parts.find(part=>part.type===type).value);
- return {hour:number('hour'),minute:number('minute')};
+ const year=number('year'),month=number('month'),day=number('day');
+ return {hour:number('hour'),minute:number('minute'),civilDay:Math.floor(Date.UTC(year,month-1,day)/86400000)};
 }
 function syncUKTimeOfDay(){
  if(loadFailed||!world?.calendar||!world?.realtime?.enabled)return false;
  const uk=ukClockParts(),c=world.calendar,previous=c.date;
- if(previous.hour===uk.hour&&previous.minute===uk.minute)return false;
- // Only rebase the time of day: never replace the saved Arcanus date.
- // Reset the calendar anchor so manual and automatic advances stay valid.
- c.date={...previous,hour:uk.hour,minute:uk.minute};
- c.anchorDay=worldDay();
- c.anchorDate={...c.date,hour:0,minute:0};
- world.livingClock.minute=uk.hour*60+uk.minute;
- world.realtime.lastWallMs=Date.now();
- world.realtime.remainderMs=0;
- validateSave(world);
- persist();
- render();
+ const previousDay=Number.isSafeInteger(c.ukCivilDay)?c.ukCivilDay:uk.civilDay;
+ const elapsedDays=Math.max(0,uk.civilDay-previousDay);
+ if(previous.hour===uk.hour&&previous.minute===uk.minute&&elapsedDays===0)return false;
+ const snapshot=JSON.stringify(world);
+ try{
+  // Simulate each missed UK civil day once, including while the browser was closed.
+  if(elapsedDays>0)simulateDays(elapsedDays,false);
+  c.date={...c.date,hour:uk.hour,minute:uk.minute};
+  c.ukCivilDay=uk.civilDay;
+  c.anchorDay=worldDay();
+  c.anchorDate={...c.date,hour:0,minute:0};
+  world.livingClock.minute=uk.hour*60+uk.minute;
+  world.realtime.lastWallMs=Date.now();
+  world.realtime.remainderMs=0;
+  validateSave(world);
+ }catch(error){world=JSON.parse(snapshot);eventContext=null;throw error;}
+ persist();render();
  return true;
 }
 function catchUpRealtime(){
@@ -345,7 +352,7 @@ function setRealtimePaused(){
  const r=world.realtime,now=Date.now();
  if(r.enabled){r.remainderMs+=Math.max(0,now-r.lastWallMs);r.enabled=false;}else r.enabled=true;
  r.lastWallMs=now;
- if(r.enabled&&world.calendar?.ukClockSync)syncUKTimeOfDay();
+ if(r.enabled&&world.calendar?.ukClockSync){world.calendar.ukCivilDay=ukClockParts().civilDay;syncUKTimeOfDay();}
  persist();render();
 }
 function realtimeSnapshot(){
@@ -380,6 +387,7 @@ function migrateCalendar(){
  if(world.calendar.ukClockSync!==true){
   world.calendar.ukClockSync=true;
   const uk=ukClockParts();
+  world.calendar.ukCivilDay=uk.civilDay;
   world.calendar.date={...world.calendar.date,hour:uk.hour,minute:uk.minute};
   world.calendar.anchorDay=worldDay();
   world.calendar.anchorDate={...world.calendar.date,hour:0,minute:0};
@@ -1354,8 +1362,8 @@ function start(){
   recoveryRaw=localStorage.getItem(KEY);
   world=recoveryRaw!==null?JSON.parse(recoveryRaw):initial();
   validateSave(world);
-  if(recoveryRaw!==null&&world.calendar?.alignmentVersion!==2026){
-   const backupKey=KEY+'-before-2026-794-alignment';
+  if(recoveryRaw!==null&&(world.calendar?.alignmentVersion!==2026||world.calendar?.ukClockSync!==true)){
+   const backupKey=KEY+'-before-uk-clock-sync';
    if(localStorage.getItem(backupKey)===null)localStorage.setItem(backupKey,recoveryRaw);
   }
   migrateWorld();catchUp();migrateInn();validateSave(world)
